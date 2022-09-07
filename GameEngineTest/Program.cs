@@ -8,7 +8,7 @@ public class Program
     public static void Main(string[] args)
     {
         Console.WriteLine("Hello World!");
-        Game.Create("Example Game");
+        Game.Create("Example Game",windowMode:WindowModes.Maximised);
 
         Game.Run();
         
