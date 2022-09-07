@@ -1,60 +1,70 @@
 ﻿using System.Runtime.InteropServices;
+using GLFW;
 using NLog;
-using Silk.NET.Maths;
-using Silk.NET.Windowing;
+using OpenGL;
+using Monitor = System.Threading.Monitor;
+
 namespace OpenGLGameEngine;
 
-public class Game
+public static class Game
 {
     static Logger logger = NLog.LogManager.GetCurrentClassLogger();
-    static Game instance = null;
-    private IWindow window;
-
+    static Window window;
+    
     static Game()
     {
         LogManager.Configuration = Utils.GetNLogConfig();
         logger.Info($"Loaded logging configuration.");
         logger.Info($"GameEngine version: {Utils.VERSION}");
     }
+
     
-    private Game(string windowTitle)
+    private static void PrepareContext()
     {
-        //Create a window.
-        var options = WindowOptions.Default;
-        options.Size = new Vector2D<int>(800, 600);
-        options.Title = windowTitle;
-        window = Window.Create(options);
+        // Set some common hints for the OpenGL profile creation
+        Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
+        Glfw.WindowHint(Hint.ContextVersionMajor, 3);
+        Glfw.WindowHint(Hint.ContextVersionMinor, 3);
+        Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
+        Glfw.WindowHint(Hint.Doublebuffer, true);
+        Glfw.WindowHint(Hint.Decorated, true);
+    }
+    public static void Create(string windowTitle)
+    {
+        // Start initialisation and create opengl context and window.
+        logger.Info($"beginning initialisation and creation...");
+        logger.Info($"Set Window Title: {windowTitle}");
         
-    }
-
-    public static Game Create(string windowTitle)
-    {
-        if (instance is null)
+        logger.Debug($"Finding glfw dll at {Directory.GetCurrentDirectory()}...");
+        if (!Glfw.Init())
         {
-            logger.Info($"beginning initialisation and creation...");
-            logger.Info($"Set Window Title: {windowTitle}");
-            instance = new Game(windowTitle);
+            logger.Fatal("Glfw Failed to initialised!");
+            return;
         }
-        else
-        {
-            logger.Warn("An instance of this class already exists! Skipping..");
-        }
-
-        return instance;
-    }
-
-    public static Game getInstance()
-    {
-        if (instance is null)
-        {
-            logger.Warn("There is no existing instance of this class! Will Return Null !!!");
-        }
-        return instance;
-    }
-
-
-    public void Run()
-    {
+        logger.Info("Glfw initialised successfully!");
+        Glfw.SetErrorCallback(onGlfwError);
         
+        // Window and context creation
+        PrepareContext();
+        logger.Info("Creating window...");
+        window = Glfw.CreateWindow(640, 480, windowTitle, GLFW.Monitor.None, Window.None);
+        if (window == Window.None)
+        {
+            logger.Fatal("Window or OpenGL context failed");
+            return;
+        }
+        Glfw.MakeContextCurrent(window);
+    }
+
+
+    public static void Run() { }
+
+    private static void Stop() { }
+
+
+    private static void onGlfwError(ErrorCode errCode, IntPtr description_p)
+    {
+        string? description = Marshal.PtrToStringAnsi(description_p);
+        logger.Error($"Glfw has encountered an error ({errCode}) {description_p}");
     }
 }
