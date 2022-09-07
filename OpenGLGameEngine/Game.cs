@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using GLFW;
 using NLog;
-using OpenGL;
+using static OpenGL.GL;
 using Monitor = System.Threading.Monitor;
 
 namespace OpenGLGameEngine;
@@ -54,12 +54,18 @@ public static class Game
             return;
         }
         Glfw.MakeContextCurrent(window);
+        Import(Glfw.GetProcAddress);
+        
     }
 
 
     public static void Run() { }
 
-    private static void Stop() { }
+    private static void Stop()
+    {
+        Glfw.DestroyWindow(window);
+        Glfw.Terminate();
+    }
 
 
     private static void onGlfwError(ErrorCode errCode, IntPtr description_p)
