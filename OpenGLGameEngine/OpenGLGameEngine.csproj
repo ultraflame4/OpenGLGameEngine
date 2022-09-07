@@ -7,7 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="glfw" Version="3.3.8" />
+      <PackageReference Include="glfw-net" Version="3.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="bin\Debug\net6.0\glfw3.dll" />
     </ItemGroup>
 
 </Project>
