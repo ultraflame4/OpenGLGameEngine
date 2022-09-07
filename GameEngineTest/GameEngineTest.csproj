@@ -11,4 +11,13 @@
       <ProjectReference Include="..\OpenGLGameEngine\OpenGLGameEngine.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="bin\Debug\net6.0\glfw.dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NLog" Version="5.0.4" />
+      <PackageReference Include="Silk.NET" Version="2.16.0" />
+    </ItemGroup>
+
 </Project>
