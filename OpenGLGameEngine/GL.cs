@@ -3,7 +3,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
-
+/**
+ * Copied from https://gist.github.com/dcronqvist/8e0c594532748e8fc21133ac6e3e8514
+ */
 namespace OpenGL
 {
     /// <summary>
