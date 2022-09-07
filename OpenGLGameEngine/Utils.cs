@@ -8,11 +8,7 @@ namespace OpenGLGameEngine;
 public static class Utils
 {
     public static string VERSION = "0.0.0-dev";
-
-    static Utils()
-    {
-        LogManager.Configuration = Utils.GetNLogConfig();
-    }
+    
     public static LoggingConfiguration GetNLogConfig()
     {
         LoggingConfiguration config = new LoggingConfiguration();
