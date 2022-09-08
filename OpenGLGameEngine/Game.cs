@@ -25,17 +25,14 @@ public static class Game
         logger.Info($"GameEngine version: {Utils.Utils.VERSION}");
     }
 
-    
-    private static void PrepareContext()
-    {
-        // Set some common hints for the OpenGL profile creation
-        Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
-        Glfw.WindowHint(Hint.ContextVersionMajor, 3);
-        Glfw.WindowHint(Hint.ContextVersionMinor, 3);
-        Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
-        Glfw.WindowHint(Hint.Doublebuffer, true);
-        Glfw.WindowHint(Hint.Decorated, true);
-    }
+
+    /// <summary>
+    /// Initialises the game engine and creates the window
+    /// </summary>
+    /// <param name="windowTitle">The title of the window</param>
+    /// <param name="windowMode">The display mode: windowed, maximised, fullscreen, fullscreen borderless.</param>
+    /// <param name="windowSize"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static void Create(
         string windowTitle,
         WindowModes windowMode=WindowModes.Windowed,
@@ -61,37 +58,21 @@ public static class Game
         Glfw.SetErrorCallback(onGlfwError);
         
         // Window and context creation
-        PrepareContext();
+        WindowUtils.ReSetWindowHints();
         logger.Info("Begin window and context creation...");
         logger.Info($"- Set Window Title: {windowTitle}");
         logger.Info($"- Set Window Mode: {windowMode.ToString()}");
         logger.Info($"- Set Window Size: {windowMode.ToString()}");
 
         window = Glfw.CreateWindow(windowSize.width, windowSize.height, windowTitle, GLFW.Monitor.None, Window.None);
-        WindowUtils.UpdateWindowSpacialData(window);
+        WindowUtils.UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
         if (window == Window.None)
         {
             logger.Fatal("Window or OpenGL context failed");
             return;
         }
         //todo Add Mode fullscreen to windowed mode switching
-        switch (windowMode)
-        {
-            case WindowModes.Windowed:
-                // do nothing cuz it starts in windowed mode
-                break;
-            case WindowModes.Maximised:
-                Glfw.MaximizeWindow(window);
-                break;
-            case WindowModes.Fullscreen:
-                WindowUtils.SetWindowFullscreen(true,window);
-                break;
-            case WindowModes.Borderless:
-                //todo
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(windowMode), windowMode, null);
-        }
+        WindowUtils.SetWindowDisplayMode(window,windowMode);
         Glfw.MakeContextCurrent(window);
         Import(Glfw.GetProcAddress);
         logger.Info("Create window success!");

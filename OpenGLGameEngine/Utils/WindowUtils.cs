@@ -12,35 +12,52 @@ public static class WindowUtils
     private static int last_w;
     private static int last_h;
 
+    private static WindowModes currentMode = WindowModes.Windowed;
 
-    public static void SetWindowFullscreen(bool fullscreen, Window window)
+    public static void ReSetWindowHints()
     {
-        if (IsWindowFullscreen(window) == fullscreen)
-            return;
-
-        var monitor = Glfw.PrimaryMonitor;
-        if (fullscreen)
-        {
-            UpdateWindowSpacialData(window); // back up current window size and position
-            var videoMode = Glfw.GetVideoMode(monitor);
-            Glfw.SetWindowMonitor(window,monitor,0,0,videoMode.Width,videoMode.Height,0);
-        }
-        else
-        {
-            //restore
-            Glfw.SetWindowMonitor(window,Monitor.None, last_x,last_y,last_w,last_h,0);
-        }
+        Glfw.DefaultWindowHints();
+        // Set some common hints for the OpenGL profile creation
+        Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
+        Glfw.WindowHint(Hint.ContextVersionMajor, 3);
+        Glfw.WindowHint(Hint.ContextVersionMinor, 3);
+        Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
+        Glfw.WindowHint(Hint.Doublebuffer, true);
+        Glfw.WindowHint(Hint.Decorated, true);
+        Glfw.WindowHint(Hint.AutoIconify,false);
     }
-
-    public static bool IsWindowFullscreen(Window window)
-    {
-        return Glfw.GetWindowMonitor(window) != Monitor.None;
-    }
+    
 
     public static void UpdateWindowSpacialData(Window window)
     {
-         Glfw.GetWindowPosition(window,out last_x,out last_y);
-        Glfw.GetWindowSize(window,out last_w,out last_h);
-        
+        Glfw.GetWindowPosition(window, out last_x, out last_y);
+        Glfw.GetWindowSize(window, out last_w, out last_h);
+    }
+
+    public static void SetWindowDisplayMode(Window window, WindowModes mode)
+    {
+        if (mode == currentMode) return;
+
+        var monitor = Glfw.PrimaryMonitor;
+        VideoMode videoMode = Glfw.GetVideoMode(monitor);
+        ReSetWindowHints();
+        switch (mode)
+        {
+            case WindowModes.Windowed:
+                Glfw.SetWindowMonitor(window, Monitor.None, last_x, last_y, last_w, last_h, 0);
+                UpdateWindowSpacialData(window);
+                break;
+            case WindowModes.Maximised:
+                Glfw.MaximizeWindow(window);
+                UpdateWindowSpacialData(window);
+                break;
+            case WindowModes.Fullscreen:
+                Glfw.SetWindowMonitor(window, monitor, 0, 0, videoMode.Width, videoMode.Height, videoMode.RefreshRate);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+        }
+
+        currentMode = mode;
     }
 }
