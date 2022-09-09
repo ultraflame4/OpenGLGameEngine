@@ -1,6 +1,6 @@
 ﻿# OpenGLGameEngine
 
-A attempt at a "simple" game engine by me.
+An attempt at a "simple" game engine by me.
 
 ## Features
 
