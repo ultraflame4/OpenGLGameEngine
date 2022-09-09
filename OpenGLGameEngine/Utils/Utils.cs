@@ -10,10 +10,21 @@ public static class Utils
     public static string VERSION = "0.0.0-dev";
 
 
+    private static LoggingConfiguration logging_config;
     public static LoggingConfiguration GetNLogConfig()
     {
+        if (logging_config != null)
+        {
+            return logging_config;
+        }
+
+        string layout = "${longdate:universalTime=false} | ${level:uppercase=true:padding=-5} | ${logger} : ${message} ${exception}";
         LoggingConfiguration config = new LoggingConfiguration();
-        FileTarget fileTarget = new FileTarget("logfile") { FileName = $"OpenGLGameEngine_{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")}.log" };
+        FileTarget fileTarget = new FileTarget("logfile") {
+                FileName = "${basedir}/logs/" + $"OpenGLGameEngine_{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")}.log",
+                Layout = layout
+        };
+        
 
 
         var highlightRule = new ConsoleRowHighlightingRule();
@@ -38,12 +49,13 @@ public static class Utils
         highlightRule5.ForegroundColor = ConsoleOutputColor.Yellow;
 
         ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget("logconsole") {
-                Layout = "${longdate:universalTime=false} | ${logger} - ${level:uppercase=false}: ${message} ${exception}",
+                Layout = layout,
                 RowHighlightingRules = { highlightRule, highlightRule2, highlightRule3, highlightRule4, highlightRule5 }
         };
 
         config.AddRule(LogLevel.Trace, LogLevel.Fatal, consoleTarget);
         config.AddRule(LogLevel.Trace, LogLevel.Fatal, fileTarget);
-        return config;
+        logging_config = config;
+        return logging_config;
     }
 }

@@ -14,9 +14,8 @@ public static class WindowUtils
 
     private static WindowModes currentMode = WindowModes.Windowed;
 
-    public static void ReSetWindowHints()
+    public static void SetWindowHints()
     {
-        Glfw.DefaultWindowHints();
         // Set some common hints for the OpenGL profile creation
         Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
         Glfw.WindowHint(Hint.ContextVersionMajor, 3);
@@ -40,7 +39,6 @@ public static class WindowUtils
 
         var monitor = Glfw.PrimaryMonitor;
         VideoMode videoMode = Glfw.GetVideoMode(monitor);
-        ReSetWindowHints();
         switch (mode)
         {
             case WindowModes.Windowed:

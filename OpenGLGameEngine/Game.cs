@@ -31,7 +31,7 @@ public static class Game
     /// </summary>
     /// <param name="windowTitle">The title of the window</param>
     /// <param name="windowMode">The display mode: windowed, maximised, fullscreen, fullscreen borderless.</param>
-    /// <param name="windowSize"></param>
+    /// <param name="windowSize">Size of the window in windowed mode.</param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static void Create(
         string windowTitle,
@@ -58,7 +58,7 @@ public static class Game
         Glfw.SetErrorCallback(onGlfwError);
         
         // Window and context creation
-        WindowUtils.ReSetWindowHints();
+        WindowUtils.SetWindowHints();
         logger.Info("Begin window and context creation...");
         logger.Info($"- Set Window Title: {windowTitle}");
         logger.Info($"- Set Window Mode: {windowMode.ToString()}");
