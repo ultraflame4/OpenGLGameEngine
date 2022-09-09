@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using GLFW;
 using NLog;
+using OpenGLGameEngine.Inputs;
 using OpenGLGameEngine.Utils;
 using static OpenGL.GL;
 using Monitor = GLFW.Monitor;
@@ -86,10 +87,10 @@ public static class Game
         logger.Info("Create window success!");
 
         logger.Info("Configuring and initiating keyboard input");
-        KeyboardInput.Init(window);
+        KeyboardMouseInput.Init(window);
 
         logger.Info($"Set toggle fullscreen key: {fullscreenKey}");
-        KeyboardInput.OnKeyDown += (key, code, state, mods) =>
+        KeyboardMouseInput.OnKeyDown += (key, code, state, mods) =>
         {
             int winX, winY;
             Glfw.GetWindowPosition(window,out winX, out winY);
@@ -101,7 +102,24 @@ public static class Game
             }
         };
     }
+    
+    private static List<InputActionScheme> inputActionSchemes = new List<InputActionScheme>();
+    public static InputActionScheme CreateInputActionScheme(string name)
+    {
+        var scheme = new InputActionScheme(name);
+        inputActionSchemes.Add(scheme);
+        return scheme;
+    }
 
+    /// <summary>
+    /// Returns an array copy of the list of input action schemes created
+    /// </summary>
+    /// <returns></returns>
+    public static InputActionScheme[] GetInputActionSchemes()
+    {
+        return inputActionSchemes.ToArray();
+    }
+    
 
     public static void Run()
     {
@@ -118,7 +136,11 @@ public static class Game
     }
 
     private static void Draw() { }
-    private static void Update() { }
+
+    private static void Update()
+    {
+        KeyboardMouseInput.Update();
+    }
 
     private static void Stop()
     {
