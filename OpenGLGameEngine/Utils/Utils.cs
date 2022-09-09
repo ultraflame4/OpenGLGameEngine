@@ -5,10 +5,12 @@ using NLog.Targets;
 
 namespace OpenGLGameEngine.Utils;
 
+/// <summary>
+/// A general utility class that should only be used by the game engine!
+/// </summary>
 public static class Utils
 {
     public static string VERSION = "0.0.0-dev";
-
 
     private static LoggingConfiguration logging_config;
     public static LoggingConfiguration GetNLogConfig()
@@ -25,8 +27,6 @@ public static class Utils
                 Layout = layout
         };
         
-
-
         var highlightRule = new ConsoleRowHighlightingRule();
         highlightRule.Condition = ConditionParser.ParseExpression("level == LogLevel.Info");
         highlightRule.ForegroundColor = ConsoleOutputColor.Green;
@@ -53,8 +53,8 @@ public static class Utils
                 RowHighlightingRules = { highlightRule, highlightRule2, highlightRule3, highlightRule4, highlightRule5 }
         };
 
-        config.AddRule(LogLevel.Trace, LogLevel.Fatal, consoleTarget);
-        config.AddRule(LogLevel.Trace, LogLevel.Fatal, fileTarget);
+        config.AddRule(LogLevel.Debug, LogLevel.Fatal, consoleTarget);
+        config.AddRule(LogLevel.Debug, LogLevel.Fatal, fileTarget);
         logging_config = config;
         return logging_config;
     }
