@@ -11,7 +11,7 @@ var example = Game.createInputSystem(name:"Keyboard") // you can create your own
 example.active=false // you can disable systems to disable groups of controls at the same time. 
                             // Eg. inventory is opened so u disable the walking control system.
  
-var walkInput = example.addControl(
+var walk = example.addControl(
                                     name:"walkForward", // Name of control. (display name?)
                                     default_key:InputKeys.W, // The default key (or combinations of them using enums)
                                     type:InputType.Held // Type of control, Held, Pressed, Released.
