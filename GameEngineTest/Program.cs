@@ -4,7 +4,7 @@ namespace GameEngineTest;
 
 public class Program
 {
-
+    static Logger logger = LogManager.GetCurrentClassLogger();
     public static void Main(string[] args)
     {
         Console.WriteLine("Hello World!");

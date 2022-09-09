@@ -76,7 +76,9 @@ public static class Game
         Glfw.MakeContextCurrent(window);
         Import(Glfw.GetProcAddress);
         logger.Info("Create window success!");
-
+        
+        logger.Info("Configuring and initiating keyboard input");
+        KeyboardInput.Init(window);
     }
 
 
