@@ -7,7 +7,7 @@ namespace OpenGLGameEngine.Inputs;
 /// <br/>
 /// The recommended way to get input for controls.
 /// <br/>
-/// <b>NOTE: This class should never be instantiated by it self. USE : <see cref="Game.CreateInputActionScheme"/></b>
+/// <b>NOTE: This class should never be instantiated by it self. USE : <see cref="GameLoop.CreateInputActionScheme"/></b>
 /// </summary>
 public class InputActionScheme
 {

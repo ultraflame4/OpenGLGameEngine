@@ -8,7 +8,7 @@ namespace OpenGLGameEngine;
 /// <br/>
 /// Includes several related events and functions.
 /// <br/>
-/// For proper inputs controls, look at <see cref="Game.CreateInputActonScheme"/>
+/// For proper inputs controls, look at <see cref="GameLoop.CreateInputActonScheme"/>
 /// </summary>
 public static class KeyboardMouseInput
 {

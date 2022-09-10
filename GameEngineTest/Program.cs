@@ -13,15 +13,7 @@ public class Program
     {
         Console.WriteLine("Hello World!");
         Game.Create("Example Game", windowMode: WindowModes.Windowed);
-        InputActionScheme test = Game.CreateInputActionScheme("TEST ACTION SCHEME");
 
-        var c = test.AddAction(
-            "A",
-            keyInputs: new[] { Keys.A,Keys.B},
-            mouseInputs: new[] { MouseButton.Button1 },
-            type: InputControlType.Release
-        );
-        c.WhenInputActive += () => { logger.Debug("A RELEASED"); };
         Game.Run();
     }
 }
