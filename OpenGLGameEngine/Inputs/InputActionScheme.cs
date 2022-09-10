@@ -23,7 +23,7 @@ public class InputActionScheme
     {
         _name = name;
     }
-    
+
 
     /// <summary>
     /// Creates a new action that activates when the specificed keys and mouse buttons are pressed
@@ -34,12 +34,20 @@ public class InputActionScheme
     /// <param name="keyInputs">The combination of keyboard key inputs. (Using enums). Example: Keys.W|Keys.A = W + A keys</param>
     /// <param name="mouseInputs">The combination of mouse inputs. Using enums. same as above</param>
     /// <param name="type">How the action should activate. Refer to the docstring for <see cref="InputState"/></param>
-    /// <returns></returns>
-    public InputAction addAction(string name, Keys[]? keyInputs = null, MouseButton[]? mouseInputs = null, InputControlType type = InputControlType.Press)
+    /// <param name="callback">The callback to call when action is active. Can be added later using <see cref="InputAction.WhenInputActive"/> event</param>
+    /// <returns>Returns the newly create input action instance</returns>
+    public InputAction addAction(
+        string name,
+        Keys[]? keyInputs = null,
+        MouseButton[]? mouseInputs = null,
+        InputControlType type = InputControlType.Press,
+        InputAction.InputActionHandler? callback = null
+    )
     {
-        
         var inputControl = new InputAction(this, name, keyInputs, mouseInputs, type);
         controls.Add(inputControl);
+        if (callback != null) inputControl.WhenInputActive += callback;
+
         return inputControl;
     }
 }
