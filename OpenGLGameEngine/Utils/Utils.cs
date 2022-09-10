@@ -13,6 +13,7 @@ public static class Utils
     public static string VERSION = "0.0.0-dev";
 
     private static LoggingConfiguration logging_config;
+
     public static LoggingConfiguration GetNLogConfig()
     {
         if (logging_config != null)
@@ -26,31 +27,36 @@ public static class Utils
                 FileName = "${basedir}/logs/" + $"OpenGLGameEngine_{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")}.log",
                 Layout = layout
         };
-        
-        var highlightRule = new ConsoleRowHighlightingRule();
-        highlightRule.Condition = ConditionParser.ParseExpression("level == LogLevel.Info");
-        highlightRule.ForegroundColor = ConsoleOutputColor.Green;
-
-        var highlightRule2 = new ConsoleRowHighlightingRule();
-        highlightRule2.Condition = ConditionParser.ParseExpression("level == LogLevel.Trace");
-        highlightRule2.ForegroundColor = ConsoleOutputColor.Blue;
-
-        var highlightRule3 = new ConsoleRowHighlightingRule();
-        highlightRule3.Condition = ConditionParser.ParseExpression("level == LogLevel.Error");
-        highlightRule3.ForegroundColor = ConsoleOutputColor.Red;
-
-        var highlightRule4 = new ConsoleRowHighlightingRule();
-        highlightRule4.Condition = ConditionParser.ParseExpression("level == LogLevel.Fatal");
-        highlightRule4.ForegroundColor = ConsoleOutputColor.White;
-        highlightRule4.BackgroundColor = ConsoleOutputColor.Red;
-
-        var highlightRule5 = new ConsoleRowHighlightingRule();
-        highlightRule5.Condition = ConditionParser.ParseExpression("level == LogLevel.Warn");
-        highlightRule5.ForegroundColor = ConsoleOutputColor.Yellow;
 
         ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget("logconsole") {
                 Layout = layout,
-                RowHighlightingRules = { highlightRule, highlightRule2, highlightRule3, highlightRule4, highlightRule5 }
+                RowHighlightingRules = {
+                        new ConsoleRowHighlightingRule {
+                                Condition = ConditionParser.ParseExpression("level == LogLevel.Trace"),
+                                ForegroundColor = ConsoleOutputColor.Magenta
+                        },
+                        new ConsoleRowHighlightingRule {
+                                Condition = ConditionParser.ParseExpression("level == LogLevel.Debug"),
+                                ForegroundColor = ConsoleOutputColor.White
+                        },
+                        new ConsoleRowHighlightingRule {
+                                Condition = ConditionParser.ParseExpression("level == LogLevel.Info"),
+                                ForegroundColor = ConsoleOutputColor.Green
+                        },
+                        new ConsoleRowHighlightingRule {
+                                Condition = ConditionParser.ParseExpression("level == LogLevel.Warn"),
+                                ForegroundColor = ConsoleOutputColor.Yellow
+                        },
+                        new ConsoleRowHighlightingRule {
+                                Condition = ConditionParser.ParseExpression("level == LogLevel.Error"),
+                                ForegroundColor = ConsoleOutputColor.Red
+                        },
+                        new ConsoleRowHighlightingRule {
+                                Condition = ConditionParser.ParseExpression("level == LogLevel.Fatal"),
+                                ForegroundColor = ConsoleOutputColor.White,
+                                BackgroundColor = ConsoleOutputColor.Red
+                        }
+                }
         };
 
         config.AddRule(LogLevel.Debug, LogLevel.Fatal, consoleTarget);

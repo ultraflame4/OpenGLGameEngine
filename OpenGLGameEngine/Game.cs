@@ -90,6 +90,7 @@ public static class Game
         KeyboardMouseInput.Init(window);
 
         logger.Info($"Set toggle fullscreen key: {fullscreenKey}");
+        
         KeyboardMouseInput.OnKeyDown += (key, code, state, mods) =>
         {
             int winX, winY;
@@ -103,22 +104,37 @@ public static class Game
         };
     }
     
-    private static List<InputActionScheme> inputActionSchemes = new List<InputActionScheme>();
+
+    /// <summary>
+    /// Creates and add an Input action scheme
+    /// </summary>
+    /// <param name="name">The name of the scheme</param>
+    /// <returns>Returns the newly created instance of <see cref="InputActionScheme"/></returns>
     public static InputActionScheme CreateInputActionScheme(string name)
     {
-        var scheme = new InputActionScheme(name);
-        inputActionSchemes.Add(scheme);
-        return scheme;
+        return InputActionSchemeManager.CreateScheme(name);
     }
-
+    
+    /// <summary>
+    /// Returns the input action scheme with the specified name
+    /// </summary>
+    /// <param name="name">The name of the Input Action Scheme</param>
+    /// <returns></returns>
+    public static InputActionScheme? GetInputActionScheme(string name)
+    {
+        return InputActionSchemeManager.GetScheme(name);
+    }
+    
     /// <summary>
     /// Returns an array copy of the list of input action schemes created
     /// </summary>
     /// <returns></returns>
     public static InputActionScheme[] GetInputActionSchemes()
     {
-        return inputActionSchemes.ToArray();
+        return InputActionSchemeManager.GetInputActionSchemes();
     }
+
+
     
 
     public static void Run()

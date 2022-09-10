@@ -15,7 +15,7 @@ public class Program
         Game.Create("Example Game", windowMode: WindowModes.Windowed);
         InputActionScheme test = Game.CreateInputActionScheme("TEST ACTION SCHEME");
 
-        var c = test.addAction(
+        var c = test.AddAction(
             "A",
             keyInputs: new[] { Keys.A,Keys.B},
             mouseInputs: new[] { MouseButton.Button1 },
