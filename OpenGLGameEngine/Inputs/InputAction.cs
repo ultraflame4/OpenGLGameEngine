@@ -4,7 +4,7 @@ namespace OpenGLGameEngine.Inputs;
 
 public class InputAction
 {
-    private InputActionScheme scheme;
+    private InputActionGroup scheme;
     private readonly string name;
     private Keys[]? keyInputs;
     private MouseButton[]? mouseInputs;
@@ -23,13 +23,13 @@ public class InputAction
     /// <br/>
     /// Note: <b>All mouse inputs will only be read and processed after the key combination specified has matched.! This may lead to weird behaviours</b>
     /// </summary>
-    /// <param name="scheme">The <see cref="InputActionScheme"/> this InputAction is attached to.</param>
+    /// <param name="scheme">The <see cref="InputActionGroup"/> this InputAction is attached to.</param>
     /// <param name="name">The name of the action. May be the display name.</param>
     /// <param name="keyInputs">The combination of keyboard key inputs.</param>
     /// <param name="mouseInputs">The combination of mouse inputs. </param>
     /// <param name="type">How the action should activate. Refer to the docstring for <see cref="InputState"/></param>
     /// <returns></returns>
-    public InputAction(InputActionScheme scheme,string name, Keys[]? keyInputs = null, MouseButton[]? mouseInputs = null, InputControlType type = InputControlType.Press)
+    public InputAction(InputActionGroup scheme,string name, Keys[]? keyInputs = null, MouseButton[]? mouseInputs = null, InputControlType type = InputControlType.Press)
     {
         this.scheme = scheme;
         this.name = name;

@@ -3,30 +3,30 @@
 namespace OpenGLGameEngine.Inputs;
 
 /// <summary>
-/// Defines a group of input actions (controls) that can be easily enabled or disabled.
+/// Defines a group of input controls that can be easily enabled or disabled.
 /// <br/>
 /// The recommended way to get input for controls.
 /// <br/>
-/// <b>NOTE: This class should never be instantiated by it self. USE : <see cref="GameLoop.CreateInputActionScheme"/></b>
+/// <b>NOTE: This class should never be instantiated by it self. USE : <see cref="GameInput.CreateInputGroup"/></b>
 /// </summary>
-public class InputActionScheme
+public class InputActionGroup
 {
     public readonly string name;
     public bool enabled = true;
     private List<InputAction> controls = new List<InputAction>();
 
     /// <summary>
-    /// Defines a group of input actions (controls) that can be easily enabled or disabled.
+    /// Defines a group of input actions that can be easily enabled or disabled.
     /// </summary>
     /// <param name="name">The name of scheme. i.e 'Inventory Controls'</param>
-    public InputActionScheme(string name)
+    public InputActionGroup(string name)
     {
         this.name = name;
     }
 
 
     /// <summary>
-    /// Creates a new action that activates when the specificed keys and mouse buttons are pressed
+    /// Creates a new action that activates when the specified keys and mouse buttons are pressed
     /// <br/>
     /// Note: <b>All mouse inputs will only be read and processed after the key combination specified has matched.! This may lead to weird behaviours</b>
     /// </summary>
