@@ -12,15 +12,8 @@ public static class Utils
 {
     public static string VERSION = "0.0.0-dev";
 
-    private static LoggingConfiguration logging_config;
-
     public static LoggingConfiguration GetNLogConfig()
     {
-        if (logging_config != null)
-        {
-            return logging_config;
-        }
-
         string layout = "${longdate:universalTime=false} | ${level:uppercase=true:padding=-5} | ${logger} : ${message} ${exception}";
         LoggingConfiguration config = new LoggingConfiguration();
         FileTarget fileTarget = new FileTarget("logfile") {
@@ -61,7 +54,6 @@ public static class Utils
 
         config.AddRule(LogLevel.Debug, LogLevel.Fatal, consoleTarget);
         config.AddRule(LogLevel.Debug, LogLevel.Fatal, fileTarget);
-        logging_config = config;
-        return logging_config;
+        return config;
     }
 }

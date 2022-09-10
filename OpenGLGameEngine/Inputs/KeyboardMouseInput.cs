@@ -56,11 +56,18 @@ public static class KeyboardMouseInput
     public static event OnKeyEventHandler OnAllKey;
 
 
+    // have to manually create delegate instances that are assigned to a variable.
+    // so that the garbage collector does not collect it. https://github.com/ForeverZer0/glfw-net/issues/44#issuecomment-927222681
+    // glfw bindings is unmanaged code, so any instance created automatically and used for callback will not have a reference count.
+    // hence variable is needed else GC will collect the instance and result in errors!
+    private static KeyCallback _keyCallback = new KeyCallback(OnGlfwKeyCallback);
+    private static MouseButtonCallback _mouseBtnCallback = new MouseButtonCallback(OnGlfwMouseButtonCallback);
+    
     public static void Init(Window _window)
     {
         window = _window;
-        Glfw.SetKeyCallback(window, OnGlfwKeyCallback);
-        Glfw.SetMouseButtonCallback(window, OnGlfwMouseButtonCallback);
+        Glfw.SetKeyCallback(window, _keyCallback);
+        Glfw.SetMouseButtonCallback(window, _mouseBtnCallback);
     }
 
     private static bool IsStatePressed(this InputState state)
