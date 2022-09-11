@@ -21,8 +21,10 @@ public static class WindowUtils
     {
         // Set some common hints for the OpenGL profile creation
         Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
-        Glfw.WindowHint(Hint.ContextVersionMajor, 3);
-        Glfw.WindowHint(Hint.ContextVersionMinor, 3);
+        // Set opengl version
+        Glfw.WindowHint(Hint.ContextVersionMajor, 4);
+        Glfw.WindowHint(Hint.ContextVersionMinor, 6);
+        
         Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
         Glfw.WindowHint(Hint.Doublebuffer, true);
         Glfw.WindowHint(Hint.Decorated, true);

@@ -6,11 +6,14 @@ using NLog.Targets;
 namespace OpenGLGameEngine.Utils;
 
 /// <summary>
-/// A general utility class that should only be used by the game engine!
+/// A general utility class that contain information about the game engine and various methods used internally.
+/// <br/>
+/// --- <b>Avoid trying to set or change any variables defined!</b> ----
 /// </summary>
 public static class Utils
 {
     public static string VERSION = "0.0.0-dev";
+
 
     public static LoggingConfiguration GetNLogConfig()
     {

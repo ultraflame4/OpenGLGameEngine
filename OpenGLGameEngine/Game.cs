@@ -1,12 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using GLFW;
 using NLog;
-using OpenGL;
-using OpenGLGameEngine.Inputs;
 using OpenGLGameEngine.Utils;
-using static OpenGL.GL;
-using Monitor = GLFW.Monitor;
 
+using ErrorCode = GLFW.ErrorCode;
+using Monitor = GLFW.Monitor;
+using OpenGL;
 namespace OpenGLGameEngine;
 
 /// <summary>
@@ -46,7 +45,7 @@ public static class Game
         Nullable<Keys> fullscreenKey = Keys.F11,
         WindowModes windowMode = WindowModes.Windowed,
         (int width, int height) windowSize = default
-        )
+    )
     {
         if (windowSize.Equals(default))
         {
@@ -56,7 +55,7 @@ public static class Game
 
         // Start initialisation and create opengl context and window.
         logger.Info($"beginning initialisation and creation...");
-
+        
         logger.Debug($"Finding glfw dll at {Directory.GetCurrentDirectory()}...");
         if (!Glfw.Init())
         {
@@ -82,19 +81,24 @@ public static class Game
         logger.Info($"- Set Window Size: {windowMode.ToString()}");
 
         window = Glfw.CreateWindow(windowSize.width, windowSize.height, windowTitle, Monitor.None, Window.None);
-        WindowUtils.UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
+        
         if (window == Window.None)
         {
             logger.Fatal("Window or OpenGL context failed");
             return;
         }
-
-        //todo Add Mode fullscreen to windowed mode switching
+        
         WindowUtils.SetWindowDisplayMode(window, windowMode);
+        Gl.Initialize();
         Glfw.MakeContextCurrent(window);
-        Import(Glfw.GetProcAddress);
-        logger.Info("Create window success!");
 
+        logger.Info("OpenGL Context created successfully. !");
+        logger.Info($"OpenGL Version: {Gl.GetString(StringName.Version)} Vender: {Gl.GetString(StringName.Vendor)}");
+        logger.Info($"Glfw Version: {Glfw.VersionString}");
+        
+        logger.Info("Create window success!");
+        WindowUtils.UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
+        
         logger.Info("Configuring and initiating keyboard input");
         KeyboardMouseInput.Init(window);
 
@@ -110,6 +114,8 @@ public static class Game
                 WindowUtils.ToggleFullscreen(window);
             }
         };
+        
+        Glfw.SwapInterval(1);
     }
 
 
@@ -118,22 +124,33 @@ public static class Game
         while (!Glfw.WindowShouldClose(window))
         {
             Glfw.SwapBuffers(window);
+            
+            GameTimer._deltatime = (float)(Glfw.Time - GameTimer._lastTotalElapsed);
+            GameTimer._lastTotalElapsed = Glfw.Time;
+            
             Glfw.PollEvents();
+
+            Update();
+            
             int width, height;
             float ratio;
             Glfw.GetFramebufferSize(window, out width, out height);
             ratio = width / height;
-            glViewport(0, 0, width, height);
-
-            glClear(GL_COLOR_BUFFER_BIT);
-            Update();
+            Gl.Viewport(0, 0, width, height);
+            Gl.Clear(ClearBufferMask.ColorBufferBit);
+            
             Draw();
         }
 
         Stop();
     }
 
-    private static void Draw() { }
+    private static void Draw()
+    {
+
+        // draw here
+
+    }
 
     private static void Update()
     {
