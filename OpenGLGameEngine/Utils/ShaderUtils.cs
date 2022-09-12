@@ -25,14 +25,13 @@ public static class ShaderUtils
         // Add \n back for each line because split will remove it. If the array does not have newlines, this opengl binding throws a fit! . _ .
         for (var i = 0; i < sourceLines.Length; i++)
         {
-            sourceLines[i] = sourceLines[i] + "\n";
+            sourceLines[i] += "\n";
         }
         
         Gl.ShaderSource(shader, sourceLines);
 
         Gl.CompileShader(shader);
-        int success = 0;
-        Gl.GetShader(shader, ShaderParameterName.CompileStatus, out success);
+        Gl.GetShader(shader, ShaderParameterName.CompileStatus, out var success);
         
         if (success != 1)
         {
