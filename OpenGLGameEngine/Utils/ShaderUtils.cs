@@ -62,17 +62,6 @@ public static class ShaderUtils
     }
 
     /// <summary>
-    /// Loads a shader from a resource
-    /// </summary>
-    /// <param name="path">The resource path</param>
-    /// <param name="type">Shader type.</param>
-    public static void LoadShaderFromResource(string path, ShaderType type)
-    {
-        logger.Info($"Loading shader from resource {Path.GetFullPath(path)}");
-        //todo
-    }
-
-    /// <summary>
     /// A utility method to create a shader program for opengl. This will also link shaders that are attached,
     /// </summary>
     /// <param name="shaders">The shaders you want to attach to the shader program</param>

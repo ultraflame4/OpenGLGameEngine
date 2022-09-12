@@ -2,6 +2,7 @@
 using NLog;
 using OpenGL;
 using OpenGLGameEngine;
+using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Inputs;
 using OpenGLGameEngine.Utils;
 
@@ -24,25 +25,16 @@ public class Program
             0.5f, -0.5f, 0.0f,  0f,1f,0f,
             0.0f,  0.5f, 0.0f,  0f,0f,1f
         };
-        uint vbo = Gl.GenBuffer();
-        uint vao = Gl.GenVertexArray();
+        var o = new VertexRenderObject(vertices, 6);
+        o.SetVertexAttrib(0,3,0);
+        o.SetVertexAttrib(1,3,3);
         
-        Gl.BindVertexArray(vao); // set this vao as current Bound VertexArray so we can safe the "config"
-        
-        // Do da "config" for this vbo
-        Gl.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-        Gl.BufferData(BufferTarget.ArrayBuffer,(uint)(sizeof(float) * vertices.Length),vertices,BufferUsage.StaticDraw);
-        
-        Gl.VertexAttribPointer(0,3,VertexAttribType.Float,false,6*sizeof(float),(IntPtr)0);
-        Gl.VertexAttribPointer(1,3,VertexAttribType.Float,false,6*sizeof(float),(IntPtr)(3*sizeof(float)));
-        Gl.EnableVertexAttribArray(0);
-        Gl.EnableVertexAttribArray(1);
         
 
         Game.GameLoopDraw += () =>
         {
             Gl.UseProgram(shaderProgram);
-            Gl.BindVertexArray(vao);
+            Gl.BindVertexArray(o.VAO);
             Gl.DrawArrays(PrimitiveType.Triangles, 0, 3);
         };
         Game.Run();

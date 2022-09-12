@@ -93,7 +93,8 @@ public static class Game
         WindowUtils.SetWindowDisplayMode(window, windowMode);
         Gl.Initialize();
         Glfw.MakeContextCurrent(window);
-
+        Glfw.WindowHint(Hint.OpenglDebugContext,true);
+        Gl.DebugMessageCallback(onOpenGlError,0);
         logger.Info("OpenGL Context created successfully. !");
         logger.Info("OpenGL configuration:");
         logger.Info($"- Version: {Gl.GetString(StringName.Version)}");
@@ -125,6 +126,7 @@ public static class Game
     }
 
 
+
     public static void Run()
     {
         while (!Glfw.WindowShouldClose(window))
@@ -145,7 +147,7 @@ public static class Game
             Gl.Clear(ClearBufferMask.ColorBufferBit);
             
             Draw();
-
+            
         }
 
         Stop();
@@ -180,4 +182,12 @@ public static class Game
         string? description = Marshal.PtrToStringAnsi(description_p);
         logger.Error($"Glfw has encountered an error ({errCode}) {description_p}");
     }
+    
+    private static void onOpenGlError(DebugSource source, DebugType type, uint id, DebugSeverity severity, int length, IntPtr message, IntPtr userparam)
+    {
+        string? msg = Marshal.PtrToStringAnsi(message);
+        
+        logger.Warn($"OPENGL (id {id}) | DebugSource.{source} | DebugType.{type} | {severity} | {message}");
+    }
+
 }
