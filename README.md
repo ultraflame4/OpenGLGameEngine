@@ -1,5 +1,5 @@
 # OpenGLGameEngine
-An attempt at a "simple" game engine by me.
+An attempt at a "simple" game engine by me, so that i can learn about game engine and opengl :) .
 
 This repository consists of 2 projects:
 
