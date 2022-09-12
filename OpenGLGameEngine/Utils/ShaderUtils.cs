@@ -23,14 +23,15 @@ public static class ShaderUtils
         var shader = Gl.CreateShader(type);
         Gl.ShaderSource(shader, source.Split("\n"));
         Gl.CompileShader(shader);
-        int success=0;
+        int success = 0;
         Gl.GetShader(shader, ShaderParameterName.CompileStatus, out success);
-        if (shader!=1)
+        if (shader != 1)
         {
             StringBuilder infoLog = new StringBuilder(1024);
             Gl.GetShaderInfoLog(shader, 1024, out int a, infoLog);
-            logger.Error(new ShaderCompilationException("Shader Compilation failed!",type,infoLog),$"Shader compilation failed! for shader {shader}\n");
+            logger.Error(new ShaderCompilationException($"Shader Compilation failed for shader {shader}!", type, infoLog), "Error while compiling shader!\n");
         }
+
         logger.Debug($"Created shader with reference index {shader} of type {type}");
         return shader;
     }
@@ -44,7 +45,8 @@ public static class ShaderUtils
     /// <returns></returns>
     public static uint LoadShaderFromPath(string path, ShaderType type)
     {
-        logger.Info($"Loading shader from path {Path.GetFullPath(path)}");
+        string fullPath = Path.GetFullPath(path);
+        logger.Info($"Loading shader from path {fullPath}");
         using (StreamReader file = new StreamReader(path))
         {
             return CreateShader(type, file.ReadToEnd());
@@ -56,7 +58,7 @@ public static class ShaderUtils
     /// </summary>
     /// <param name="path">The resource path</param>
     /// <param name="type">Shader type.</param>
-    public static void LoadShaderFromResource(string path,ShaderType type)
+    public static void LoadShaderFromResource(string path, ShaderType type)
     {
         logger.Info($"Loading shader from resource {Path.GetFullPath(path)}");
         //todo
@@ -74,10 +76,11 @@ public static class ShaderUtils
         {
             foreach (uint shader in shaders)
             {
-                Gl.AttachShader(program,shader);
+                Gl.AttachShader(program, shader);
                 logger.Debug($"CreateProgram - Attached shader {shader} to program {program}");
             }
         }
+
         Gl.LinkProgram(program);
         return program;
     }
