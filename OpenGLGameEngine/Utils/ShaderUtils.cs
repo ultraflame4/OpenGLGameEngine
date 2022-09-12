@@ -21,11 +21,20 @@ public static class ShaderUtils
     public static uint CreateShader(ShaderType type, string source)
     {
         var shader = Gl.CreateShader(type);
-        Gl.ShaderSource(shader, source.Split("\n"));
+        string[] sourceLines = source.Split("\n");
+        // Add \n back for each line because split will remove it. If the array does not have newlines, this opengl binding throws a fit! . _ .
+        for (var i = 0; i < sourceLines.Length; i++)
+        {
+            sourceLines[i] = sourceLines[i] + "\n";
+        }
+        
+        Gl.ShaderSource(shader, sourceLines);
+
         Gl.CompileShader(shader);
         int success = 0;
         Gl.GetShader(shader, ShaderParameterName.CompileStatus, out success);
-        if (shader != 1)
+        
+        if (success != 1)
         {
             StringBuilder infoLog = new StringBuilder(1024);
             Gl.GetShaderInfoLog(shader, 1024, out int a, infoLog);
