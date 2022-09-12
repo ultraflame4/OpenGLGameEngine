@@ -29,7 +29,7 @@ public static class ShaderUtils
         {
             StringBuilder infoLog = new StringBuilder(1024);
             Gl.GetShaderInfoLog(shader, 1024, out int a, infoLog);
-            logger.Error(new ShaderCompilationException("Shader Compilation failed!",type,infoLog),"Shader compilation failed!\n");
+            logger.Error(new ShaderCompilationException("Shader Compilation failed!",type,infoLog),$"Shader compilation failed! for shader {shader}\n");
         }
         logger.Debug($"Created shader with reference index {shader} of type {type}");
         return shader;
