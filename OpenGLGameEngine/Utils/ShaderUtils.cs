@@ -22,7 +22,7 @@ public static class ShaderUtils
         var shader = Gl.CreateShader(type);
         Gl.ShaderSource(shader, source.Split("\n"));
         Gl.CompileShader(shader);
-        logger.Debug($"Created shader: {shader}, of type {type}");
+        logger.Debug($"Created shader with reference index {shader} of type {type}");
         return shader;
     }
 
