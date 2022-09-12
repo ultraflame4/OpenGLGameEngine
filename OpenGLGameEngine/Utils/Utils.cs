@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System.Collections;
+using NLog;
 using NLog.Conditions;
 using NLog.Config;
 using NLog.Targets;
@@ -13,7 +14,6 @@ namespace OpenGLGameEngine.Utils;
 public static class Utils
 {
     public static string VERSION = "0.0.0-dev";
-    
 
 
     public static LoggingConfiguration GetNLogConfig()
@@ -65,8 +65,9 @@ public static class Utils
         LogManager.Configuration = GetNLogConfig();
         AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
         {
-                var e = (args.ExceptionObject as Exception);
-                logger.Fatal(e,$"A Fatal Unhandled Error has occured!------------------------------------------------\n");
+            var e = (args.ExceptionObject as Exception);
+            logger.Fatal(e, $"A Fatal Unhandled Error has occured!------------------------------------------------\n");
+
         };
         logger.Info($"Loaded logging configuration.");
     }

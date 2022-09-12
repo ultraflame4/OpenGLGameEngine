@@ -17,7 +17,7 @@ public class Program
         Game.Create("Example Game", windowMode: WindowModes.Windowed);
         uint vertexShader = ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader);
         uint fragmentShader = ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader);
-        uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader, fragmentShader });
+        uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader,fragmentShader });
    
         float[] vertices = {
             -0.5f, -0.5f, 0.0f,

@@ -28,8 +28,7 @@ public static class Game
 
     static Game()
     {
-        LogManager.Configuration = Utils.Utils.GetNLogConfig();
-        logger.Info($"Loaded logging configuration.");
+        Utils.Utils.ConfigureNLog(logger);
         logger.Info($"GameEngine version: {Utils.Utils.VERSION}");
     }
 
@@ -136,17 +135,17 @@ public static class Game
             GameTimer._lastTotalElapsed = Glfw.Time;
             
             Glfw.PollEvents();
-
-            Update();
             
+            Update();
+
             int width, height;
-            float ratio;
             Glfw.GetFramebufferSize(window, out width, out height);
-            ratio = width / height;
+
             Gl.Viewport(0, 0, width, height);
             Gl.Clear(ClearBufferMask.ColorBufferBit);
             
             Draw();
+
         }
 
         Stop();
