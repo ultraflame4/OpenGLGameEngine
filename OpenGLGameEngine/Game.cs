@@ -67,12 +67,13 @@ public static class Game
 
         logger.Info("Glfw initialised successfully!");
         Glfw.SetErrorCallback(onGlfwError);
+        logger.Info($"GLFW Version: {Glfw.VersionString}");
 
-        logger.Info("Monitors available:");
+        logger.Info("GLFW detected Monitors available:");
         for (var i = 0; i < Glfw.Monitors.Length; i++)
         {
             Monitor m = Glfw.Monitors[i];
-            logger.Info($"Index: {i} Resolution: {m.WorkArea.Width}x{m.WorkArea.Height} position {m.WorkArea.X},{m.WorkArea.Y}");
+            logger.Info($"- index {i} Resolution: {m.WorkArea.Width}x{m.WorkArea.Height} position {m.WorkArea.X},{m.WorkArea.Y}");
         }
 
         // Window and context creation
@@ -95,9 +96,12 @@ public static class Game
         Glfw.MakeContextCurrent(window);
 
         logger.Info("OpenGL Context created successfully. !");
-        logger.Info($"OpenGL Version: {Gl.GetString(StringName.Version)} Vender: {Gl.GetString(StringName.Vendor)}");
-        logger.Info($"Glfw Version: {Glfw.VersionString}");
-        
+        logger.Info("OpenGL configuration:");
+        logger.Info($"- Version: {Gl.GetString(StringName.Version)}");
+        logger.Info($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
+        logger.Info($"- Renderer: {Gl.GetString(StringName.Renderer)}");
+        logger.Info($"- Vender: {Gl.GetString(StringName.Vendor)}");
+
         logger.Info("Create window success!");
         WindowUtils.UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
         
@@ -118,6 +122,7 @@ public static class Game
         };
         
         Glfw.SwapInterval(1);
+        logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }
 
 
