@@ -20,9 +20,9 @@ public class Program
         uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader,fragmentShader });
    
         float[] vertices = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f,  0.5f, 0.0f
+            -0.5f, -0.5f, 0.0f, 1f,0f,0f,
+            0.5f, -0.5f, 0.0f,  0f,1f,0f,
+            0.0f,  0.5f, 0.0f,  0f,0f,1f
         };
         uint vbo = Gl.GenBuffer();
         uint vao = Gl.GenVertexArray();
@@ -33,8 +33,11 @@ public class Program
         Gl.BindBuffer(BufferTarget.ArrayBuffer, vbo);
         Gl.BufferData(BufferTarget.ArrayBuffer,(uint)(sizeof(float) * vertices.Length),vertices,BufferUsage.StaticDraw);
         
-        Gl.VertexAttribPointer(0,3,VertexAttribType.Float,false,3*sizeof(float),IntPtr.Zero);
+        Gl.VertexAttribPointer(0,3,VertexAttribType.Float,false,6*sizeof(float),(IntPtr)0);
+        Gl.VertexAttribPointer(1,3,VertexAttribType.Float,false,6*sizeof(float),(IntPtr)(3*sizeof(float)));
         Gl.EnableVertexAttribArray(0);
+        Gl.EnableVertexAttribArray(1);
+        
 
         Game.GameLoopDraw += () =>
         {
