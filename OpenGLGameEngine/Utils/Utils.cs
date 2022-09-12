@@ -8,11 +8,12 @@ namespace OpenGLGameEngine.Utils;
 /// <summary>
 /// A general utility class that contain information about the game engine and various methods used internally.
 /// <br/>
-/// --- <b>Avoid trying to set or change any variables defined!</b> ----
+/// --- <b>Avoid trying to set or change any variables defined, or calling any methods in here!</b> ----
 /// </summary>
 public static class Utils
 {
     public static string VERSION = "0.0.0-dev";
+    
 
 
     public static LoggingConfiguration GetNLogConfig()
@@ -49,8 +50,7 @@ public static class Utils
                         },
                         new ConsoleRowHighlightingRule {
                                 Condition = ConditionParser.ParseExpression("level == LogLevel.Fatal"),
-                                ForegroundColor = ConsoleOutputColor.White,
-                                BackgroundColor = ConsoleOutputColor.Red
+                                ForegroundColor = ConsoleOutputColor.Red,
                         }
                 }
         };
@@ -58,5 +58,16 @@ public static class Utils
         config.AddRule(LogLevel.Debug, LogLevel.Fatal, consoleTarget);
         config.AddRule(LogLevel.Debug, LogLevel.Fatal, fileTarget);
         return config;
+    }
+
+    public static void ConfigureNLog(Logger logger)
+    {
+        LogManager.Configuration = GetNLogConfig();
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        {
+                var e = (args.ExceptionObject as Exception);
+                logger.Fatal(e,$"A Fatal Unhandled Error has occured!------------------------------------------------\n");
+        };
+        logger.Info($"Loaded logging configuration.");
     }
 }
