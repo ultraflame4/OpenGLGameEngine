@@ -23,6 +23,8 @@ public static class Game
     /// This event is invoked when the game loops exits and the window closes.
     /// </summary>
     public static event Action GameLoopExit;
+    public static event Action GameLoopDraw;
+    public static event Action GameLoopUpdate;
 
     static Game()
     {
@@ -149,12 +151,13 @@ public static class Game
     {
 
         // draw here
-
+        GameLoopDraw?.Invoke();
     }
 
     private static void Update()
     {
         KeyboardMouseInput.Update();
+        GameLoopUpdate?.Invoke();
     }
 
     private static void Stop()

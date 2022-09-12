@@ -24,4 +24,8 @@
       <None Include="bin\Debug\net6.0\glfw3.dll" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="bin\Debug\net6.0" />
+    </ItemGroup>
+
 </Project>
