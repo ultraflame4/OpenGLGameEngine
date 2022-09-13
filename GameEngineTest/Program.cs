@@ -18,24 +18,29 @@ public class Program
         Game.Create("Example Game", windowMode: WindowModes.Windowed);
         uint vertexShader = ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader);
         uint fragmentShader = ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader);
-        uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader,fragmentShader });
-   
+        uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader, fragmentShader });
+
         float[] vertices = {
-            -0.5f, -0.5f, 0.0f, 1f,0f,0f,
-            0.5f, -0.5f, 0.0f,  0f,1f,0f,
-            0.0f,  0.5f, 0.0f,  0f,0f,1f
+                -1f, 1f, 0f, 1f, 0f, 0f,
+                1f, 1f, 0f, 0f, 1f, 0f,
+                1f, -1f, 0f, 0f, 0f, 1f,
+                -1f, -1f, 0.0f, 0f, 0f, 1f
         };
-        var o = new VertexRenderObject(vertices, 6);
-        o.SetVertexAttrib(0,3,0);
-        o.SetVertexAttrib(1,3,3);
-        
-        
+        uint[] triangles = {
+                0, 2, 1,
+                0, 3, 2
+        };
+
+
+        var o = new VertexRenderObject(vertices, 6, triangles);
+        o.SetVertexAttrib(0, 3, 0);
+        o.SetVertexAttrib(1, 3, 3);
+
 
         Game.GameLoopDraw += () =>
         {
             Gl.UseProgram(shaderProgram);
-            Gl.BindVertexArray(o.VAO);
-            Gl.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            o.Draw();
         };
         Game.Run();
     }

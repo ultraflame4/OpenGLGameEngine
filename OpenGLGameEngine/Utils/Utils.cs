@@ -18,7 +18,8 @@ public static class Utils
 
     public static LoggingConfiguration GetNLogConfig()
     {
-        string layout = "${longdate:universalTime=false} | ${level:uppercase=true:padding=-5} | ${logger} : ${message} ${exception}";
+        string layout = "${longdate:universalTime=false} | ${level:uppercase=true:padding=-5} | " +
+                        "${logger} : ${message} ${exception}";
         LoggingConfiguration config = new LoggingConfiguration();
         FileTarget fileTarget = new FileTarget("logfile") {
                 FileName = "${basedir}/logs/" + $"OpenGLGameEngine_{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")}.log",

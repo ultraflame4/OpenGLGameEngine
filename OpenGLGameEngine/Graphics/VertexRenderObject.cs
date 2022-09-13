@@ -13,8 +13,10 @@ public class VertexRenderObject
 {
     public uint VBO;
     public uint VAO;
+    public uint? EBO = null;
     public int stride;
     static Logger logger = LogManager.GetCurrentClassLogger();
+    private int draw_count = 0;
 
     ///  <summary>
     ///  <b>BufferUsage Guide:</b>
@@ -35,19 +37,39 @@ public class VertexRenderObject
     ///  </summary>
     ///  <param name="vertices">A float array of vertices. </param>
     ///  <param name="stride">How long it takes before it reaches the next set of attributes</param>
+    ///  <param name="indices">Array of vertex index in vertices array. Used to reduce duplicate vertices.</param>
     ///  <param name="usage">How the internal vertex buffer will be used.</param>
     public VertexRenderObject(
         float[] vertices,
         int stride,
+        uint[]? indices = null,
         BufferUsage usage = BufferUsage.StaticDraw)
     {
         this.stride = stride;
         VBO = Gl.GenBuffer();
         VAO = Gl.GenVertexArray();
-        logger.Info($"Created vao ({VAO}) and VBO ({VBO})");
+
+
         Bind();
+        
         Gl.BindBuffer(BufferTarget.ArrayBuffer, VBO);
         Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, usage);
+        
+        if (indices is not null)
+        {
+            EBO = Gl.GenBuffer();
+            draw_count = indices.Length;
+            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)EBO);
+            Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(int)), indices, usage);
+            logger.Debug($"Created EBO because indices is not null. EBO {EBO} with draw count {draw_count}");
+        }
+        else
+        {
+            draw_count = vertices.Length / stride;
+        }
+
+
+        logger.Debug($"Created vao ({VAO}) and VBO ({VBO}) with draw count: {draw_count}");
     }
 
     /// <summary>
@@ -97,5 +119,18 @@ public class VertexRenderObject
     public void Bind()
     {
         Gl.BindVertexArray(VAO);
+    }
+
+    public void Draw()
+    {
+        Bind();
+        if (EBO is null)
+        {
+            Gl.DrawArrays(PrimitiveType.Triangles, 0, draw_count);
+        }
+        else
+        {
+            Gl.DrawElements(PrimitiveType.Triangles, draw_count, DrawElementsType.UnsignedInt, IntPtr.Zero);
+        }
     }
 }
