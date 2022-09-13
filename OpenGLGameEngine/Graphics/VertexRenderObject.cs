@@ -7,13 +7,14 @@ using OpenGL;
 namespace OpenGLGameEngine.Graphics;
 
 /// <summary>
-/// A light wrapper around VBOs and VAOs to abstract away some complexities and make them less annoying.
+/// A light wrapper around VBOs and VAOs to ease rendering of vertices and triangles.
+/// <br/>
 /// </summary>
 public class VertexRenderObject
 {
-    public uint VBO;
-    public uint VAO;
-    public uint? EBO = null;
+    public uint VertexBufferObject;
+    public uint VertexArrayObject;
+    public uint? ElementBufferObject = null;
     public int stride;
     static Logger logger = LogManager.GetCurrentClassLogger();
     private int draw_count = 0;
@@ -46,30 +47,27 @@ public class VertexRenderObject
         BufferUsage usage = BufferUsage.StaticDraw)
     {
         this.stride = stride;
-        VBO = Gl.GenBuffer();
-        VAO = Gl.GenVertexArray();
+        VertexBufferObject = Gl.GenBuffer();
+        VertexArrayObject = Gl.GenVertexArray();
 
 
         Bind();
         
-        Gl.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+        Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
         Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, usage);
         
         if (indices is not null)
         {
-            EBO = Gl.GenBuffer();
+            ElementBufferObject = Gl.GenBuffer();
             draw_count = indices.Length;
-            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)EBO);
+            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)ElementBufferObject);
             Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(int)), indices, usage);
-            logger.Debug($"Created EBO because indices is not null. EBO {EBO} with draw count {draw_count}");
         }
         else
         {
             draw_count = vertices.Length / stride;
         }
-
-
-        logger.Debug($"Created vao ({VAO}) and VBO ({VBO}) with draw count: {draw_count}");
+        
     }
 
     /// <summary>
@@ -102,7 +100,7 @@ public class VertexRenderObject
         [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
     {
         Gl.GetInteger(GetPName.VertexArrayBinding, out int index_);
-        if (VAO != index_)
+        if (VertexArrayObject != index_)
         {
             logger.Warn($"{callerFile}(\n{lineno}) !! Current Bound Vertex Attribute Object (VAO) (current:{index_}, instance{index}) is not the one in this instance!");
             logger.Warn($"Will AutoBind!");
@@ -118,13 +116,13 @@ public class VertexRenderObject
 
     public void Bind()
     {
-        Gl.BindVertexArray(VAO);
+        Gl.BindVertexArray(VertexArrayObject);
     }
 
     public void Draw()
     {
         Bind();
-        if (EBO is null)
+        if (ElementBufferObject is null)
         {
             Gl.DrawArrays(PrimitiveType.Triangles, 0, draw_count);
         }
