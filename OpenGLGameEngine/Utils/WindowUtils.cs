@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using GLFW;
 using NLog;
+using OpenGL;
 using Monitor = GLFW.Monitor;
 
 namespace OpenGLGameEngine.Utils;
@@ -24,7 +25,7 @@ public static class WindowUtils
         // Set opengl version
         Glfw.WindowHint(Hint.ContextVersionMajor, 4);
         Glfw.WindowHint(Hint.ContextVersionMinor, 6);
-        
+
         Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
         Glfw.WindowHint(Hint.Doublebuffer, true);
         Glfw.WindowHint(Hint.Decorated, true);
@@ -55,7 +56,7 @@ public static class WindowUtils
         (winX, winY) = GeneralUtils.TopLeft2CenterPosition(winX, winY, winW, winH);
         // convert to vector for distance calculation
         Vector2 windowPosition = (winX, winY).xy2Vector2();
-        
+
         Monitor last_closest = Monitor.None;
         float last_dist = -1;
         for (var i = 0; i < monitors.Length; i++)
@@ -121,5 +122,39 @@ public static class WindowUtils
             logger.Trace($"ToggleFullscreen: Going to fullscreen");
             SetWindowDisplayMode(window, WindowModes.Fullscreen);
         }
+    }
+
+    public static Window CreateWindow(string windowTitle, (int width, int height) windowSize, WindowModes windowMode)
+    {
+        Window window;
+        SetWindowHints();
+        logger.Info($"- Set Window Title: {windowTitle}");
+        logger.Info($"- Set Window Mode: {windowMode.ToString()}");
+        logger.Info($"- Set Window Size: {windowMode.ToString()}");
+
+        window = Glfw.CreateWindow(windowSize.width, windowSize.height, windowTitle, Monitor.None, Window.None);
+
+        if (window == Window.None)
+        {
+            logger.Fatal("Window or OpenGL context failed");
+            throw new InvalidOperationException("Window or OpenGL context failed");
+        }
+
+        SetWindowDisplayMode(window, windowMode);
+        Gl.Initialize();
+        Glfw.MakeContextCurrent(window);
+        
+        logger.Info("OpenGL Context created successfully. !");
+        logger.Info("OpenGL configuration:");
+        logger.Info($"- Version: {Gl.GetString(StringName.Version)}");
+        logger.Info($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
+        logger.Info($"- Renderer: {Gl.GetString(StringName.Renderer)}");
+        logger.Info($"- Vender: {Gl.GetString(StringName.Vendor)}");
+
+        logger.Info("Create window success!");
+        WindowUtils.UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
+
+        
+        return window;
     }
 }

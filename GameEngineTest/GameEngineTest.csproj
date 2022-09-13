@@ -13,12 +13,6 @@
 
     <ItemGroup>
       <None Include="bin\Debug\net6.0\glfw.dll" />
-      <None Update="fragment.glsl">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="vertex.glsl">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <None Update="glfw.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
@@ -31,6 +25,15 @@
 
     <ItemGroup>
       <Folder Include="bin\Debug\net6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="fragment.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="vertex.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

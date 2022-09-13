@@ -28,4 +28,15 @@
       <Folder Include="bin\Debug\net6.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\Shaders\fragment.glsl" />
+      <EmbeddedResource Include="Resources\Shaders\fragment.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="Resources\Shaders\vertex.glsl" />
+      <EmbeddedResource Include="Resources\Shaders\vertex.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>

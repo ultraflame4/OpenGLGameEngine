@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using NLog;
 using OpenGL;
 
@@ -10,6 +11,32 @@ namespace OpenGLGameEngine.Utils;
 public static class ShaderUtils
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
+
+    private static uint defaultVertexShader;
+
+    private static uint defaultFragmentShader;
+
+    private static uint defaultShaderProgram;
+
+    public static uint DefaultVertexShader => defaultVertexShader;
+
+    public static uint DefaultFragmentShader => defaultFragmentShader;
+
+    public static uint DefaultShaderProgram => defaultShaderProgram;
+
+    /// <summary>
+    /// Loads and Creates the default shader program. DOES NOT ACTUALLY BIND IT IN OPENGL
+    /// </summary>
+    /// <returns></returns>
+    public static uint LoadDefaultShaderProgram()
+    {
+        logger.Info("Loading default shader program!");
+        defaultVertexShader = LoadShaderFromResource("OpenGLGameEngine.Resources.Shaders.vertex.glsl", ShaderType.VertexShader);
+        defaultFragmentShader = LoadShaderFromResource("OpenGLGameEngine.Resources.Shaders.fragment.glsl", ShaderType.FragmentShader);
+        defaultShaderProgram = CreateProgam(new[] { defaultVertexShader, defaultFragmentShader });
+        logger.Info("------------------Load Default Shader Program Complete!------------------");
+        return defaultShaderProgram;
+    }
 
     /// <summary>
     /// Creates a shader of the specified type from the given source string.
@@ -27,12 +54,12 @@ public static class ShaderUtils
         {
             sourceLines[i] += "\n";
         }
-        
+
         Gl.ShaderSource(shader, sourceLines);
 
         Gl.CompileShader(shader);
         Gl.GetShader(shader, ShaderParameterName.CompileStatus, out var success);
-        
+
         if (success != 1)
         {
             StringBuilder infoLog = new StringBuilder(1024);
@@ -56,6 +83,18 @@ public static class ShaderUtils
         string fullPath = Path.GetFullPath(path);
         logger.Info($"Loading shader from path {fullPath}");
         using (StreamReader file = new StreamReader(path))
+        {
+            return CreateShader(type, file.ReadToEnd());
+        }
+    }
+
+    public static uint LoadShaderFromResource(string resource_name, ShaderType type)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        logger.Info($"Loading shader from embbed resource {resource_name}");
+        using (Stream stream = assembly.GetManifestResourceStream(resource_name) ??
+                               throw new InvalidOperationException($"Resource name not found! :{resource_name}"))
+        using (StreamReader file = new StreamReader(stream))
         {
             return CreateShader(type, file.ReadToEnd());
         }
