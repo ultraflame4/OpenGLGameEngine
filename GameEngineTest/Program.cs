@@ -36,7 +36,8 @@ public class Program
         Gl.BindTexture(TextureTarget.Texture2d, texture);
         Gl.TexImage2D(TextureTarget.Texture2d, 0, InternalFormat.Rgba,
             data.Width, data.Height, 0, 
-            OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            OpenGL.PixelFormat.Bgra, // using bgra here because somehow it is bgra in opengl when it is argb in C#
+            PixelType.UnsignedByte, data.Scan0);
         Gl.GenerateMipmap(TextureTarget.Texture2d);
         bitmap.UnlockBits(data);
         
