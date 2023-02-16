@@ -69,7 +69,7 @@ public class VertexRenderObject
         VertexArrayObject = Gl.GenVertexArray();
 
         Bind(); // Bind so we can use the VAO we created earlier
-
+        
         Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject); // Bind the VBO to the VAO
         Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, usage); // Set some configs
 

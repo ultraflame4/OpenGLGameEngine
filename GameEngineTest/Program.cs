@@ -21,7 +21,7 @@ public class Program
         // uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader, fragmentShader });
         
 
-        float[] v1 = {
+        float[] v1 = {// contains both position and color
                 -1f, 1f, 0f, 1f, 0f, 0f,
                 1f, 1f, 0f, 0f, 1f, 0f,
                 1f, -1f, 0f, 0f, 0f, 1f,
