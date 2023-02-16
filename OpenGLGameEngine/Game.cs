@@ -98,6 +98,7 @@ public static class Game
         };
 
         Glfw.SwapInterval(1);
+        Gl.Enable(EnableCap.DepthTest);
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
         logger.Info("Loading defaults...");
         LoadDefaults();
@@ -124,7 +125,7 @@ public static class Game
             Glfw.GetFramebufferSize(window, out width, out height);
 
             Gl.Viewport(0, 0, width, height);
-            Gl.Clear(ClearBufferMask.ColorBufferBit);
+            Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             Draw();
 
