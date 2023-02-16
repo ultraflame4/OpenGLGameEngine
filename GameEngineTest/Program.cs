@@ -16,9 +16,9 @@ public class Program
     {
         Console.WriteLine("Hello World!");
         Game.Create("Example Game", windowMode: WindowModes.Windowed);
-        // uint vertexShader = ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader);
-        // uint fragmentShader = ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader);
-        // uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader, fragmentShader });
+        uint vertexShader = ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader);
+        uint fragmentShader = ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader);
+        uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader, fragmentShader });
         
 
         float[] v1 = {// contains both position and color
@@ -44,6 +44,7 @@ public class Program
 
         Game.GameLoopDraw += () =>
         {
+            Gl.UseProgram(shaderProgram);
             o.Draw();
             o2.Draw();
         };
