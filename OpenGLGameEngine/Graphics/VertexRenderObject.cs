@@ -9,6 +9,24 @@ namespace OpenGLGameEngine.Graphics;
 /// <summary>
 /// A light wrapper around VBOs and VAOs to ease rendering of vertices and triangles.
 /// <br/>
+/// <br/>
+/// Essentially, we store an array of items, each item has attribute like position and color
+/// <br/>
+/// For example:
+/// <code>
+/// [x,y,z, r,g,b, x2,y2,z2, r2,g2,b2, ...]
+/// </code>
+/// What we have here is an interlaced array with data describing different things, which are, 1. position(s), 2. color(s)
+/// We first separate the different "items" mixed together
+/// <code>
+/// [ (x,y,z, r,g,b), (x2,y2,z2, r2,g2,b2), ...]
+/// </code>
+/// Now we can see the different items. <br/>
+/// Then we now separate the different attributes of the items
+/// <code>
+/// [ ( {x,y,z}, {r,g,b}), ({x2,y2,z2}, {r2,g2,b2}), ...]
+/// </code>
+/// This is essentially how we get around not being able to use classes to nicely classify the data
 /// </summary>
 public class VertexRenderObject
 {
@@ -90,10 +108,10 @@ public class VertexRenderObject
     /// Offset for texture coords is 3, because that is its index.
     /// </code>
     /// </summary>
-    /// <param name="index">The index of this attribute</param>
+    /// <param name="index">The index of this attribute ( to be used in the shader script eg. index is 0 if layout (location = 0) )</param>
     /// <param name="size">The size of the attribute. (in number of items not bytes)</param>
     /// <param name="offset_index">Offset</param>
-    /// <param name="enable">Whether to enable the vertex attriute</param>
+    /// <param name="enable">Whether to enable the vertex attribute</param>
     public void SetVertexAttrib(uint index, int size, int offset_index, bool enable = true,
         [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
     {

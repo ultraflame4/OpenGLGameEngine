@@ -19,6 +19,7 @@ public class Program
         // uint vertexShader = ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader);
         // uint fragmentShader = ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader);
         // uint shaderProgram = ShaderUtils.CreateProgam(new[] { vertexShader, fragmentShader });
+        
 
         float[] v1 = {
                 -1f, 1f, 0f, 1f, 0f, 0f,
