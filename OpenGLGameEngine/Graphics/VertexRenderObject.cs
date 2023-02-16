@@ -50,24 +50,22 @@ public class VertexRenderObject
         VertexBufferObject = Gl.GenBuffer();
         VertexArrayObject = Gl.GenVertexArray();
 
+        Bind(); // Bind so we can use the VAO we created earlier
 
-        Bind();
-        
-        Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
-        Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, usage);
-        
+        Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject); // Bind the VBO to the VAO
+        Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, usage); // Set some configs
+
         if (indices is not null)
         {
-            ElementBufferObject = Gl.GenBuffer();
-            draw_count = indices.Length;
-            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)ElementBufferObject);
-            Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(int)), indices, usage);
+            ElementBufferObject = Gl.GenBuffer(); // If we using indices for triangles, create a buffer for it also
+            draw_count = indices.Length; // number of triangles to draw
+            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)ElementBufferObject); // bind the EBO to the VAO
+            Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(int)), indices, usage); // do some config for EBO
         }
         else
         {
             draw_count = vertices.Length / stride;
         }
-        
     }
 
     /// <summary>
@@ -103,7 +101,7 @@ public class VertexRenderObject
         if (VertexArrayObject != index_)
         {
             logger.Warn($"{callerFile}(\n{lineno}) !! Current Bound Vertex Attribute Object (VAO) (current:{index_}, instance{index}) is not the one in this instance!");
-            logger.Warn($"Will AutoBind!");
+            logger.Warn("Will AutoBind!");
             Bind();
         }
 
