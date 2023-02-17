@@ -107,6 +107,7 @@ public static class WindowUtils
             case WindowModes.Fullscreen:
                 UpdateWindowSpacialData(window);
                 Glfw.SetWindowMonitor(window, monitor, 0, 0, videoMode.Width, videoMode.Height, videoMode.RefreshRate);
+    
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
@@ -131,6 +132,7 @@ public static class WindowUtils
         {
             logger.Trace($"ToggleFullscreen: Going to fullscreen");
             SetWindowDisplayMode(window, WindowModes.Fullscreen);
+            
         }
     }
 

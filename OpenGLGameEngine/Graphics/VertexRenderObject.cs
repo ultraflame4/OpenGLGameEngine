@@ -28,7 +28,7 @@ namespace OpenGLGameEngine.Graphics;
 /// </code>
 /// This is essentially how we get around not being able to use classes to nicely classify the data
 /// </summary>
-public class VertexRenderObject
+public class VertexRenderObject : IDisposable
 {
     public uint VertexBufferObject;
     public uint VertexArrayObject;
@@ -69,7 +69,7 @@ public class VertexRenderObject
         VertexArrayObject = Gl.GenVertexArray();
 
         Bind(); // Bind so we can use the VAO we created earlier
-        
+
         Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject); // Bind the VBO to the VAO
         Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, usage); // Set some configs
 
@@ -146,5 +146,16 @@ public class VertexRenderObject
         {
             Gl.DrawElements(PrimitiveType.Triangles, draw_count, DrawElementsType.UnsignedInt, IntPtr.Zero);
         }
+    }
+
+    public void Dispose()
+    {
+        if (ElementBufferObject is null)
+        {
+            Gl.DeleteBuffers(VertexArrayObject, VertexBufferObject);
+            return;
+        }
+
+        Gl.DeleteBuffers(VertexArrayObject, VertexBufferObject, (uint)ElementBufferObject);
     }
 }
