@@ -52,7 +52,7 @@ public class Shader
         Gl.GetInteger(GetPName.CurrentProgram, out int current_shader);
         if (current_shader != shaderProgram)
         {
-            logger.Warn($"{callerFile}(\n{lineno}) !! Shader Program ({shaderProgram}) is not in use! Will auto use!! (Current shader: {current_shader}");
+            logger.Warn($"{callerFile}({lineno}) !! Shader Program ({shaderProgram}) is not in use! Will auto use!! (Current shader: {current_shader})");
             Use();
         }
     }
