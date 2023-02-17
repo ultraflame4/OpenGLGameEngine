@@ -40,10 +40,24 @@ public class Texture
     }
 
     /// <summary>
-    /// Binds this texture for use in OpenGl
+    /// Binds this texture for use in OpenGL
+    /// Using multiple textures in a single shader
+    /// <code>
+    /// # In Glsl shader
+    /// uniform sampler2D tex1
+    /// uniform sampler2D tex2
+    /// # In C#
+    /// var a = new Texture(...)
+    /// var b = new Texture(...)
+    /// a.Bind(TextureUnit.Texture0)
+    /// b.Bind(TextureUnit.Texture1)
+    /// # a will be bound to tex1 and b will be bound to tex 2
+    /// </code>
+    /// <param name="unit">The texture unit to bind this texture to. Useful when you want to use multiple textures in a shader program</param>
     /// </summary>
-    public void Bind()
+    public void Bind(TextureUnit unit=TextureUnit.Texture0)
     {
+        Gl.ActiveTexture(unit);
         Gl.BindTexture(TextureTarget.Texture2d, texureId);
     }
     

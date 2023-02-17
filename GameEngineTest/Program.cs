@@ -23,7 +23,7 @@ public class Program
                 ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader),
                 ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader)
         });
-
+        shader.SetUniform("test",1f);
         
         var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
 
@@ -46,7 +46,7 @@ public class Program
         Game.GameLoopDraw += () =>
         {
             shader.Use();
-            shader.SetUniform("test",1f);
+
             texture.Bind();
             o.Draw();
         };
