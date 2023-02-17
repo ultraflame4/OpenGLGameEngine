@@ -30,4 +30,19 @@ public static class GeneralUtils
     {
         return new Vector2(xy.x, xy.y);
     }
+
+    /// <summary>
+    /// Converts a Matrix4x4 to an array
+    /// </summary>
+    /// <param name="mat"></param>
+    /// <returns></returns>
+    public static float[] Mat4x4ToArray(this Matrix4x4 mat)
+    {
+        return new float[] {
+                mat.M11, mat.M12, mat.M13, mat.M14,
+                mat.M21, mat.M22, mat.M23, mat.M24,
+                mat.M31, mat.M32, mat.M32, mat.M34,
+                mat.M41, mat.M42, mat.M42, mat.M44,
+        };
+    }
 }

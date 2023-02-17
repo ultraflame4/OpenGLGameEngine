@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Utils;
@@ -29,7 +30,7 @@ public class Shader
     {
         Gl.UseProgram(shaderProgram);
     }
-
+    
     public int GetUniformLocation(string name)
     {
         int uniformLocation = Gl.GetUniformLocation(shaderProgram, name);
@@ -82,5 +83,14 @@ public class Shader
         if (uniformLocation==-1) return;
         AutoUse(callerFile,lineno);
         Gl.Uniform1f(uniformLocation,1,value);
+    }
+    
+    public void SetUniform(string name, Matrix4x4 value,[CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
+    {
+        int uniformLocation = GetUniformLocation(name);
+        if (uniformLocation==-1) return;
+        AutoUse(callerFile,lineno);
+        
+        Gl.UniformMatrix4f(uniformLocation,1,false,ref value);
     }
 }
