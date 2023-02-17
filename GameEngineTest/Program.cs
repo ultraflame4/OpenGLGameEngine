@@ -24,11 +24,11 @@ public class Program
                 ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader),
                 ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader)
         });
-        shader.SetUniform("test",1f);
-        
+
         var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
 
-        var transformMatrix = Matrix4x4.CreateTranslation(new Vector3(1f,0,0));
+        
+        var transformMatrix = Matrix4x4.CreateTranslation(new Vector3(0.5f,0,0)) * Matrix4x4.CreateRotationZ(0.4363f) * Matrix4x4.CreateScale(0.5f);
         shader.SetUniform("transform",transformMatrix);
         
         float[] v1 = {

@@ -27,6 +27,7 @@
     <ItemGroup>
       <PackageReference Include="glfw-net" Version="3.3.1" />
       <PackageReference Include="NLog" Version="5.0.4" />
+      <PackageReference Include="OpenGL.Net.Math" Version="0.8.4" />
       <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     </ItemGroup>
 

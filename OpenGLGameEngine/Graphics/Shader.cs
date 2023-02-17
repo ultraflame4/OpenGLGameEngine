@@ -90,7 +90,6 @@ public class Shader
         int uniformLocation = GetUniformLocation(name);
         if (uniformLocation==-1) return;
         AutoUse(callerFile,lineno);
-        
-        Gl.UniformMatrix4f(uniformLocation,1,false,ref value);
+        Gl.UniformMatrix4f(uniformLocation,1,false, value);
     }
 }
