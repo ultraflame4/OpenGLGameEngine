@@ -6,6 +6,7 @@ using OpenGLGameEngine.Utils;
 using ErrorCode = GLFW.ErrorCode;
 using Monitor = GLFW.Monitor;
 using OpenGL;
+using OpenGLGameEngine.Graphics;
 
 namespace OpenGLGameEngine;
 
@@ -99,6 +100,9 @@ public static class Game
 
         Glfw.SwapInterval(1);
         Gl.Enable(EnableCap.DepthTest);
+        
+        Texture.ConfigureOpenGl();
+        
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
         logger.Info("Loading defaults...");
         LoadDefaults();
