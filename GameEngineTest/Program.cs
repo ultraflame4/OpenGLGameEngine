@@ -43,16 +43,14 @@ public class Program
         int fov = 90;
         var proj = Matrix4x4.CreatePerspectiveFieldOfView((float)Utils.Deg2Rad(fov), WindowUtils.GetAspectRatio(), 0.01f, 100f);
 
+        var o = new VertexRenderObject(v1, 8, t1);
+        o.SetVertexAttrib(0, 3, 0);
+        o.SetVertexAttrib(1, 3, 3);
+        o.SetVertexAttrib(2, 2, 6);
 
         
         Game.GameLoopDraw += () =>
         {
-           
-            var o = new VertexRenderObject(v1, 8, t1);
-            o.SetVertexAttrib(0, 3, 0);
-            o.SetVertexAttrib(1, 3, 3);
-            o.SetVertexAttrib(2, 2, 6);
-            
             shader.Use();
             var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time) * Matrix4x4.CreateRotationX((float)Utils.Deg2Rad(45));
             var transformMatrix = rotation * Matrix4x4.CreateTranslation(new Vector3(0.5f, 0, -1f)) * Matrix4x4.CreateScale(0.5f) * proj;
@@ -60,7 +58,7 @@ public class Program
 
             texture.Bind();
             o.Draw();
-            o.Dispose();
+            
         };
         Game.Run();
     }

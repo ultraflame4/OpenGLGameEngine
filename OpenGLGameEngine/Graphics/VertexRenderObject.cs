@@ -28,12 +28,14 @@ namespace OpenGLGameEngine.Graphics;
 /// </code>
 /// This is essentially how we get around not being able to use classes to nicely classify the data
 /// </summary>
-public class VertexRenderObject : IDisposable
+public class VertexRenderObject 
 {
     public uint VertexBufferObject;
     public uint VertexArrayObject;
     public uint? ElementBufferObject = null;
     public int stride;
+    private readonly string callerFile;
+    private readonly int lineno;
     static Logger logger = LogManager.GetCurrentClassLogger();
     private int draw_count = 0;
 
@@ -62,9 +64,13 @@ public class VertexRenderObject : IDisposable
         float[] vertices,
         int stride,
         uint[]? indices = null,
-        BufferUsage usage = BufferUsage.StaticDraw)
+        BufferUsage usage = BufferUsage.StaticDraw,
+        [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1
+        )
     {
         this.stride = stride;
+        this.callerFile = callerFile;
+        this.lineno = lineno;
         VertexBufferObject = Gl.GenBuffer();
         VertexArrayObject = Gl.GenVertexArray();
 
@@ -118,7 +124,7 @@ public class VertexRenderObject : IDisposable
         Gl.GetInteger(GetPName.VertexArrayBinding, out int index_);
         if (VertexArrayObject != index_)
         {
-            logger.Warn($"{callerFile}(\n{lineno}) !! Current Bound Vertex Attribute Object (VAO) (current:{index_}, instance{index}) is not the one in this instance!");
+            logger.Warn($"{callerFile}({lineno}) !! Current Bound Vertex Attribute Object (VAO) (current:{index_}, instance{index}) is not the one in this instance!");
             logger.Warn("Will AutoBind!");
             Bind();
         }
@@ -148,14 +154,8 @@ public class VertexRenderObject : IDisposable
         }
     }
 
-    public void Dispose()
+    ~VertexRenderObject()
     {
-        if (ElementBufferObject is null)
-        {
-            Gl.DeleteBuffers(VertexArrayObject, VertexBufferObject);
-            return;
-        }
-
-        Gl.DeleteBuffers(VertexArrayObject, VertexBufferObject, (uint)ElementBufferObject);
+        logger.Warn($"{callerFile}({lineno})!!! Vertex Render Object is being deleted! This will cause memory leaks!!! Please change the contents of the buffer instead!");
     }
 }
