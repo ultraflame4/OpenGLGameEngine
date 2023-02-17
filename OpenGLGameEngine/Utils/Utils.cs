@@ -1,75 +1,44 @@
-﻿using System.Collections;
-using NLog;
-using NLog.Conditions;
-using NLog.Config;
-using NLog.Targets;
+﻿using System.Numerics;
 
 namespace OpenGLGameEngine.Utils;
 
 /// <summary>
-/// A general utility class that contain information about the game engine and various methods used internally.
-/// <br/>
-/// --- <b>Avoid trying to set or change any variables defined, or calling any methods in here!</b> ----
+/// A general utility class that has useful functions
 /// </summary>
 public static class Utils
 {
-    public static string VERSION = "0.0.0-dev";
-
-
-    public static LoggingConfiguration GetNLogConfig()
+    /// <summary>
+    /// Returns the center position of an item using its top left position and size
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="w"></param>
+    /// <param name="h"></param>
+    public static (int x, int y) TopLeft2CenterPosition(int x, int y, int w, int h)
     {
-        string layout = "${longdate:universalTime=false} | ${level:uppercase=true:padding=-5} | " +
-                        "${logger} : ${message} ${exception}";
-        LoggingConfiguration config = new LoggingConfiguration();
-        FileTarget fileTarget = new FileTarget("logfile") {
-                FileName = "${basedir}/logs/" + $"OpenGLGameEngine_{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")}.log",
-                Layout = layout
-        };
-
-        ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget("logconsole") {
-                Layout = layout,
-                RowHighlightingRules = {
-                        new ConsoleRowHighlightingRule {
-                                Condition = ConditionParser.ParseExpression("level == LogLevel.Trace"),
-                                ForegroundColor = ConsoleOutputColor.Magenta
-                        },
-                        new ConsoleRowHighlightingRule {
-                                Condition = ConditionParser.ParseExpression("level == LogLevel.Debug"),
-                                ForegroundColor = ConsoleOutputColor.White
-                        },
-                        new ConsoleRowHighlightingRule {
-                                Condition = ConditionParser.ParseExpression("level == LogLevel.Info"),
-                                ForegroundColor = ConsoleOutputColor.Green
-                        },
-                        new ConsoleRowHighlightingRule {
-                                Condition = ConditionParser.ParseExpression("level == LogLevel.Warn"),
-                                ForegroundColor = ConsoleOutputColor.Yellow
-                        },
-                        new ConsoleRowHighlightingRule {
-                                Condition = ConditionParser.ParseExpression("level == LogLevel.Error"),
-                                ForegroundColor = ConsoleOutputColor.Red
-                        },
-                        new ConsoleRowHighlightingRule {
-                                Condition = ConditionParser.ParseExpression("level == LogLevel.Fatal"),
-                                ForegroundColor = ConsoleOutputColor.Red,
-                        }
-                }
-        };
-
-        config.AddRule(LogLevel.Debug, LogLevel.Fatal, consoleTarget);
-        config.AddRule(LogLevel.Debug, LogLevel.Fatal, fileTarget);
-        return config;
+        int cx = (int)MathF.Round(x + w / 2);
+        int cy = (int)MathF.Round(y + h / 2);
+        return (cx, cy);
     }
 
-    public static void ConfigureNLog(Logger logger)
+    /// <summary>
+    /// Converts a position (or any tuple with 2 integers) into a vector2
+    /// </summary>
+    /// <param name="xy"></param>
+    /// <returns></returns>
+    public static Vector2 xy2Vector2(this (int x, int y) xy)
     {
-        LogManager.Configuration = GetNLogConfig();
-        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
-        {
-            var e = (args.ExceptionObject as Exception);
-            logger.Fatal(e, $"A Fatal Unhandled Error has occured!------------------------------------------------\n");
+        return new Vector2(xy.x, xy.y);
+    }
 
-        };
-        logger.Info($"Loaded logging configuration.");
+    public static double Deg2Rad(int deg)
+    {
+        double radians = (Math.PI / 180) * deg;
+        return radians;
+    }
+    public static double Rad2Deg(int rad)
+    {
+        double deg = (180 / Math.PI) * rad;
+        return deg;
     }
 }

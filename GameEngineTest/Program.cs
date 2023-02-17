@@ -4,10 +4,10 @@ using OpenGLGameEngine;
 using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Utils;
 using System.Drawing;
-using System.Drawing.Imaging;
+
 using System.Numerics;
 using GLFW;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
+
 
 namespace GameEngineTest;
 
@@ -45,11 +45,14 @@ public class Program
         o.SetVertexAttrib(1, 3, 3);
         o.SetVertexAttrib(2, 2, 6);
 
+        int fov = 90;
+        var proj = Matrix4x4.CreatePerspectiveFieldOfView((float)Utils.Deg2Rad(fov), WindowUtils.GetAspectRatio(), 0.01f, 100f);
+
         Game.GameLoopDraw += () =>
         {
             shader.Use();
-            var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time)*Matrix4x4.CreateRotationX(0.43f);
-            var transformMatrix = rotation * Matrix4x4.CreateTranslation(new Vector3(0.5f,0,-1f)) * Matrix4x4.CreateScale(0.5f);
+            var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time)*Matrix4x4.CreateRotationX((float)Utils.Deg2Rad(45));
+            var transformMatrix = rotation * Matrix4x4.CreateTranslation(new Vector3(0.5f,0,-1f)) * Matrix4x4.CreateScale(0.5f) * proj;
             shader.SetUniform("transform",transformMatrix);
 
             texture.Bind();

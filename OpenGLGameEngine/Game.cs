@@ -31,8 +31,8 @@ public static class Game
 
     static Game()
     {
-        Utils.Utils.ConfigureNLog(logger);
-        logger.Info($"GameEngine version: {Utils.Utils.VERSION}");
+        Utils.CoreUtils.ConfigureNLog(logger);
+        logger.Info($"GameEngine version: {Utils.CoreUtils.VERSION}");
     }
 
 

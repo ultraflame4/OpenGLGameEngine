@@ -40,7 +40,17 @@ public static class WindowUtils
         logger.Debug($"Saved window spacial data (position and size) position: {last_x},{last_y} size: {last_w},{last_h}");
     }
 
+    public static (int width, int height) GetWindowSize()
+    {
+        return (last_w, last_h);
+    }
 
+    public static float GetAspectRatio()
+    {
+        var size = GetWindowSize();
+        return size.width / (float)size.height;
+    }
+    
     /// <summary>
     /// Returns the monitor closest to the window's central position.
     /// </summary>
@@ -53,7 +63,7 @@ public static class WindowUtils
         Glfw.GetWindowPosition(window, out winX, out winY);
         Glfw.GetWindowSize(window, out winW, out winH);
         // Get the position in the center & reassign existing variables
-        (winX, winY) = GeneralUtils.TopLeft2CenterPosition(winX, winY, winW, winH);
+        (winX, winY) = Utils.TopLeft2CenterPosition(winX, winY, winW, winH);
         // convert to vector for distance calculation
         Vector2 windowPosition = (winX, winY).xy2Vector2();
 
@@ -62,7 +72,7 @@ public static class WindowUtils
         for (var i = 0; i < monitors.Length; i++)
         {
             Monitor monitor = monitors[i];
-            Vector2 monitorPosition = GeneralUtils.TopLeft2CenterPosition(monitor.WorkArea.X, monitor.WorkArea.Y, monitor.WorkArea.Width, monitor.WorkArea.Height).xy2Vector2();
+            Vector2 monitorPosition = Utils.TopLeft2CenterPosition(monitor.WorkArea.X, monitor.WorkArea.Y, monitor.WorkArea.Width, monitor.WorkArea.Height).xy2Vector2();
 
             float currentDist = Vector2.Distance(windowPosition, monitorPosition);
 
