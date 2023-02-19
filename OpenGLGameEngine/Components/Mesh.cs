@@ -7,10 +7,8 @@ namespace OpenGLGameEngine.Components;
 public class Mesh : IComponent
 {
     public readonly bool TexturesEnabled;
-
     
     private float[] _vertices;
-    
 
     private VertexRenderObject vro;
 
@@ -18,6 +16,8 @@ public class Mesh : IComponent
     public const int PositionStride = 3;
     public const int ColourStride = 3;
 
+    public Texture? texture;
+    
     public Mesh(bool enableTextures)
     {
         TexturesEnabled = enableTextures;
@@ -46,25 +46,29 @@ public class Mesh : IComponent
             setter.TexCoord=current.TexCoord;
 
         }
-        
+
         vro.SetVertices(_vertices);
-        
     }
     
     public MeshVertex GetVertex(int index)
     {
         return new MeshVertex(_vertices, index, TexturesEnabled);
     }
-    
-    
+
+
     public int GetVertexCount()
     {
         return _vertices.Length / vro.stride;
     }
-    
+
     public void SetTriangles(params uint[] triangles)
     {
         vro.SetTriangles(triangles);
+    }
+    
+    public void SetTexture(Texture texture)
+    {
+        this.texture = texture;
     }
 
     /// <summary>
@@ -72,6 +76,11 @@ public class Mesh : IComponent
     /// </summary>
     public void Draw()
     {
+        if (TexturesEnabled)
+        {
+            texture?.Bind();
+        }
+
         vro.Draw();
     }
 

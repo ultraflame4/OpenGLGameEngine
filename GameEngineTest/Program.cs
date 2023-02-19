@@ -41,6 +41,7 @@ public class Program
                 new MeshVertex(new Vector3(-1f, -1f, 0f),Color.Blue, new Vector2(0f, 0f))
         );
         mesh.SetTriangles(0, 2, 1, 0, 3, 2);
+        mesh.SetTexture(texture);
         
         // float[] v1 = {
         //         // contains both position and color and texture
@@ -76,8 +77,7 @@ public class Program
             shader.SetUniform("transform", transformMatrix);
 
             // todo In the future, texture.Bind and mesh.Draw should be called by their respective systems in the ECS framework.
-            texture.Bind(); 
-            // o.Draw();
+            
             mesh.Draw();
             
         };
