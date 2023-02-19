@@ -36,7 +36,7 @@ public static class Utils
         double radians = (Math.PI / 180) * deg;
         return radians;
     }
-    public static double Rad2Deg(int rad)
+    public static double Rad2Deg(double rad)
     {
         double deg = (180 / Math.PI) * rad;
         return deg;

@@ -6,9 +6,18 @@
 public class World
 {
     uint id_counter = 0;
-
+    private static World instance;
     private List<uint> entities = new();
 
+    public static World GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new World();
+        }
+        return instance;
+    }
+    
     public Entity createEntity()
     {
         uint id = id_counter;

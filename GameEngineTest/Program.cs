@@ -6,6 +6,8 @@ using OpenGLGameEngine.Utils;
 using System.Drawing;
 using System.Numerics;
 using GLFW;
+using OpenGLGameEngine.ECS;
+using OpenGLGameEngine.ECS.DefaultComponents;
 
 
 namespace GameEngineTest;
@@ -26,6 +28,11 @@ public class Program
         });
 
         var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
+
+        var testEntity = World.GetInstance().createEntity();
+        var comp = testEntity.AddComponent(new Transform());
+        comp.scale = new Vector3(0.5f);
+
 
         float[] v1 = {
                 // contains both position and color and texture
@@ -52,8 +59,11 @@ public class Program
         Game.GameLoopDraw += () =>
         {
             shader.Use();
-            var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time) * Matrix4x4.CreateRotationX((float)Utils.Deg2Rad(45));
-            var transformMatrix = rotation * Matrix4x4.CreateTranslation(new Vector3(0.5f, 0, -1f)) * Matrix4x4.CreateScale(0.5f) * proj;
+            comp.rotation.X = (float)Glfw.Time * 1.5f;
+            comp.rotation.Y = (float)Glfw.Time;
+            comp.rotation.Z = (float)Glfw.Time;
+            // var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time) * Matrix4x4.CreateRotationX((float)Utils.Deg2Rad(45));
+            var transformMatrix =  comp.GetModelMatrix() * proj;
             shader.SetUniform("transform", transformMatrix);
 
             texture.Bind();
