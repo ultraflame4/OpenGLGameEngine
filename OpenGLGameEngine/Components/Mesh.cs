@@ -18,7 +18,7 @@ public class Mesh : IComponent
 
     public Texture? texture;
     
-    public Mesh(bool enableTextures)
+    public Mesh(bool enableTextures=false)
     {
         TexturesEnabled = enableTextures;
         int totalStride = PositionStride + ColourStride + (enableTextures ? TexCoordStride : 0); // Only add texture coords if textures are enabled
