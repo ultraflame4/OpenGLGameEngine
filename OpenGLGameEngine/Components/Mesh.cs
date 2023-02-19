@@ -18,6 +18,10 @@ public class Mesh : IComponent
 
     public Texture? texture;
     
+    /// <summary>
+    /// Creates a new mesh
+    /// </summary>
+    /// <param name="enableTextures">Whether to enable the use pf textures or not. Textures can still be disabled later using the TexturesEnabled property. However when set to false initially, textures cannot be applied later on.</param>
     public Mesh(bool enableTextures=false)
     {
         TexturesEnabled = enableTextures;
