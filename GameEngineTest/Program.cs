@@ -6,8 +6,8 @@ using OpenGLGameEngine.Utils;
 using System.Drawing;
 using System.Numerics;
 using GLFW;
+using OpenGLGameEngine.Components;
 using OpenGLGameEngine.ECS;
-using OpenGLGameEngine.ECS.DefaultComponents;
 
 
 namespace GameEngineTest;
@@ -32,28 +32,37 @@ public class Program
         var testEntity = World.GetInstance().createEntity();
         var comp = testEntity.AddComponent(new Transform());
         comp.scale = new Vector3(0.5f);
-
-
-        float[] v1 = {
-                // contains both position and color and texture
-                -1f, 1f, 0f, 1f, 0f, 0f, 0f, 1f,
-                1f, 1f, 0f, 0f, 1f, 0f, 1f, 1f,
-                1f, -1f, 0f, 0f, 0f, 1f, 1f, 0f,
-                -1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f
-        };
-        uint[] t1 = {
-                0, 2, 1, 0, 3, 2
-        };
-
+        
+        var mesh = testEntity.AddComponent(new Mesh(true));
+        mesh.SetVertices(
+                new MeshVertex(new Vector3(-1f, 1f, 0f),Color.Red, new Vector2(0f, 1f)),
+                new MeshVertex(new Vector3(1f, 1f, 0f),Color.Lime, new Vector2(1f, 1f)),
+                new MeshVertex(new Vector3(1f, -1f, 0f),Color.Blue, new Vector2(1f, 0f)),
+                new MeshVertex(new Vector3(-1f, -1f, 0f),Color.Blue, new Vector2(0f, 0f))
+        );
+        mesh.SetTriangles(0, 2, 1, 0, 3, 2);
+        // float[] v1 = {
+        //         // contains both position and color and texture
+        //         -1f, 1f, 0f, 1f, 0f, 0f, 0f, 1f,
+        //         1f, 1f, 0f, 0f, 1f, 0f, 1f, 1f,
+        //         1f, -1f, 0f, 0f, 0f, 1f, 1f, 0f,
+        //         -1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f
+        // };
+        // uint[] t1 = {
+        //         0, 2, 1, 0, 3, 2
+        // };
+        //
 
 
         int fov = 90;
         var proj = Matrix4x4.CreatePerspectiveFieldOfView((float)Utils.Deg2Rad(fov), WindowUtils.GetAspectRatio(), 0.01f, 100f);
 
-        var o = new VertexRenderObject(v1, 8, t1);
-        o.SetVertexAttrib(0, 3, 0);
-        o.SetVertexAttrib(1, 3, 3);
-        o.SetVertexAttrib(2, 2, 6);
+        // var o = new VertexRenderObject(Array.Empty<float>(), 8);
+        // o.SetVertices(v1);
+        // o.SetTriangles(t1);
+        // o.SetVertexAttrib(0, 3, 0);
+        // o.SetVertexAttrib(1, 3, 3);
+        // o.SetVertexAttrib(2, 2, 6);
 
         
         Game.GameLoopDraw += () =>
@@ -67,7 +76,8 @@ public class Program
             shader.SetUniform("transform", transformMatrix);
 
             texture.Bind();
-            o.Draw();
+            // o.Draw();
+            mesh.Draw();
             
         };
         Game.Run();

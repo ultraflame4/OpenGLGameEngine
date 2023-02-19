@@ -28,7 +28,7 @@ namespace OpenGLGameEngine.Graphics;
 /// </code>
 /// This is essentially how we get around not being able to use classes to nicely classify the data
 /// </summary>
-public class VertexRenderObject 
+public class VertexRenderObject
 {
     public uint VertexBufferObject;
     public uint VertexArrayObject;
@@ -37,7 +37,8 @@ public class VertexRenderObject
     private readonly string callerFile;
     private readonly int lineno;
     static Logger logger = LogManager.GetCurrentClassLogger();
-    private int draw_count = 0;
+    private int draw_count = 0; // number of triangles to draw
+    private BufferUsage bufferUsage;
 
     ///  <summary>
     ///  <b>BufferUsage Guide:</b>
@@ -66,30 +67,42 @@ public class VertexRenderObject
         uint[]? indices = null,
         BufferUsage usage = BufferUsage.StaticDraw,
         [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1
-        )
+    )
     {
         this.stride = stride;
         this.callerFile = callerFile;
         this.lineno = lineno;
+        bufferUsage = usage;
+
         VertexBufferObject = Gl.GenBuffer();
         VertexArrayObject = Gl.GenVertexArray();
-
-        Bind(); // Bind so we can use the VAO we created earlier
-
-        Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject); // Bind the VBO to the VAO
-        Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, usage); // Set some configs
-
+        
+        SetVertices(vertices);
         if (indices is not null)
         {
-            ElementBufferObject = Gl.GenBuffer(); // If we using indices for triangles, create a buffer for it also
-            draw_count = indices.Length; // number of triangles to draw
-            Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)ElementBufferObject); // bind the EBO to the VAO
-            Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(int)), indices, usage); // do some config for EBO
+            SetTriangles(indices);
         }
-        else
+    }
+
+    public void SetVertices(float[] vertices)
+    {
+        Bind();
+        Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject); // Bind the VBO to the VAO and so we can put data into the buffer
+        Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, bufferUsage); // put in data
+        draw_count = vertices.Length / stride;
+    }
+
+    public void SetTriangles(uint[] indices)
+    {
+        Bind();
+        if (ElementBufferObject is null)
         {
-            draw_count = vertices.Length / stride;
+            ElementBufferObject = Gl.GenBuffer(); // If we have not created an EBO, create one
         }
+        
+        draw_count = indices.Length; // number of triangles to draw
+        Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)ElementBufferObject); // bind the EBO to the VAO
+        Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(uint)), indices, bufferUsage); // do some config for EBO
     }
 
     /// <summary>

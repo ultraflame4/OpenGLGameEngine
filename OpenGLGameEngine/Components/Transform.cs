@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
+using OpenGLGameEngine.ECS;
 
-namespace OpenGLGameEngine.ECS.DefaultComponents;
+namespace OpenGLGameEngine.Components;
 
 public class Transform : IComponent
 {
