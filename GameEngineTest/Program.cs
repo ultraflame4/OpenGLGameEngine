@@ -61,15 +61,15 @@ public class Program
         // o.SetVertexAttrib(2, 2, 6);
 
 
-        int fov = 90;
+        int fov = 80;
         var proj = Matrix4x4.CreatePerspectiveFieldOfView((float)Utils.Deg2Rad(fov), WindowUtils.GetAspectRatio(), 0.01f, 100f);
 
         
         Game.GameLoopDraw += () =>
         {
             shader.Use();
-            comp.rotation.X = (float)Glfw.Time * 1.5f;
-            comp.rotation.Y = (float)Glfw.Time;
+            comp.rotation.X = (float)Glfw.Time * 2f;
+            comp.rotation.Y = (float)Glfw.Time * 1.25f;
             comp.rotation.Z = (float)Glfw.Time;
             // var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time) * Matrix4x4.CreateRotationX((float)Utils.Deg2Rad(45));
             var transformMatrix =  comp.GetModelMatrix() * proj;
