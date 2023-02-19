@@ -20,6 +20,8 @@ public class Program
     {
         Console.WriteLine("Hello World!");
         Game.Create("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
+        var world = World.GetInstance();
+        world.AddProcessor(new MeshRenderer());
 
 
         Shader shader = new Shader(new[] {
@@ -29,7 +31,7 @@ public class Program
 
         var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
 
-        var testEntity = World.GetInstance().createEntity();
+        var testEntity = world.createEntity();
         var comp = testEntity.AddComponent(new Transform());
         comp.scale = new Vector3(0.5f);
         
@@ -68,6 +70,7 @@ public class Program
         
         Game.GameLoopDraw += () =>
         {
+            // todo in future move shaders and matrixs code to the camera component
             shader.Use();
             comp.rotation.X = (float)Glfw.Time * 2f;
             comp.rotation.Y = (float)Glfw.Time * 1.25f;
@@ -76,9 +79,8 @@ public class Program
             var transformMatrix =  comp.GetModelMatrix() * proj;
             shader.SetUniform("transform", transformMatrix);
 
-            // todo In the future, texture.Bind and mesh.Draw should be called by their respective systems in the ECS framework.
             
-            mesh.Draw();
+            world.RunProcessors();
             
         };
         Game.Run();

@@ -1,4 +1,6 @@
-﻿namespace OpenGLGameEngine.ECS;
+﻿using NLog;
+
+namespace OpenGLGameEngine.ECS;
 
 /// <summary>
 /// Represents a single context or world in the ECS
@@ -8,6 +10,8 @@ public class World
     uint id_counter = 0;
     private static World instance;
     private List<uint> entities = new();
+    private List<IProcessor> processors = new();
+    static Logger logger = LogManager.GetCurrentClassLogger();
 
     public static World GetInstance()
     {
@@ -24,18 +28,33 @@ public class World
         id_counter++;
         return new Entity(id_counter, this);
     }
-
-    /// <summary>
-    /// Adds a component to the entity.
-    /// 
-    /// Note that it is completely up to the user to keep track of what components are on what entities. And what components each entities have.
-    /// </summary>
-    /// <param name="componentInstance">The component to add to the entity</param>
-    /// <returns>The component that was added</returns>
-    public T EntityAddComponent<T>(T componentInstance) where T : IComponent
+    
+    public T? GetProcessor<T>() where T : class, IProcessor, new()
     {
-        return componentInstance;
+        foreach (var processor in processors)
+        {
+            if (processor is T)
+            {
+                return (T) processor;
+            }
+        }
+        logger.Warn( $"Processor of type {typeof(T)} not found!");
+        
+        return null;
+    }
+
+    public void AddProcessor(IProcessor processor)
+    {
+        processors.Add(processor);
     }
     
-    
+    public void RemoveProcessor(IProcessor processor)
+    {
+        processors.Remove(processor);
+    }
+
+    public void RunProcessors()
+    {
+        processors.ForEach(processor => processor.processComponents());
+    }
 }

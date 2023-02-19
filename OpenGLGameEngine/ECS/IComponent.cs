@@ -2,6 +2,9 @@
 
 public interface IComponent
 {
+    
+    bool Enabled { get; set; }
+    
     /// <summary>
     /// Called when the component is added to an entity. If needed, this should add itself to the processors.
     ///

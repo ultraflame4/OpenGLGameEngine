@@ -88,7 +88,15 @@ public class Mesh : IComponent
         vro.Draw();
     }
 
-    public void OnAdd() { }
+    public bool Enabled { get; set; } = true;
 
-    public void OnRemove() { }
+    public void OnAdd()
+    {
+        World.GetInstance().GetProcessor<MeshRenderer>()?.addComponent(this);
+    }
+
+    public void OnRemove()
+    {
+        World.GetInstance().GetProcessor<MeshRenderer>()?.removeComponent(this);
+    }
 }

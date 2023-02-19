@@ -13,11 +13,12 @@ public class Transform : IComponent
 
     public void OnRemove() { }
 
-
     public Matrix4x4 TransformMatrix =>
             Matrix4x4.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z) *
             Matrix4x4.CreateScale(scale) *
             Matrix4x4.CreateTranslation(position);
+
+    public bool Enabled { get; set; } = true;
 
     public Matrix4x4 GetModelMatrix()
     {
