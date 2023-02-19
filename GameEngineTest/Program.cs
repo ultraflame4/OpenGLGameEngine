@@ -75,7 +75,8 @@ public class Program
             var transformMatrix =  comp.GetModelMatrix() * proj;
             shader.SetUniform("transform", transformMatrix);
 
-            texture.Bind();
+            // todo In the future, texture.Bind and mesh.Draw should be called by their respective systems in the ECS framework.
+            texture.Bind(); 
             // o.Draw();
             mesh.Draw();
             
