@@ -41,6 +41,7 @@ public class Program
                 new MeshVertex(new Vector3(-1f, -1f, 0f),Color.Blue, new Vector2(0f, 0f))
         );
         mesh.SetTriangles(0, 2, 1, 0, 3, 2);
+        
         // float[] v1 = {
         //         // contains both position and color and texture
         //         -1f, 1f, 0f, 1f, 0f, 0f, 0f, 1f,
@@ -52,17 +53,16 @@ public class Program
         //         0, 2, 1, 0, 3, 2
         // };
         //
-
-
-        int fov = 90;
-        var proj = Matrix4x4.CreatePerspectiveFieldOfView((float)Utils.Deg2Rad(fov), WindowUtils.GetAspectRatio(), 0.01f, 100f);
-
         // var o = new VertexRenderObject(Array.Empty<float>(), 8);
         // o.SetVertices(v1);
         // o.SetTriangles(t1);
         // o.SetVertexAttrib(0, 3, 0);
         // o.SetVertexAttrib(1, 3, 3);
         // o.SetVertexAttrib(2, 2, 6);
+
+
+        int fov = 90;
+        var proj = Matrix4x4.CreatePerspectiveFieldOfView((float)Utils.Deg2Rad(fov), WindowUtils.GetAspectRatio(), 0.01f, 100f);
 
         
         Game.GameLoopDraw += () =>
