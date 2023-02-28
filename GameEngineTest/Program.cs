@@ -9,6 +9,8 @@ using OpenGLGameEngine.Utils;
 
 using OpenGLGameEngine.Components;
 using OpenGLGameEngine.Components.Mesh;
+using OpenGLGameEngine.Core;
+using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Processors;
 
 
@@ -21,7 +23,7 @@ public class Program
     public static void Main(string[] args)
     {
         Console.WriteLine("Hello World!");
-        Game.Create("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
+        GameWindow.Create("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
         
         var world = GameWorld.GetInstance();
         GameWorld.GlobalShader = new Shader(new[] {
@@ -52,7 +54,7 @@ public class Program
 
 
         
-        Game.GameLoopDraw += () =>
+        GameWindow.GameLoopDraw += () =>
         {
             testTransform.rotation.X = (float)Glfw.Time * 2f;
             testTransform.rotation.Y = (float)Glfw.Time * 1.25f;
@@ -60,6 +62,6 @@ public class Program
             world.RunProcessors();
             
         };
-        Game.Run();
+        GameWindow.Run();
     }
 }
