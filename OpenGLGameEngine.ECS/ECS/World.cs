@@ -1,5 +1,4 @@
 ﻿using NLog;
-using OpenGLGameEngine.Components;
 
 namespace OpenGLGameEngine.ECS;
 

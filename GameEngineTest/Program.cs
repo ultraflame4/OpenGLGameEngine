@@ -3,11 +3,9 @@ using OpenGL;
 using OpenGLGameEngine;
 using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Utils;
-using System.Drawing;
-using System.Numerics;
-using GLFW;
+
 using OpenGLGameEngine.Components;
-using OpenGLGameEngine.ECS;
+
 using OpenGLGameEngine.Game;
 
 
