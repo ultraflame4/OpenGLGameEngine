@@ -1,9 +1,8 @@
 ﻿using NLog;
+using OpenGLGameEngine.Components.Mesh;
 using OpenGLGameEngine.ECS;
-using OpenGLGameEngine.Game;
-using OpenGLGameEngine.Graphics;
 
-namespace OpenGLGameEngine.Components;
+namespace OpenGLGameEngine.Processors;
 
 public class MeshRenderer : Processor<Mesh>
 {

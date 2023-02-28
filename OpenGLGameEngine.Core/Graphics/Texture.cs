@@ -4,7 +4,7 @@ using NLog;
 using OpenGL;
 using PixelFormat = OpenGL.PixelFormat;
 
-namespace OpenGLGameEngine.Graphics;
+namespace OpenGLGameEngine.Core.Graphics;
 
 public class Texture
 {

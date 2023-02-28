@@ -1,9 +1,9 @@
-﻿using NLog;
+﻿using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.ECS;
-using OpenGLGameEngine.Game;
 using OpenGLGameEngine.Graphics;
+using OpenGLGameEngine.Processors;
 
-namespace OpenGLGameEngine.Components;
+namespace OpenGLGameEngine.Components.Mesh;
 
 public class Mesh : IComponent
 {

@@ -1,12 +1,12 @@
-﻿
-using System.Numerics;
-using OpenGLGameEngine.Components;
+﻿using System.Numerics;
 using OpenGLGameEngine.ECS;
 using OpenGLGameEngine.Utils;
 
+namespace OpenGLGameEngine.Components;
+
 public class Camera : IComponent
 {
-    public static double DEFAULT_FOV = Utils.Deg2Rad(45);
+    public static double DEFAULT_FOV = Utils.Utils.Deg2Rad(45);
 
 
     public bool Enabled { get; set; } = true;

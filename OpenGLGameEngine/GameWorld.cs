@@ -2,7 +2,7 @@
 using OpenGLGameEngine.ECS;
 using OpenGLGameEngine.Graphics;
 
-namespace OpenGLGameEngine.Game;
+namespace OpenGLGameEngine;
 
 public class GameWorld : World
 {

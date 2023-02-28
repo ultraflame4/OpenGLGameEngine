@@ -1,6 +1,6 @@
 ﻿using GLFW;
 using NLog;
-using OpenGLGameEngine.Game;
+using OpenGLGameEngine.Inputs;
 
 namespace OpenGLGameEngine;
 

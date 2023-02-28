@@ -42,6 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\OpenGLGameEngine.Core\OpenGLGameEngine.Core.csproj" />
       <ProjectReference Include="..\OpenGLGameEngine.ECS\OpenGLGameEngine.ECS.csproj" />
     </ItemGroup>
 

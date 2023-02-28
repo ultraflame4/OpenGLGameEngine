@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Numerics;
 
-namespace OpenGLGameEngine.Components;
+namespace OpenGLGameEngine.Components.Mesh;
 
 /// <summary>
 /// Utility class to make accessing mesh vertices easier and hides behind the terrifying single array non-OOP mess

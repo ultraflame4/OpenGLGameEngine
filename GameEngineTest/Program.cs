@@ -8,8 +8,8 @@ using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Utils;
 
 using OpenGLGameEngine.Components;
-
-using OpenGLGameEngine.Game;
+using OpenGLGameEngine.Components.Mesh;
+using OpenGLGameEngine.Processors;
 
 
 namespace GameEngineTest;

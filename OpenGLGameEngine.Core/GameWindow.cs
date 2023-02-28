@@ -2,12 +2,12 @@
 using GLFW;
 using NLog;
 using OpenGL;
-using OpenGLGameEngine.Graphics;
+using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Utils;
 using ErrorCode = GLFW.ErrorCode;
 using Monitor = GLFW.Monitor;
 
-namespace OpenGLGameEngine.Game;
+namespace OpenGLGameEngine.Core;
 
 /// <summary>
 /// The class containing the game loop and creation of window.
@@ -15,7 +15,7 @@ namespace OpenGLGameEngine.Game;
 /// <br/>
 /// * portions of the code were modified and copied from https://gist.github.com/dcronqvist/4e83dc3a4defe5780f1d4b6cac7558f6
 /// </summary>
-public static class Game
+public static class GameWindow
 {
     static Logger logger = NLog.LogManager.GetCurrentClassLogger();
     static Window window;
@@ -28,7 +28,7 @@ public static class Game
     public static event Action GameLoopDraw;
     public static event Action GameLoopUpdate;
 
-    static Game()
+    static GameWindow()
     {
         Utils.CoreUtils.ConfigureNLog(logger);
         logger.Info($"GameEngine version: {Utils.CoreUtils.VERSION}");
