@@ -1,13 +1,15 @@
 ﻿using NLog;
 using OpenGLGameEngine.ECS;
+using OpenGLGameEngine.Game;
 using OpenGLGameEngine.Graphics;
 
 namespace OpenGLGameEngine.Components;
 
 public class Mesh : IComponent
 {
+    public Transform transform;
     public readonly bool TexturesEnabled;
-    
+
     private float[] _vertices;
 
     private VertexRenderObject vro;
@@ -17,13 +19,15 @@ public class Mesh : IComponent
     public const int ColourStride = 3;
 
     public Texture? texture;
-    
+
     /// <summary>
     /// Creates a new mesh
     /// </summary>
+    /// <param name="transform"></param>
     /// <param name="enableTextures">Whether to enable the use of textures or not. </param>
-    public Mesh(bool enableTextures=false)
+    public Mesh(Transform transform, bool enableTextures = false)
     {
+        this.transform = transform;
         TexturesEnabled = enableTextures;
         int totalStride = PositionStride + ColourStride + (enableTextures ? TexCoordStride : 0); // Only add texture coords if textures are enabled
 
@@ -45,15 +49,14 @@ public class Mesh : IComponent
             var current = meshVertices[i];
             // Use the properties in the MeshVertex class to set the values in the vertices array because im lazy
             var setter = new MeshVertex(_vertices, i, TexturesEnabled);
-            setter.Position=current.Position;
-            setter.Color_=current.Color_;
-            setter.TexCoord=current.TexCoord;
-
+            setter.Position = current.Position;
+            setter.Color_ = current.Color_;
+            setter.TexCoord = current.TexCoord;
         }
 
         vro.SetVertices(_vertices);
     }
-    
+
     public MeshVertex GetVertex(int index)
     {
         return new MeshVertex(_vertices, index, TexturesEnabled);
@@ -69,7 +72,7 @@ public class Mesh : IComponent
     {
         vro.SetTriangles(triangles);
     }
-    
+
     public void SetTexture(Texture texture)
     {
         this.texture = texture;
@@ -84,7 +87,6 @@ public class Mesh : IComponent
         {
             texture?.Bind();
         }
-
         vro.Draw();
     }
 
@@ -92,11 +94,11 @@ public class Mesh : IComponent
 
     public void OnAdd()
     {
-        World.GetInstance().GetProcessor<MeshRenderer>()?.addComponent(this);
+        GameWorld.GetInstance().GetProcessor<MeshRenderer>()?.addComponent(this);
     }
 
     public void OnRemove()
     {
-        World.GetInstance().GetProcessor<MeshRenderer>()?.removeComponent(this);
+        GameWorld.GetInstance().GetProcessor<MeshRenderer>()?.removeComponent(this);
     }
 }

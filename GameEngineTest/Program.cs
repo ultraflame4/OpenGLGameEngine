@@ -8,6 +8,7 @@ using System.Numerics;
 using GLFW;
 using OpenGLGameEngine.Components;
 using OpenGLGameEngine.ECS;
+using OpenGLGameEngine.Game;
 
 
 namespace GameEngineTest;
@@ -20,22 +21,25 @@ public class Program
     {
         Console.WriteLine("Hello World!");
         Game.Create("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
-        var world = World.GetInstance();
+        var world = GameWorld.GetInstance();
         world.AddProcessor(new MeshRenderer());
 
-
-        Shader shader = new Shader(new[] {
+        
+        world.CreateMainCamera();
+        GameWorld.GlobalShader = new Shader(new[] {
                 ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader),
                 ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader)
         });
 
         var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
 
-        var testEntity = world.createEntity();
+
+
+        var testEntity = world.CreateEntity();
         var comp = testEntity.AddComponent(new Transform());
         comp.scale = new Vector3(0.5f);
         
-        var mesh = testEntity.AddComponent(new Mesh(true));
+        var mesh = testEntity.AddComponent(new Mesh(comp,true));
         mesh.SetVertices(
                 new MeshVertex(new Vector3(-1f, 1f, 0f),Color.Red, new Vector2(0f, 1f)),
                 new MeshVertex(new Vector3(1f, 1f, 0f),Color.Lime, new Vector2(1f, 1f)),
@@ -71,14 +75,14 @@ public class Program
         Game.GameLoopDraw += () =>
         {
             // todo in future move shaders and matrixs code to the camera component
-            shader.Use();
+            // shader.Use();
             comp.rotation.X = (float)Glfw.Time * 2f;
             comp.rotation.Y = (float)Glfw.Time * 1.25f;
             comp.rotation.Z = (float)Glfw.Time;
-            // var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time) * Matrix4x4.CreateRotationX((float)Utils.Deg2Rad(45));
-            var transformMatrix =  comp.GetModelMatrix() * proj;
-            shader.SetUniform("transform", transformMatrix);
-
+            // // var rotation = Matrix4x4.CreateRotationY((float)Glfw.Time) * Matrix4x4.CreateRotationX((float)Utils.Deg2Rad(45));
+            // var transformMatrix =  comp.GetModelMatrix() * proj;
+            // shader.SetUniform("transform", transformMatrix);
+            //
             
             world.RunProcessors();
             

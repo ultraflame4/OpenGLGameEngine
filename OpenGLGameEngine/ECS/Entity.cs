@@ -36,6 +36,18 @@ public class Entity
         return component;
     }
     
+    public T? GetComponent<T>() where T : class, IComponent
+    {
+        foreach (var component in Components)
+        {
+            if (component.GetType() == typeof(T))
+            {
+                return (T) component;
+            }
+        }
+        return null;
+    }
+    
     public void Destroy()
     {
         Components.ForEach(x => x.OnRemove());

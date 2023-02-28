@@ -1,14 +1,13 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using GLFW;
 using NLog;
+using OpenGL;
+using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Utils;
 using ErrorCode = GLFW.ErrorCode;
 using Monitor = GLFW.Monitor;
-using OpenGL;
-using OpenGLGameEngine.Graphics;
 
-namespace OpenGLGameEngine;
+namespace OpenGLGameEngine.Game;
 
 /// <summary>
 /// The class containing the game loop and creation of window.

@@ -1,4 +1,5 @@
 ﻿using NLog;
+using OpenGLGameEngine.Components;
 
 namespace OpenGLGameEngine.ECS;
 
@@ -8,21 +9,12 @@ namespace OpenGLGameEngine.ECS;
 public class World
 {
     uint id_counter = 0;
-    private static World instance;
+    
     private List<uint> entities = new();
     private List<IProcessor> processors = new();
     static Logger logger = LogManager.GetCurrentClassLogger();
-
-    public static World GetInstance()
-    {
-        if (instance == null)
-        {
-            instance = new World();
-        }
-        return instance;
-    }
     
-    public Entity createEntity()
+    public Entity CreateEntity()
     {
         uint id = id_counter;
         id_counter++;
@@ -57,4 +49,5 @@ public class World
     {
         processors.ForEach(processor => processor.processComponents());
     }
+    
 }

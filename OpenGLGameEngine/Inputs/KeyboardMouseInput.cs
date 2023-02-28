@@ -1,5 +1,6 @@
 ﻿using GLFW;
 using NLog;
+using OpenGLGameEngine.Game;
 
 namespace OpenGLGameEngine;
 
@@ -8,7 +9,7 @@ namespace OpenGLGameEngine;
 /// <br/>
 /// Includes several related events and functions.
 /// <br/>
-/// For proper inputs controls, look at <see cref="OpenGLGameEngine.Game.CreateInputActonScheme"/>
+/// For proper inputs controls, look at <see cref="Game.CreateInputActonScheme"/>
 /// </summary>
 public static class KeyboardMouseInput
 {
