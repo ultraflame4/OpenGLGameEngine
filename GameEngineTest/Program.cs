@@ -23,7 +23,7 @@ public class Program
     public static void Main(string[] args)
     {
         Console.WriteLine("Hello World!");
-        GameWindow.Create("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
+        Game.Create("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
         
         var world = GameWorld.GetInstance();
         GameWorld.GlobalShader = new Shader(new[] {
@@ -54,7 +54,7 @@ public class Program
 
 
         
-        GameWindow.GameLoopDraw += () =>
+        Game.GameLoopDraw += () =>
         {
             testTransform.rotation.X = (float)Glfw.Time * 2f;
             testTransform.rotation.Y = (float)Glfw.Time * 1.25f;
@@ -62,6 +62,6 @@ public class Program
             world.RunProcessors();
             
         };
-        GameWindow.Run();
+        Game.Run();
     }
 }

@@ -15,7 +15,7 @@ namespace OpenGLGameEngine.Core;
 /// <br/>
 /// * portions of the code were modified and copied from https://gist.github.com/dcronqvist/4e83dc3a4defe5780f1d4b6cac7558f6
 /// </summary>
-public static class GameWindow
+public static class Game
 {
     static Logger logger = NLog.LogManager.GetCurrentClassLogger();
     static Window window;
@@ -28,7 +28,7 @@ public static class GameWindow
     public static event Action GameLoopDraw;
     public static event Action GameLoopUpdate;
 
-    static GameWindow()
+    static Game()
     {
         Utils.CoreUtils.ConfigureNLog(logger);
         logger.Info($"GameEngine version: {Utils.CoreUtils.VERSION}");
