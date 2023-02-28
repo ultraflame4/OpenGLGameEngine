@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="glfw-net" Version="3.3.1" />
+      <PackageReference Include="NLog" Version="5.1.2" />
+      <PackageReference Include="OpenGL.Net" Version="0.8.4" />
+      <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OpenGLGameEngine.Inputs\OpenGLGameEngine.Inputs.csproj" />
+    </ItemGroup>
+
+</Project>
