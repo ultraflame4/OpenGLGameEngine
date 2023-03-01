@@ -10,4 +10,4 @@ This repository consists of 2 main projects:
     1. [OpenGLGameEngine.Core](OpenGLGameEngine.Core) - The engine core, which deals with low <br/>
       level stuff like glfw and opengl.
    3. [OpenGLGameEngine.ECS](OpenGLGameEngine.ECS) - The basic Entity Component System used by the engine<br/>
-   4. [OpenGLGameEngine](OpenGLGameEngine) - The main package itself. This combines the packages above and provides the user with a simple api to use the engine.
+   4. [OpenGLGameEngine](OpenGLGameEngine) - The main project itself. This combines the projects above and provides the user with a simple api to use the engine.
