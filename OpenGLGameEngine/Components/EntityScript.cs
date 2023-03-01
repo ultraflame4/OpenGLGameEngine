@@ -22,7 +22,8 @@ public abstract class EntityScript : Component
     /// Use this method to load resources or any other assets or shaders
     /// to avoid big overhead computational costs.
     /// </summary>
-    public abstract void Load();
+    public virtual void Load() { }
+
     /// <summary>
     /// Called when the entity is added to the world. (During the game loop) and after the load method is called.<br/>
     /// Use this method when adding components.
@@ -36,10 +37,11 @@ public abstract class EntityScript : Component
     /// Called every frame. Put in any rendering or ui related code here.
     /// </summary>
     public abstract void Draw();
+
     /// <summary>
     /// Called after this component is removed from the processors due to various reasons (deletion of entity, removal of component etc.)
     /// Put in any cleanup code here to prevent memory leaks.
     /// </summary>
-    public abstract void Remove();
-    
+    public virtual void Remove() { }
+
 }
