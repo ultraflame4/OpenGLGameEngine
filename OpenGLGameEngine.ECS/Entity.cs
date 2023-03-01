@@ -24,14 +24,14 @@ public class Entity
 
     public T AddComponent<T>(T component) where T : IComponent
     {
-        component.OnAdd();
+        component.AddToEntity(this);
         Components.Add(component);
         return component;
     }
     
     public T RemoveComponent<T>(T component) where T : IComponent
     {
-        component.OnRemove();
+        component.RemoveFromEntity();
         Components.Remove(component);
         return component;
     }
