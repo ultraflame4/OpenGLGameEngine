@@ -6,7 +6,8 @@
 public class Entity
 {
     private uint entity_id;
-    private World worldInstance;
+    public World worldInstance { get; }
+
     /// <summary>
     /// List of components added to this entity
     /// </summary>
