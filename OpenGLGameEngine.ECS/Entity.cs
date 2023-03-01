@@ -50,6 +50,6 @@ public class Entity
     
     public void Destroy()
     {
-        Components.ForEach(x => x.OnRemove());
+        Components.ForEach(x => x.RemoveFromEntity());
     }
 }
