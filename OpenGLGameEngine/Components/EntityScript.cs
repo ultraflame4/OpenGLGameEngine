@@ -24,7 +24,8 @@ public abstract class EntityScript : Component
     /// </summary>
     public abstract void Load();
     /// <summary>
-    /// Called when the entity is added to the world. (During the game loop) and after the load method is called.
+    /// Called when the entity is added to the world. (During the game loop) and after the load method is called.<br/>
+    /// Use this method when adding components.
     /// </summary>
     public abstract void Start();
     /// <summary>

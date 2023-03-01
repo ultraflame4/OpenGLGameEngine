@@ -19,7 +19,38 @@ namespace GameEngineTest;
 public class Program
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
+ 
+    public class TestScript : EntityScript
+    {
+        public override void Load()
+        {
+                
+        }
 
+        public override void Start()
+        {
+            logger.Info("TestScript Start");
+        }
+
+        public override void Update()
+        {
+            
+        }
+
+        public override void Draw()
+        {
+            var testTransform = Entity?.GetComponent<Transform>();
+            if (testTransform == null) return;
+            testTransform.rotation.X = (float)Glfw.Time * 2f;
+            testTransform.rotation.Y = (float)Glfw.Time * 1.25f;
+            testTransform.rotation.Z = (float)Glfw.Time;
+        }
+
+        public override void Remove()
+        {
+                
+        }
+    }
     public static void Main(string[] args)
     {
         Console.WriteLine("Hello World!");
@@ -33,15 +64,15 @@ public class Program
         
         world.CreateMainCamera();
         
-        world.AddProcessor(new MeshRenderer());
+        var testEntity = world.CreateEntity();
+        
+        var testTransform = testEntity.AddComponent(new Transform());
+        var mesh = testEntity.AddComponent(new Mesh(testTransform,true));
+        var testScript = testEntity.AddComponent(new TestScript());
 
         
-        var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
-        
-        var testEntity = world.CreateEntity();
-        var testTransform = testEntity.AddComponent(new Transform());
         testTransform.scale = new Vector3(0.5f);
-        var mesh = testEntity.AddComponent(new Mesh(testTransform,true));
+        var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
         mesh.SetVertices(
                 new MeshVertex(new Vector3(-1f, 1f, 0f),Color.Red, new Vector2(0f, 1f)),
                 new MeshVertex(new Vector3(1f, 1f, 0f),Color.Lime, new Vector2(1f, 1f)),
@@ -51,17 +82,7 @@ public class Program
         
         mesh.SetTriangles(0, 2, 1, 0, 3, 2);
         mesh.SetTexture(texture);
-
-
         
-        GameWindow.GameLoopDraw += () =>
-        {
-            testTransform.rotation.X = (float)Glfw.Time * 2f;
-            testTransform.rotation.Y = (float)Glfw.Time * 1.25f;
-            testTransform.rotation.Z = (float)Glfw.Time;
-            world.RunProcessors();
-            
-        };
         Game.Start();
     }
 }
