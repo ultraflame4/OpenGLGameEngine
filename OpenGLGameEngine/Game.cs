@@ -40,7 +40,8 @@ public static class Game
     {
         logger.Info("-----------------Loading Defaults----------------------");
         LoadDefaults();
-        logger.Info("--------Loading Defaults END >>> Start Game Loop----------------");
+        logger.Info("--------Loading Defaults END >>> Starting Game Loop----------------");
+        CurrentWorld?.EntityScriptExecutor.ProcessStarts();
         GameWindow.GameLoopUpdate += () =>
         {
             CurrentWorld?.RunProcessors();
