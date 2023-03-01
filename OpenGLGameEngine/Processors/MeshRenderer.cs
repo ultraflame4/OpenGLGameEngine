@@ -26,9 +26,10 @@ public class MeshRenderer : Processor<Mesh>
         {
             if (mesh.Enabled)
             {
-                GameWorld.GlobalShader.Use();
+                var shader = mesh.Shader ?? GameWorld.GlobalShader;
+                shader.Use();
                 var transformMatrix = mesh.transform.GetModelMatrix() * GameWorld.MAIN_CAMERA.projMatrix;
-                GameWorld.GlobalShader.SetUniform("transform", transformMatrix);
+                shader.SetUniform("transform", transformMatrix);
                 mesh.Draw();
             }
         });

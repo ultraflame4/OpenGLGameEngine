@@ -19,6 +19,14 @@ public class Mesh : Component
 
     private readonly VertexRenderObject vro;
 
+    private Shader? shader = null;
+
+    public Shader? Shader
+    {
+        get => (shader ?? World.ToGameWorld()?.WorldShader) ?? GameWorld.GlobalShader;
+        set => shader = value;
+    }
+
     /// <summary>
     ///     Creates a new mesh
     /// </summary>
@@ -41,12 +49,13 @@ public class Mesh : Component
 
     public override void OnAdd()
     {
-        Game.GetCurrentWorld().GetProcessor<MeshRenderer>()?.addComponent(this);
+        logger.Info("Adding mesh to world!. Current World Type: {worldType}", World?.GetType());
+        World?.GetProcessor<MeshRenderer>()?.addComponent(this);
     }
 
     public override void OnRemove()
     {
-        Game.GetCurrentWorld().GetProcessor<MeshRenderer>()?.removeComponent(this);
+        World?.GetProcessor<MeshRenderer>()?.removeComponent(this);
     }
 
     public void SetVertices(params MeshVertex[] meshVertices)
