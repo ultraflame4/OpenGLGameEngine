@@ -15,12 +15,12 @@ public abstract class Processor<T> : IProcessor where T : IComponent
         
     }
 
-    public void addComponent(T component)
+    public virtual void addComponent(T component)
     {
         components.Add(component);
     }
     
-    public void removeComponent(T component)
+    public virtual void removeComponent(T component)
     {
         components.Remove(component);
     }
