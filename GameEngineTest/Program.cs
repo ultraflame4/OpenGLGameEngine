@@ -20,7 +20,7 @@ public class Program
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
  
-    public class TestScript : EntityObject
+    public class TestObject : EntityObject
     {
         private Mesh mesh;
         public override void Load()
@@ -74,7 +74,7 @@ public class Program
         
         world.CreateMainCamera();
         
-        world.AddEntityObject(new TestScript());
+        world.AddEntityObject(new TestObject());
         Game.Start();
     }
 }
