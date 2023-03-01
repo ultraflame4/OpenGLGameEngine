@@ -1,4 +1,6 @@
-﻿namespace OpenGLGameEngine.ECS;
+﻿using NLog;
+
+namespace OpenGLGameEngine.ECS;
 
 public interface IComponent
 {
@@ -10,21 +12,26 @@ public interface IComponent
 
 public abstract class Component : IComponent
 {
-    public Entity? AttachedEntity { get; private set; }
+    public Entity? Entity { get; private set; }
+
+    public World? World  => this.Entity?.worldInstance;
+
     public bool Enabled { get; set; }
 
     public void AddToEntity(Entity entity)
     {
-        AttachedEntity = entity;
         Enabled = true;
+        Entity = entity;
         OnAdd();
     }
 
     public void RemoveFromEntity()
     {
-        AttachedEntity = null;
+        Entity = null;
         OnRemove();
     }
+
+    public Logger logger { get; private set; } = LogManager.GetCurrentClassLogger();
 
     /// <summary>
     /// Called when the component is added to an entity. If needed, this should add itself to the processors.
