@@ -5,7 +5,7 @@ using OpenGLGameEngine.Processors;
 
 namespace OpenGLGameEngine.Components.Mesh;
 
-public class Mesh : IComponent
+public class Mesh : Component
 {
     public const int TexCoordStride = 2;
     public const int PositionStride = 3;
@@ -39,12 +39,12 @@ public class Mesh : IComponent
 
     public bool Enabled { get; set; } = true;
 
-    public void OnAdd()
+    public override void OnAdd()
     {
         Game.GetCurrentWorld().GetProcessor<MeshRenderer>()?.addComponent(this);
     }
 
-    public void OnRemove()
+    public override void OnRemove()
     {
         Game.GetCurrentWorld().GetProcessor<MeshRenderer>()?.removeComponent(this);
     }

@@ -4,7 +4,7 @@ using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components;
 
-public class Camera : IComponent
+public class Camera : Component
 {
     public static double DEFAULT_FOV = Utils.Utils.Deg2Rad(45);
     public Matrix4x4 projMatrix;
@@ -18,9 +18,8 @@ public class Camera : IComponent
 
     public bool Enabled { get; set; } = true;
 
-    public void OnAdd() { }
-
-    public void OnRemove() { }
+    public override void OnAdd() { }
+    public override void OnRemove() { }
 
 
     /// <summary>

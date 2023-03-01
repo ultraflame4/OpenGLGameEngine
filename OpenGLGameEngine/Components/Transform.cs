@@ -3,7 +3,7 @@ using OpenGLGameEngine.ECS;
 
 namespace OpenGLGameEngine.Components;
 
-public class Transform : IComponent
+public class Transform : Component
 {
     public Transform? parent;
     public Vector3 position = new(0, 0, -1f);
@@ -15,9 +15,9 @@ public class Transform : IComponent
             Matrix4x4.CreateScale(scale) *
             Matrix4x4.CreateTranslation(position);
 
-    public void OnAdd() { }
+    public override void OnAdd() { }
 
-    public void OnRemove() { }
+    public override void OnRemove() { }
 
     public bool Enabled { get; set; } = true;
 
