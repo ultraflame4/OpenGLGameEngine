@@ -13,7 +13,7 @@ public static class Extensions
     /// </summary>
     /// <param name="world"></param>
     /// <returns></returns>
-    public static GameWorld? ToGWorld(this World world,[CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public static GameWorld? ToGameWorld(this World? world,[CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
         if (world?.GetType() == typeof(GameWorld))
         {
