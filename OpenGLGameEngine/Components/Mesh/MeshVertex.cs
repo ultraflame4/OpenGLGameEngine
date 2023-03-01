@@ -4,30 +4,30 @@ using System.Numerics;
 namespace OpenGLGameEngine.Components.Mesh;
 
 /// <summary>
-/// Utility class to make accessing mesh vertices easier and hides behind the terrifying single array non-OOP mess
+///     Utility class to make accessing mesh vertices easier and hides behind the terrifying single array non-OOP mess
 /// </summary>
 public class MeshVertex
 {
-    private float[] vertices;
-    public int vertexIndex;
     private readonly bool texturesEnabled;
+    public int vertexIndex;
+    private readonly float[] vertices;
 
     /// <summary>
-    /// This constructor is used when you want to access a vertex that is already in the vertices array
+    ///     This constructor is used when you want to access a vertex that is already in the vertices array
     /// </summary>
     /// <param name="vertices"></param>
     /// <param name="vertexIndex"></param>
     /// <param name="texturesEnabled"></param>
     public MeshVertex(float[] vertices, int vertexIndex, bool texturesEnabled = false)
     {
-        int stride = texturesEnabled ? 8 : 6;
+        var stride = texturesEnabled ? 8 : 6;
         this.vertices = vertices;
-        this.vertexIndex = vertexIndex*stride;
+        this.vertexIndex = vertexIndex * stride;
         this.texturesEnabled = texturesEnabled;
     }
-    
+
     /// <summary>
-    /// This one is used when the user is creating an new vertices array.
+    ///     This one is used when the user is creating an new vertices array.
     /// </summary>
     /// <param name="position"></param>
     /// <param name="colour"></param>
@@ -100,7 +100,7 @@ public class MeshVertex
 
     public Vector3 Position
     {
-        get => new Vector3(X, Y, Z);
+        get => new(X, Y, Z);
         set
         {
             X = value.X;
@@ -114,15 +114,15 @@ public class MeshVertex
         get => Color.FromArgb((int)(R * 255), (int)(G * 255), (int)(B * 255));
         set
         {
-            R = (float)value.R/255;
-            G = (float)value.G/255;
-            B = (float)value.B/255;
+            R = (float)value.R / 255;
+            G = (float)value.G / 255;
+            B = (float)value.B / 255;
         }
     }
 
     public Vector2 TexCoord
     {
-        get => new Vector2(TexCoordX, TexCoordY);
+        get => new(TexCoordX, TexCoordY);
         set
         {
             TexCoordX = value.X;

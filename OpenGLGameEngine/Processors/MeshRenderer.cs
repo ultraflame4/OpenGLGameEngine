@@ -6,20 +6,22 @@ namespace OpenGLGameEngine.Processors;
 
 public class MeshRenderer : Processor<Mesh>
 {
-    static Logger logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
     public override void processComponents()
     {
-        if (GameWorld.MAIN_CAMERA==null)
+        if (GameWorld.MAIN_CAMERA == null)
         {
             logger.Error("No main camera set");
             return;
         }
-        if (GameWorld.GlobalShader==null)
+
+        if (GameWorld.GlobalShader == null)
         {
             logger.Error("No global shader set!");
             return;
         }
-        
+
         components.ForEach(mesh =>
         {
             if (mesh.Enabled)

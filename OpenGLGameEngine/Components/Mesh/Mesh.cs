@@ -7,21 +7,20 @@ namespace OpenGLGameEngine.Components.Mesh;
 
 public class Mesh : IComponent
 {
-    public Transform transform;
+    public const int TexCoordStride = 2;
+    public const int PositionStride = 3;
+    public const int ColourStride = 3;
     public readonly bool TexturesEnabled;
 
     private float[] _vertices;
 
-    private VertexRenderObject vro;
-
-    public const int TexCoordStride = 2;
-    public const int PositionStride = 3;
-    public const int ColourStride = 3;
-
     public Texture? texture;
+    public Transform transform;
+
+    private readonly VertexRenderObject vro;
 
     /// <summary>
-    /// Creates a new mesh
+    ///     Creates a new mesh
     /// </summary>
     /// <param name="transform"></param>
     /// <param name="enableTextures">Whether to enable the use of textures or not. </param>
@@ -29,16 +28,25 @@ public class Mesh : IComponent
     {
         this.transform = transform;
         TexturesEnabled = enableTextures;
-        int totalStride = PositionStride + ColourStride + (enableTextures ? TexCoordStride : 0); // Only add texture coords if textures are enabled
+        var totalStride = PositionStride + ColourStride + (enableTextures ? TexCoordStride : 0); // Only add texture coords if textures are enabled
 
         vro = new VertexRenderObject(Array.Empty<float>(), totalStride);
         vro.SetVertexAttrib(0, 3, 0);
         vro.SetVertexAttrib(1, 3, 3);
         // If textures are enabled set the vertex attribute for texture coords
-        if (enableTextures)
-        {
-            vro.SetVertexAttrib(2, 2, 6);
-        }
+        if (enableTextures) vro.SetVertexAttrib(2, 2, 6);
+    }
+
+    public bool Enabled { get; set; } = true;
+
+    public void OnAdd()
+    {
+        Game.GetCurrentWorld().GetProcessor<MeshRenderer>()?.addComponent(this);
+    }
+
+    public void OnRemove()
+    {
+        Game.GetCurrentWorld().GetProcessor<MeshRenderer>()?.removeComponent(this);
     }
 
     public void SetVertices(params MeshVertex[] meshVertices)
@@ -79,26 +87,11 @@ public class Mesh : IComponent
     }
 
     /// <summary>
-    /// Draws the mesh
+    ///     Draws the mesh
     /// </summary>
     public void Draw()
     {
-        if (TexturesEnabled)
-        {
-            texture?.Bind();
-        }
+        if (TexturesEnabled) texture?.Bind();
         vro.Draw();
-    }
-
-    public bool Enabled { get; set; } = true;
-
-    public void OnAdd()
-    {
-        GameWorld.GetInstance().GetProcessor<MeshRenderer>()?.addComponent(this);
-    }
-
-    public void OnRemove()
-    {
-        GameWorld.GetInstance().GetProcessor<MeshRenderer>()?.removeComponent(this);
     }
 }

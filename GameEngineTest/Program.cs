@@ -23,9 +23,9 @@ public class Program
     public static void Main(string[] args)
     {
         Console.WriteLine("Hello World!");
-        Game.Create("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
+        Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
         
-        var world = GameWorld.GetInstance();
+        var world = Game.GetCurrentWorld();
         GameWorld.GlobalShader = new Shader(new[] {
                 ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader),
                 ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader)
@@ -54,7 +54,7 @@ public class Program
 
 
         
-        Game.GameLoopDraw += () =>
+        GameWindow.GameLoopDraw += () =>
         {
             testTransform.rotation.X = (float)Glfw.Time * 2f;
             testTransform.rotation.Y = (float)Glfw.Time * 1.25f;
@@ -62,6 +62,6 @@ public class Program
             world.RunProcessors();
             
         };
-        Game.Run();
+        GameWindow.Run();
     }
 }

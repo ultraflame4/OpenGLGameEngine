@@ -15,10 +15,11 @@ public class GameEngineException : Exception
 public class ShaderCompilationException : GameEngineException
 {
     public ShaderType shaderType;
+
     public ShaderCompilationException(string? message, ShaderType shaderType, StringBuilder infoLog) : base(message)
     {
         this.shaderType = shaderType;
-        Data.Add("ShaderType",shaderType.ToString());
-        Data.Add("InfoLog",$"\n{infoLog}");
+        Data.Add("ShaderType", shaderType.ToString());
+        Data.Add("InfoLog", $"\n{infoLog}");
     }
 }

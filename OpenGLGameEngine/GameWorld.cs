@@ -6,23 +6,20 @@ namespace OpenGLGameEngine;
 
 public class GameWorld : World
 {
-    public static Camera? MAIN_CAMERA = null;
-    private static GameWorld instance;
+    public static Camera? MAIN_CAMERA;
+
     /// <summary>
-    /// Shader to use globally for rendering unless specified otherwise in the mesh.
+    ///     Shader to use globally for rendering unless specified otherwise in the mesh.
     /// </summary>
-    public static Shader? GlobalShader=null;
-    
-    public static GameWorld GetInstance()
+    public static Shader? GlobalShader = null;
+
+    public Shader? WorldShader;
+
+
+    public GameWorld()
     {
-        if (instance == null)
-        {
-            instance = new GameWorld();
-        }
-
-        return instance;
+        WorldShader = GlobalShader;
     }
-
 
     public Entity CreateMainCamera()
     {
@@ -32,5 +29,4 @@ public class GameWorld : World
         MAIN_CAMERA = entity.GetComponent<Camera>();
         return entity;
     }
-
 }

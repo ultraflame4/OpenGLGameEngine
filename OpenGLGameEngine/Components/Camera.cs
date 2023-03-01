@@ -7,25 +7,24 @@ namespace OpenGLGameEngine.Components;
 public class Camera : IComponent
 {
     public static double DEFAULT_FOV = Utils.Utils.Deg2Rad(45);
-
-
-    public bool Enabled { get; set; } = true;
-    public Transform transform;
     public Matrix4x4 projMatrix;
+    public Transform transform;
 
     public Camera()
     {
         UsePersepective();
     }
-    
+
+
+    public bool Enabled { get; set; } = true;
+
     public void OnAdd() { }
 
     public void OnRemove() { }
 
-    
-    
+
     /// <summary>
-    /// Sets the camera to use a orthographic projection
+    ///     Sets the camera to use a orthographic projection
     /// </summary>
     /// <param name="width">Width of the projection</param>
     /// <param name="height">Height of the projection</param>
@@ -37,7 +36,7 @@ public class Camera : IComponent
     }
 
     /// <summary>
-    /// Sets the camera to use a perspective projection
+    ///     Sets the camera to use a perspective projection
     /// </summary>
     /// <param name="width">Width of the projection</param>
     /// <param name="height">Height of the projection</param>
@@ -49,7 +48,7 @@ public class Camera : IComponent
     }
 
     /// <summary>
-    /// Sets the camera to use a perspective projection
+    ///     Sets the camera to use a perspective projection
     /// </summary>
     /// <param name="fov">Field of view of camera in radians. (Default is ~1.5708 rads or 90 degrees)</param>
     /// <param name="aspectRatio">Aspect ratio of the camera. Defaults to the window aspect ratio</param>
@@ -59,6 +58,4 @@ public class Camera : IComponent
     {
         projMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float)(fov ?? DEFAULT_FOV), aspectRatio ?? WindowUtils.GetAspectRatio(), 0.01f, 100f);
     }
-
-    
 }
