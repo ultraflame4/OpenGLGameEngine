@@ -103,15 +103,8 @@ public static class GameWindow
         Texture.ConfigureOpenGl();
         
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
-        logger.Info("Loading defaults...");
-        LoadDefaults();
     }
-
-    private static void LoadDefaults()
-    {
-        ShaderUtils.LoadDefaultShaderProgram();
-    }
-
+    
     public static void Run()
     {
         while (!Glfw.WindowShouldClose(window))
@@ -153,8 +146,6 @@ public static class GameWindow
 
     private static void Draw()
     {
-        // use default program
-        if (UseDefaultShader) Gl.UseProgram(ShaderUtils.DefaultShaderProgram);
         // draw here
         GameLoopDraw?.Invoke();
     }

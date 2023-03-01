@@ -11,33 +11,7 @@ namespace OpenGLGameEngine.Utils;
 public static class ShaderUtils
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
-
-    private static uint defaultVertexShader;
-
-    private static uint defaultFragmentShader;
-
-    private static uint defaultShaderProgram;
-
-    public static uint DefaultVertexShader => defaultVertexShader;
-
-    public static uint DefaultFragmentShader => defaultFragmentShader;
-
-    public static uint DefaultShaderProgram => defaultShaderProgram;
-
-    /// <summary>
-    /// Loads and Creates the default shader program. DOES NOT ACTUALLY BIND IT IN OPENGL
-    /// </summary>
-    /// <returns></returns>
-    public static uint LoadDefaultShaderProgram()
-    {
-        logger.Info("Loading default shader program!");
-        defaultVertexShader = LoadShaderFromResource("OpenGLGameEngine.Core.Resources.Shaders.vertex.glsl", ShaderType.VertexShader);
-        defaultFragmentShader = LoadShaderFromResource("OpenGLGameEngine.Core.Resources.Shaders.fragment.glsl", ShaderType.FragmentShader);
-        defaultShaderProgram = CreateProgam(new[] { defaultVertexShader, defaultFragmentShader });
-        logger.Info("------------------Load Default Shader Program Complete!------------------");
-        return defaultShaderProgram;
-    }
-
+    
     /// <summary>
     /// Creates a shader of the specified type from the given source string.
     /// </summary>

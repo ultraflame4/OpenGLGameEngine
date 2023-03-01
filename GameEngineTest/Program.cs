@@ -26,10 +26,10 @@ public class Program
         Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
         
         var world = Game.GetCurrentWorld();
-        GameWorld.GlobalShader = new Shader(new[] {
-                ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader),
-                ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader)
-        });
+        // GameWorld.GlobalShader = new Shader(new[] {
+        //         ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader),
+        //         ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader)
+        // });
         
         world.CreateMainCamera();
         
@@ -62,6 +62,6 @@ public class Program
             world.RunProcessors();
             
         };
-        GameWindow.Run();
+        Game.Start();
     }
 }
