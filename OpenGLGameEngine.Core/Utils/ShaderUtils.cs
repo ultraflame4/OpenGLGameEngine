@@ -8,7 +8,7 @@ namespace OpenGLGameEngine.Utils;
 /// <summary>
 /// A utility class to help in things related to shaders and programs
 /// </summary>
-public static partial class ShaderUtils
+public static class ShaderUtils
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
 
