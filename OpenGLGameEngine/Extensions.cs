@@ -13,11 +13,11 @@ public static class Extensions
     /// </summary>
     /// <param name="world"></param>
     /// <returns></returns>
-    public static GameWorld? GWorld(this Component c,[CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+    public static GameWorld? ToGWorld(this World world,[CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
     {
-        if (c.World?.GetType() == typeof(GameWorld))
+        if (world?.GetType() == typeof(GameWorld))
         {
-            return (GameWorld)c.World;
+            return (GameWorld)world;
         }
         else
         {
