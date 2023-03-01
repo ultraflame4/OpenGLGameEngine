@@ -1,4 +1,5 @@
 ﻿using OpenGLGameEngine.ECS;
+using OpenGLGameEngine.Processors;
 
 namespace OpenGLGameEngine.Components;
 
@@ -7,12 +8,12 @@ public abstract class EntityScript : Component
     public bool Enabled { get; set; }
     public override void OnAdd()
     {
-        
+        World?.GetProcessor<EntityScriptExecutor>()?.addComponent(this);
     }
 
     public override void OnRemove()
     {
-        
+        World?.GetProcessor<EntityScriptExecutor>()?.removeComponent(this);
     }
 
     /// <summary>
