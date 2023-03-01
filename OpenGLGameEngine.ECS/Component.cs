@@ -14,7 +14,9 @@ public abstract class Component : IComponent
 {
     public Entity? Entity { get; private set; }
 
-    public World? World  => this.Entity?.worldInstance;
+    public World? World => Entity?.worldInstance;
+
+    public Logger logger { get; } = LogManager.GetCurrentClassLogger();
 
     public bool Enabled { get; set; }
 
@@ -31,16 +33,13 @@ public abstract class Component : IComponent
         OnRemove();
     }
 
-    public Logger logger { get; private set; } = LogManager.GetCurrentClassLogger();
-
     /// <summary>
-    /// Called when the component is added to an entity. If needed, this should add itself to the processors.
+    ///     Called when the component is added to an entity. If needed, this should add itself to the processors.
     /// </summary>
     public abstract void OnAdd();
 
     /// <summary>
-    /// Called when the component is removed from the entity or when entity is destroyed. If needed, this should remove itself from the processors.
+    ///     Called when the component is removed from the entity or when entity is destroyed. If needed, this should remove itself from the processors.
     /// </summary>
     public abstract void OnRemove();
-
 }

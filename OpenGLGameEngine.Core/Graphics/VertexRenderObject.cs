@@ -1,66 +1,64 @@
-﻿using System.Drawing;
-using System.Numerics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using NLog;
 using OpenGL;
 
 namespace OpenGLGameEngine.Graphics;
 
 /// <summary>
-/// A light wrapper around VBOs and VAOs to ease rendering of vertices and triangles.
-/// <br/>
-/// <br/>
-/// Essentially, we store an array of items, each item has attribute like position and color
-/// <br/>
-/// For example:
-/// <code>
+///     A light wrapper around VBOs and VAOs to ease rendering of vertices and triangles.
+///     <br />
+///     <br />
+///     Essentially, we store an array of items, each item has attribute like position and color
+///     <br />
+///     For example:
+///     <code>
 /// [x,y,z, r,g,b, x2,y2,z2, r2,g2,b2, ...]
 /// </code>
-/// What we have here is an interlaced array with data describing different things, which are, 1. position(s), 2. color(s)
-/// We first separate the different "items" mixed together
-/// <code>
+///     What we have here is an interlaced array with data describing different things, which are, 1. position(s), 2. color(s)
+///     We first separate the different "items" mixed together
+///     <code>
 /// [ (x,y,z, r,g,b), (x2,y2,z2, r2,g2,b2), ...]
 /// </code>
-/// Now we can see the different items. <br/>
-/// Then we now separate the different attributes of the items
-/// <code>
+///     Now we can see the different items. <br />
+///     Then we now separate the different attributes of the items
+///     <code>
 /// [ ( {x,y,z}, {r,g,b}), ({x2,y2,z2}, {r2,g2,b2}), ...]
 /// </code>
-/// This is essentially how we get around not being able to use classes to nicely classify the data
+///     This is essentially how we get around not being able to use classes to nicely classify the data
 /// </summary>
 public class VertexRenderObject
 {
-    public uint VertexBufferObject;
-    public uint VertexArrayObject;
-    public uint? ElementBufferObject = null;
-    public int stride;
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     private readonly string callerFile;
     private readonly int lineno;
-    static Logger logger = LogManager.GetCurrentClassLogger();
-    private int draw_count = 0; // number of triangles to draw
-    private BufferUsage bufferUsage;
+    private readonly BufferUsage bufferUsage;
+    private int draw_count; // number of triangles to draw
+    public uint? ElementBufferObject;
+    public int stride;
+    public uint VertexArrayObject;
+    public uint VertexBufferObject;
 
-    ///  <summary>
-    ///  <b>BufferUsage Guide:</b>
-    ///  <br/>
-    ///  STREAM
-    ///  <br/>
-    ///  You should use STREAM_DRAW when the data store contents will be modified once and used at most a few times.
-    ///  <br/>
-    /// STATIC
-    ///  <br/>
-    ///  Use STATIC_DRAW when the data store contents will be modified once and used many times.
-    ///  <br/>
-    ///  DYNAMIC
-    ///  <br/>
-    ///  Use DYNAMIC_DRAW when the data store contents will be modified repeatedly and used many times.
-    ///  <br/>
-    ///  Stride example: if vertices is [x1,y1,x2,y2], stride is 2, [x1,y1,z1,x2,y2,z2] = stride is 3
-    ///  </summary>
-    ///  <param name="vertices">A float array of vertices. </param>
-    ///  <param name="stride">How long it takes before it reaches the next set of attributes</param>
-    ///  <param name="indices">Array of vertex index in vertices array. Used to reduce duplicate vertices.</param>
-    ///  <param name="usage">How the internal vertex buffer will be used.</param>
+    /// <summary>
+    ///     <b>BufferUsage Guide:</b>
+    ///     <br />
+    ///     STREAM
+    ///     <br />
+    ///     You should use STREAM_DRAW when the data store contents will be modified once and used at most a few times.
+    ///     <br />
+    ///     STATIC
+    ///     <br />
+    ///     Use STATIC_DRAW when the data store contents will be modified once and used many times.
+    ///     <br />
+    ///     DYNAMIC
+    ///     <br />
+    ///     Use DYNAMIC_DRAW when the data store contents will be modified repeatedly and used many times.
+    ///     <br />
+    ///     Stride example: if vertices is [x1,y1,x2,y2], stride is 2, [x1,y1,z1,x2,y2,z2] = stride is 3
+    /// </summary>
+    /// <param name="vertices">A float array of vertices. </param>
+    /// <param name="stride">How long it takes before it reaches the next set of attributes</param>
+    /// <param name="indices">Array of vertex index in vertices array. Used to reduce duplicate vertices.</param>
+    /// <param name="usage">How the internal vertex buffer will be used.</param>
     public VertexRenderObject(
         float[] vertices,
         int stride,
@@ -76,12 +74,9 @@ public class VertexRenderObject
 
         VertexBufferObject = Gl.GenBuffer();
         VertexArrayObject = Gl.GenVertexArray();
-        
+
         SetVertices(vertices);
-        if (indices is not null)
-        {
-            SetTriangles(indices);
-        }
+        if (indices is not null) SetTriangles(indices);
     }
 
     public void SetVertices(float[] vertices)
@@ -95,21 +90,18 @@ public class VertexRenderObject
     public void SetTriangles(uint[] indices)
     {
         Bind();
-        if (ElementBufferObject is null)
-        {
-            ElementBufferObject = Gl.GenBuffer(); // If we have not created an EBO, create one
-        }
-        
+        if (ElementBufferObject is null) ElementBufferObject = Gl.GenBuffer(); // If we have not created an EBO, create one
+
         draw_count = indices.Length; // number of triangles to draw
         Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)ElementBufferObject); // bind the EBO to the VAO
         Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(uint)), indices, bufferUsage); // do some config for EBO
     }
 
     /// <summary>
-    /// Sets an vertex attribute in opengl.
-    /// <br/>
-    /// The data type,normalized is automatically set.
-    /// <code>
+    ///     Sets an vertex attribute in opengl.
+    ///     <br />
+    ///     The data type,normalized is automatically set.
+    ///     <code>
     /// Example representation:
     /// -
     /// tx,ty = texture coordinates
@@ -143,10 +135,7 @@ public class VertexRenderObject
         }
 
         Gl.VertexAttribPointer(index, size, VertexAttribType.Float, false, stride * sizeof(float), (IntPtr)(offset_index * sizeof(float)));
-        if (enable)
-        {
-            Gl.EnableVertexAttribArray(index);
-        }
+        if (enable) Gl.EnableVertexAttribArray(index);
     }
 
     public void Bind()
@@ -158,13 +147,9 @@ public class VertexRenderObject
     {
         Bind();
         if (ElementBufferObject is null)
-        {
             Gl.DrawArrays(PrimitiveType.Triangles, 0, draw_count);
-        }
         else
-        {
             Gl.DrawElements(PrimitiveType.Triangles, draw_count, DrawElementsType.UnsignedInt, IntPtr.Zero);
-        }
     }
 
     ~VertexRenderObject()

@@ -5,28 +5,28 @@ using OpenGL;
 using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Utils;
 using ErrorCode = GLFW.ErrorCode;
-using Monitor = GLFW.Monitor;
 
 namespace OpenGLGameEngine.Core;
 
 /// <summary>
-/// The class containing the game loop and creation of window.
-/// <br/>
-/// <br/>
-/// * portions of the code were modified and copied from https://gist.github.com/dcronqvist/4e83dc3a4defe5780f1d4b6cac7558f6
+///     The class containing the game loop and creation of window.
+///     <br />
+///     <br />
+///     * portions of the code were modified and copied from https://gist.github.com/dcronqvist/4e83dc3a4defe5780f1d4b6cac7558f6
 /// </summary>
 public static class GameWindow
 {
-    static Logger logger = NLog.LogManager.GetCurrentClassLogger();
-    static Window window;
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+    private static Window window;
 
     /// <summary>
-    /// This event is invoked when the game loops exits and the window closes.
+    ///     Whether to use the default shader program before every render.
+    ///     <br />
+    ///     <br />
+    ///     If you are using your own shader program, i.e you are calling Gl.UseProgram every loop before any render functions,
+    ///     <br />you can set this to false to prevent unnecessarily updating opengl state.
     /// </summary>
-    public static event Action GameLoopExit;
-
-    public static event Action GameLoopDraw;
-    public static event Action GameLoopUpdate;
+    public static bool UseDefaultShader = true;
 
     static GameWindow()
     {
@@ -34,9 +34,17 @@ public static class GameWindow
         logger.Info($"GameEngine version: {CoreUtils.VERSION}");
     }
 
+    /// <summary>
+    ///     This event is invoked when the game loops exits and the window closes.
+    /// </summary>
+    public static event Action GameLoopExit;
+
+    public static event Action GameLoopDraw;
+    public static event Action GameLoopUpdate;
+
 
     /// <summary>
-    /// Initialises the game engine and creates the window
+    ///     Initialises the game engine and creates the window
     /// </summary>
     /// <param name="windowTitle">The title of the window</param>
     /// <param name="fullscreenKey">The key to toggle fullscreen when pressed. Set to null to disable</param>
@@ -45,19 +53,16 @@ public static class GameWindow
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static void Create(
         string windowTitle,
-        Nullable<Keys> fullscreenKey = Keys.F11,
+        Keys? fullscreenKey = Keys.F11,
         WindowModes windowMode = WindowModes.Windowed,
         (int width, int height) windowSize = default
     )
     {
-        if (windowSize.Equals(default))
-        {
-            windowSize = WindowUtils.DefaultWindowSize;
-        }
+        if (windowSize.Equals(default)) windowSize = WindowUtils.DefaultWindowSize;
 
 
         // Start initialisation and create opengl context and window.
-        logger.Info($"beginning initialisation and creation...");
+        logger.Info("beginning initialisation and creation...");
 
         logger.Debug($"Finding glfw dll at {Directory.GetCurrentDirectory()}...");
         if (!Glfw.Init())
@@ -73,7 +78,7 @@ public static class GameWindow
         logger.Info("GLFW detected Monitors available:");
         for (var i = 0; i < Glfw.Monitors.Length; i++)
         {
-            Monitor m = Glfw.Monitors[i];
+            var m = Glfw.Monitors[i];
             logger.Info($"- index {i} Resolution: {m.WorkArea.Width}x{m.WorkArea.Height} position {m.WorkArea.X},{m.WorkArea.Y}");
         }
 
@@ -92,19 +97,19 @@ public static class GameWindow
             Glfw.GetWindowPosition(window, out winX, out winY);
             if (key == fullscreenKey)
             {
-                logger.Info($"Toggling fullscreen!");
+                logger.Info("Toggling fullscreen!");
                 WindowUtils.ToggleFullscreen(window);
             }
         };
 
         Glfw.SwapInterval(1);
         Gl.Enable(EnableCap.DepthTest);
-        
+
         Texture.ConfigureOpenGl();
-        
+
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }
-    
+
     public static void Run()
     {
         while (!Glfw.WindowShouldClose(window))
@@ -126,23 +131,11 @@ public static class GameWindow
             Draw();
 
             OpenGL.ErrorCode code;
-            while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError)
-            {
-                logger.Error($"OpenGL Error Code: {code} !");
-            }
+            while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error($"OpenGL Error Code: {code} !");
         }
 
         Stop();
     }
-
-    /// <summary>
-    /// Whether to use the default shader program before every render.
-    /// <br/>
-    /// <br/>
-    /// If you are using your own shader program, i.e you are calling Gl.UseProgram every loop before any render functions,
-    /// <br/>you can set this to false to prevent unnecessarily updating opengl state.
-    /// </summary>
-    public static bool UseDefaultShader = true;
 
     private static void Draw()
     {
@@ -169,7 +162,7 @@ public static class GameWindow
 
     private static void onGlfwError(ErrorCode errCode, IntPtr description_p)
     {
-        string? description = Marshal.PtrToStringAnsi(description_p);
+        var description = Marshal.PtrToStringAnsi(description_p);
         logger.Error($"Glfw has encountered an error ({errCode}) {description_p}");
     }
 }

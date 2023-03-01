@@ -8,40 +8,40 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OpenGLGameEngine\OpenGLGameEngine.csproj" />
+        <ProjectReference Include="..\OpenGLGameEngine\OpenGLGameEngine.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="bin\Debug\net6.0\glfw.dll" />
-      <None Update="glfw.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="CheckerboardMap.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="2CheckerboardMap.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Include="bin\Debug\net6.0\glfw.dll"/>
+        <None Update="glfw.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="CheckerboardMap.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="2CheckerboardMap.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="glfw-net" Version="3.3.1" />
-      <PackageReference Include="NLog" Version="5.1.2" />
-      <PackageReference Include="OpenGL.Net.Math" Version="0.8.4" />
-      <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+        <PackageReference Include="glfw-net" Version="3.3.1"/>
+        <PackageReference Include="NLog" Version="5.1.2"/>
+        <PackageReference Include="OpenGL.Net.Math" Version="0.8.4"/>
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="bin\Debug\net6.0" />
+        <Folder Include="bin\Debug\net6.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="fragment.glsl">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Include="vertex.glsl">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Include="fragment.glsl">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="vertex.glsl">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

@@ -15,11 +15,11 @@ public class Transform : Component
             Matrix4x4.CreateScale(scale) *
             Matrix4x4.CreateTranslation(position);
 
+    public bool Enabled { get; set; } = true;
+
     public override void OnAdd() { }
 
     public override void OnRemove() { }
-
-    public bool Enabled { get; set; } = true;
 
     public Matrix4x4 GetModelMatrix()
     {

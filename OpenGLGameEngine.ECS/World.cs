@@ -3,34 +3,30 @@
 namespace OpenGLGameEngine.ECS;
 
 /// <summary>
-/// Represents a single context or world in the ECS
+///     Represents a single context or world in the ECS
 /// </summary>
 public class World
 {
-    uint id_counter = 0;
-    
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
     private List<uint> entities = new();
-    private List<IProcessor> processors = new();
-    static Logger logger = LogManager.GetCurrentClassLogger();
-    
+    private uint id_counter;
+    private readonly List<IProcessor> processors = new();
+
     public Entity CreateEntity()
     {
-        uint id = id_counter;
+        var id = id_counter;
         id_counter++;
         return new Entity(id_counter, this);
     }
-    
+
     public T? GetProcessor<T>() where T : class, IProcessor, new()
     {
         foreach (var processor in processors)
-        {
             if (processor is T)
-            {
-                return (T) processor;
-            }
-        }
-        logger.Warn( $"Processor of type {typeof(T)} not found!");
-        
+                return (T)processor;
+        logger.Warn($"Processor of type {typeof(T)} not found!");
+
         return null;
     }
 
@@ -38,7 +34,7 @@ public class World
     {
         processors.Add(processor);
     }
-    
+
     public void RemoveProcessor(IProcessor processor)
     {
         processors.Remove(processor);
@@ -48,5 +44,4 @@ public class World
     {
         processors.ForEach(processor => processor.processComponents());
     }
-    
 }

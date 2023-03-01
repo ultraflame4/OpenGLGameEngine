@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using NLog;
+﻿using NLog;
 using NLog.Conditions;
 using NLog.Config;
 using NLog.Targets;
@@ -7,9 +6,9 @@ using NLog.Targets;
 namespace OpenGLGameEngine.Utils;
 
 /// <summary>
-/// A general utility class that contain information about the game engine and various methods used internally.
-/// <br/>
-/// --- <b>Avoid trying to set or change any variables defined, or calling any methods in here!</b> ----
+///     A general utility class that contain information about the game engine and various methods used internally.
+///     <br />
+///     --- <b>Avoid trying to set or change any variables defined, or calling any methods in here!</b> ----
 /// </summary>
 public static class CoreUtils
 {
@@ -18,15 +17,15 @@ public static class CoreUtils
 
     public static LoggingConfiguration GetNLogConfig()
     {
-        string layout = "${longdate:universalTime=false} | ${level:uppercase=true:padding=-5} | " +
-                        "${logger} : ${message} ${exception}";
-        LoggingConfiguration config = new LoggingConfiguration();
-        FileTarget fileTarget = new FileTarget("logfile") {
+        var layout = "${longdate:universalTime=false} | ${level:uppercase=true:padding=-5} | " +
+                     "${logger} : ${message} ${exception}";
+        var config = new LoggingConfiguration();
+        var fileTarget = new FileTarget("logfile") {
                 FileName = "${basedir}/logs/" + $"OpenGLGameEngine_{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")}.log",
                 Layout = layout
         };
 
-        ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget("logconsole") {
+        var consoleTarget = new ColoredConsoleTarget("logconsole") {
                 Layout = layout,
                 RowHighlightingRules = {
                         new ConsoleRowHighlightingRule {
@@ -51,7 +50,7 @@ public static class CoreUtils
                         },
                         new ConsoleRowHighlightingRule {
                                 Condition = ConditionParser.ParseExpression("level == LogLevel.Fatal"),
-                                ForegroundColor = ConsoleOutputColor.Red,
+                                ForegroundColor = ConsoleOutputColor.Red
                         }
                 }
         };
@@ -66,10 +65,9 @@ public static class CoreUtils
         LogManager.Configuration = GetNLogConfig();
         AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
         {
-            var e = (args.ExceptionObject as Exception);
-            logger.Fatal(e, $"A Fatal Unhandled Error has occured!------------------------------------------------\n");
-
+            var e = args.ExceptionObject as Exception;
+            logger.Fatal(e, "A Fatal Unhandled Error has occured!------------------------------------------------\n");
         };
-        logger.Info($"Loaded logging configuration.");
+        logger.Info("Loaded logging configuration.");
     }
 }

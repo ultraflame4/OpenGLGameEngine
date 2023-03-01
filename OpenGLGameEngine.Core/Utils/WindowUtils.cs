@@ -16,7 +16,7 @@ public static class WindowUtils
     private static int last_h;
 
     private static WindowModes currentMode = WindowModes.Windowed;
-    private static Logger logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
     public static void SetWindowHints()
     {
@@ -50,9 +50,9 @@ public static class WindowUtils
         var size = GetWindowSize();
         return size.width / (float)size.height;
     }
-    
+
     /// <summary>
-    /// Returns the monitor closest to the window's central position.
+    ///     Returns the monitor closest to the window's central position.
     /// </summary>
     /// <param name="monitors">The monitors to compare</param>
     /// <param name="window">The window to use</param>
@@ -65,22 +65,21 @@ public static class WindowUtils
         // Get the position in the center & reassign existing variables
         (winX, winY) = Utils.TopLeft2CenterPosition(winX, winY, winW, winH);
         // convert to vector for distance calculation
-        Vector2 windowPosition = (winX, winY).xy2Vector2();
+        var windowPosition = (winX, winY).xy2Vector2();
 
-        Monitor last_closest = Monitor.None;
+        var last_closest = Monitor.None;
         float last_dist = -1;
         for (var i = 0; i < monitors.Length; i++)
         {
-            Monitor monitor = monitors[i];
-            Vector2 monitorPosition = Utils.TopLeft2CenterPosition(monitor.WorkArea.X, monitor.WorkArea.Y, monitor.WorkArea.Width, monitor.WorkArea.Height).xy2Vector2();
+            var monitor = monitors[i];
+            var monitorPosition = Utils.TopLeft2CenterPosition(monitor.WorkArea.X, monitor.WorkArea.Y, monitor.WorkArea.Width, monitor.WorkArea.Height).xy2Vector2();
 
-            float currentDist = Vector2.Distance(windowPosition, monitorPosition);
+            var currentDist = Vector2.Distance(windowPosition, monitorPosition);
 
             if (currentDist < last_dist || i == 0)
             {
                 last_closest = monitor;
                 last_dist = currentDist;
-                continue;
             }
         }
 
@@ -92,7 +91,7 @@ public static class WindowUtils
         if (mode == currentMode) return;
 
         var monitor = Glfw.Monitors.GetClosestMonitor(window);
-        VideoMode videoMode = Glfw.GetVideoMode(monitor);
+        var videoMode = Glfw.GetVideoMode(monitor);
         switch (mode)
         {
             case WindowModes.Windowed:
@@ -107,7 +106,7 @@ public static class WindowUtils
             case WindowModes.Fullscreen:
                 UpdateWindowSpacialData(window);
                 Glfw.SetWindowMonitor(window, monitor, 0, 0, videoMode.Width, videoMode.Height, videoMode.RefreshRate);
-    
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
@@ -125,14 +124,13 @@ public static class WindowUtils
     {
         if (IsFullscreen())
         {
-            logger.Trace($"ToggleFullscreen: Going back to windowed");
+            logger.Trace("ToggleFullscreen: Going back to windowed");
             SetWindowDisplayMode(window, WindowModes.Windowed);
         }
         else
         {
-            logger.Trace($"ToggleFullscreen: Going to fullscreen");
+            logger.Trace("ToggleFullscreen: Going to fullscreen");
             SetWindowDisplayMode(window, WindowModes.Fullscreen);
-            
         }
     }
 
@@ -155,7 +153,7 @@ public static class WindowUtils
         SetWindowDisplayMode(window, windowMode);
         Gl.Initialize();
         Glfw.MakeContextCurrent(window);
-        
+
         logger.Info("OpenGL Context created successfully. !");
         logger.Info("OpenGL configuration:");
         logger.Info($"- Version: {Gl.GetString(StringName.Version)}");
@@ -164,9 +162,9 @@ public static class WindowUtils
         logger.Info($"- Vender: {Gl.GetString(StringName.Vendor)}");
 
         logger.Info("Create window success!");
-        WindowUtils.UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
+        UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
 
-        
+
         return window;
     }
 }

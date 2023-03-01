@@ -6,11 +6,11 @@ using OpenGL;
 namespace OpenGLGameEngine.Utils;
 
 /// <summary>
-/// A utility class to help in things related to shaders and programs
+///     A utility class to help in things related to shaders and programs
 /// </summary>
 public static class ShaderUtils
 {
-    static Logger logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     //
     //
     // /// <summary>
@@ -28,7 +28,7 @@ public static class ShaderUtils
     // }
 
     /// <summary>
-    /// Creates a shader of the specified type from the given source string.
+    ///     Creates a shader of the specified type from the given source string.
     /// </summary>
     /// <param name="type">An OpenGL enum for the shader type.</param>
     /// <param name="source">The source code of the shader.</param>
@@ -37,12 +37,9 @@ public static class ShaderUtils
     public static uint CreateShader(ShaderType type, string source)
     {
         var shader = Gl.CreateShader(type);
-        string[] sourceLines = source.Split("\n");
+        var sourceLines = source.Split("\n");
         // Add \n back for each line because split will remove it. If the array does not have newlines, this opengl binding throws a fit! . _ .
-        for (var i = 0; i < sourceLines.Length; i++)
-        {
-            sourceLines[i] += "\n";
-        }
+        for (var i = 0; i < sourceLines.Length; i++) sourceLines[i] += "\n";
 
         Gl.ShaderSource(shader, sourceLines);
 
@@ -51,8 +48,8 @@ public static class ShaderUtils
 
         if (success != 1)
         {
-            StringBuilder infoLog = new StringBuilder(1024);
-            Gl.GetShaderInfoLog(shader, 1024, out int a, infoLog);
+            var infoLog = new StringBuilder(1024);
+            Gl.GetShaderInfoLog(shader, 1024, out var a, infoLog);
             logger.Error(new ShaderCompilationException($"Shader Compilation failed for shader {shader}!", type, infoLog), "Error while compiling shader!\n");
         }
 
@@ -61,17 +58,17 @@ public static class ShaderUtils
     }
 
     /// <summary>
-    /// Loads, Compiles and Create a shader from a file.
-    /// <b>note : for relative paths, it will be relative to the location of your program's exe file.</b>
+    ///     Loads, Compiles and Create a shader from a file.
+    ///     <b>note : for relative paths, it will be relative to the location of your program's exe file.</b>
     /// </summary>
     /// <param name="path">The filepath of the file</param>
     /// <param name="type">The opengl shader type.</param>
     /// <returns></returns>
     public static uint LoadShaderFromPath(string path, ShaderType type)
     {
-        string fullPath = Path.GetFullPath(path);
+        var fullPath = Path.GetFullPath(path);
         logger.Info($"Loading shader from path {fullPath}");
-        using (StreamReader file = new StreamReader(path))
+        using (var file = new StreamReader(path))
         {
             return CreateShader(type, file.ReadToEnd());
         }
@@ -81,30 +78,28 @@ public static class ShaderUtils
     {
         var assembly = Assembly.GetCallingAssembly();
         logger.Info($"Loading shader from embbed resource {resource_name}");
-        using (Stream stream = assembly.GetManifestResourceStream(resource_name) ??
-                               throw new InvalidOperationException($"Resource name not found! :{resource_name}"))
-        using (StreamReader file = new StreamReader(stream))
+        using (var stream = assembly.GetManifestResourceStream(resource_name) ??
+                            throw new InvalidOperationException($"Resource name not found! :{resource_name}"))
+        using (var file = new StreamReader(stream))
         {
             return CreateShader(type, file.ReadToEnd());
         }
     }
 
     /// <summary>
-    /// A utility method to create a shader program for opengl. This will also link shaders that are attached,
+    ///     A utility method to create a shader program for opengl. This will also link shaders that are attached,
     /// </summary>
     /// <param name="shaders">The shaders you want to attach to the shader program</param>
     /// <returns>The shader program</returns>
     public static uint CreateProgam(uint[]? shaders)
     {
-        uint program = Gl.CreateProgram();
+        var program = Gl.CreateProgram();
         if (shaders is not null)
-        {
-            foreach (uint shader in shaders)
+            foreach (var shader in shaders)
             {
                 Gl.AttachShader(program, shader);
                 logger.Debug($"CreateProgram - Attached shader {shader} to program {program}");
             }
-        }
 
         Gl.LinkProgram(program);
         return program;

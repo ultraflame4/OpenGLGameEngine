@@ -12,20 +12,14 @@ public class Mesh : Component
     public const int ColourStride = 3;
     public readonly bool TexturesEnabled;
 
+    private readonly VertexRenderObject vro;
+
     private float[] _vertices;
+
+    private Shader? shader;
 
     public Texture? texture;
     public Transform transform;
-
-    private readonly VertexRenderObject vro;
-
-    private Shader? shader = null;
-
-    public Shader? Shader
-    {
-        get => (shader ?? World.ToGameWorld()?.WorldShader) ?? GameWorld.GlobalShader;
-        set => shader = value;
-    }
 
     /// <summary>
     ///     Creates a new mesh
@@ -43,6 +37,12 @@ public class Mesh : Component
         vro.SetVertexAttrib(1, 3, 3);
         // If textures are enabled set the vertex attribute for texture coords
         if (enableTextures) vro.SetVertexAttrib(2, 2, 6);
+    }
+
+    public Shader? Shader
+    {
+        get => (shader ?? World.ToGameWorld()?.WorldShader) ?? GameWorld.GlobalShader;
+        set => shader = value;
     }
 
     public bool Enabled { get; set; } = true;

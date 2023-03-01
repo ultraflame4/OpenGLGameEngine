@@ -9,8 +9,8 @@ namespace OpenGLGameEngine.Components.Mesh;
 public class MeshVertex
 {
     private readonly bool texturesEnabled;
-    public int vertexIndex;
     private readonly float[] vertices;
+    public int vertexIndex;
 
     /// <summary>
     ///     This constructor is used when you want to access a vertex that is already in the vertices array

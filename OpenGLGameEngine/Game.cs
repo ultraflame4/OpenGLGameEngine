@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using GLFW;
+﻿using GLFW;
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core;
@@ -10,8 +9,8 @@ namespace OpenGLGameEngine;
 
 public static class Game
 {
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public static GameWorld? CurrentWorld { get; private set; }
-    static Logger logger = LogManager.GetCurrentClassLogger();
 
     public static void CreateMainWindow(string windowTitle, Keys? fullscreenKey = Keys.F11, WindowModes windowMode = WindowModes.Windowed, (int width, int height) windowSize = default)
     {
@@ -35,7 +34,7 @@ public static class Game
             logger.Info("Loaded default shaders into GlobalShader as it was null!");
         }
     }
-    
+
     public static void Start()
     {
         logger.Info("-----------------Loading Defaults----------------------");

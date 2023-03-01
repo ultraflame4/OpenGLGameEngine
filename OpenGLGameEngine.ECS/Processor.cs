@@ -1,6 +1,5 @@
-﻿using OpenGLGameEngine.ECS;
+﻿namespace OpenGLGameEngine.ECS;
 
-namespace OpenGLGameEngine.ECS;
 public interface IProcessor
 {
     public void processComponents();
@@ -8,23 +7,17 @@ public interface IProcessor
 
 public abstract class Processor<T> : IProcessor where T : IComponent
 {
-    public List<T> components = new List<T>();
-    
-    public Processor()
-    {
-        
-    }
+    public List<T> components = new();
+
+    public abstract void processComponents();
 
     public virtual void addComponent(T component)
     {
         components.Add(component);
     }
-    
+
     public virtual void removeComponent(T component)
     {
         components.Remove(component);
     }
-    
-    public abstract void processComponents();
 }
-

@@ -10,15 +10,16 @@ public class GameWorld : World
     public static Camera? MAIN_CAMERA;
 
     /// <summary>
-    ///  Shader to use globally for rendering unless specified otherwise in the mesh.
+    ///     Shader to use globally for rendering unless specified otherwise in the mesh.
     /// </summary>
     public static Shader? GlobalShader;
 
-    public Shader? WorldShader;
+    public readonly EntityScriptExecutor EntityScriptExecutor;
 
     public readonly MeshRenderer MeshRenderer;
-    public readonly EntityScriptExecutor EntityScriptExecutor;
-    
+
+    public Shader? WorldShader;
+
     public GameWorld()
     {
         WorldShader = GlobalShader;
@@ -36,7 +37,7 @@ public class GameWorld : World
         MAIN_CAMERA = entity.GetComponent<Camera>();
         return entity;
     }
-    
+
     public EntityObject AddEntityObject(EntityObject entityObject)
     {
         var entity = CreateEntity();
@@ -45,6 +46,4 @@ public class GameWorld : World
         entity.AddComponent(entityObject);
         return entityObject;
     }
-    
-    
 }
