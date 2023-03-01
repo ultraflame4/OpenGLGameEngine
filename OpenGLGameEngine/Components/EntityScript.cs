@@ -19,14 +19,16 @@ public abstract class EntityScript : Component
 
     /// <summary>
     /// This method is called when the engine is loading the game. This is called before the main game loop starts.
-    /// Use this method to load resources or any other assets or shaders
-    /// to avoid big overhead computational costs.
+    /// Use this method to load resources or any other assets
+    /// that have big overhead computational costs <br/>
+    /// Also use this method when you need to add components (initially) <br/>
+    /// Not all components have been added to the entity yet. <br/>
     /// </summary>
     public virtual void Load() { }
 
     /// <summary>
     /// Called when the entity is added to the world. (During the game loop) and after the load method is called.<br/>
-    /// Use this method when adding components.
+    /// Use this method when you need to use components that are added to the entity.
     /// </summary>
     public abstract void Start();
     /// <summary>

@@ -37,4 +37,14 @@ public class GameWorld : World
         return entity;
     }
     
+    public EntityObject AddEntityObject(EntityObject entityObject)
+    {
+        var entity = CreateEntity();
+        var transform = entity.AddComponent(new Transform());
+        entityObject.transform = transform;
+        entity.AddComponent(entityObject);
+        return entityObject;
+    }
+    
+    
 }

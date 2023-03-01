@@ -20,16 +20,30 @@ public class Program
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
  
-    public class TestScript : EntityScript
+    public class TestScript : EntityObject
     {
+        private Mesh mesh;
         public override void Load()
         {
-                
+            mesh = Entity.AddComponent(new Mesh(transform,true));
+            var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
+            mesh.SetVertices(
+                new MeshVertex(new Vector3(-1f, 1f, 0f),Color.Red, new Vector2(0f, 1f)),
+                new MeshVertex(new Vector3(1f, 1f, 0f),Color.Lime, new Vector2(1f, 1f)),
+                new MeshVertex(new Vector3(1f, -1f, 0f),Color.Blue, new Vector2(1f, 0f)),
+                new MeshVertex(new Vector3(-1f, -1f, 0f),Color.Blue, new Vector2(0f, 0f))
+            );
+        
+            mesh.SetTriangles(0, 2, 1, 0, 3, 2);
+            mesh.SetTexture(texture);
+            
+            transform.scale = new Vector3(0.5f);
         }
 
         public override void Start()
         {
-            logger.Info("TestScript Start");
+            
+            
         }
 
         public override void Update()
@@ -45,11 +59,7 @@ public class Program
             testTransform.rotation.Y = (float)Glfw.Time * 1.25f;
             testTransform.rotation.Z = (float)Glfw.Time;
         }
-
-        public override void Remove()
-        {
-                
-        }
+        
     }
     public static void Main(string[] args)
     {
@@ -64,25 +74,7 @@ public class Program
         
         world.CreateMainCamera();
         
-        var testEntity = world.CreateEntity();
-        
-        var testTransform = testEntity.AddComponent(new Transform());
-        var mesh = testEntity.AddComponent(new Mesh(testTransform,true));
-        var testScript = testEntity.AddComponent(new TestScript());
-
-        
-        testTransform.scale = new Vector3(0.5f);
-        var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
-        mesh.SetVertices(
-                new MeshVertex(new Vector3(-1f, 1f, 0f),Color.Red, new Vector2(0f, 1f)),
-                new MeshVertex(new Vector3(1f, 1f, 0f),Color.Lime, new Vector2(1f, 1f)),
-                new MeshVertex(new Vector3(1f, -1f, 0f),Color.Blue, new Vector2(1f, 0f)),
-                new MeshVertex(new Vector3(-1f, -1f, 0f),Color.Blue, new Vector2(0f, 0f))
-        );
-        
-        mesh.SetTriangles(0, 2, 1, 0, 3, 2);
-        mesh.SetTexture(texture);
-        
+        world.AddEntityObject(new TestScript());
         Game.Start();
     }
 }
