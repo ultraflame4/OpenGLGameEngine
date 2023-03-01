@@ -14,6 +14,7 @@ public abstract class EntityScript : Component
     public override void OnRemove()
     {
         World?.GetProcessor<EntityScriptExecutor>()?.removeComponent(this);
+        Remove();
     }
 
     /// <summary>
@@ -34,4 +35,10 @@ public abstract class EntityScript : Component
     /// Called every frame. Put in any rendering or ui related code here.
     /// </summary>
     public abstract void Draw();
+    /// <summary>
+    /// Called after this component is removed from the processors due to various reasons (deletion of entity, removal of component etc.)
+    /// Put in any cleanup code here to prevent memory leaks.
+    /// </summary>
+    public abstract void Remove();
+    
 }
