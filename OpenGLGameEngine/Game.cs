@@ -34,13 +34,23 @@ public static class Game
             });
             logger.Info("Loaded default shaders into GlobalShader as it was null!");
         }
-
     }
-
-
+    
     public static void Start()
     {
+        logger.Info("-----------------Loading Defaults----------------------");
         LoadDefaults();
+        logger.Info("--------Loading Defaults END >>> Start Game Loop----------------");
+        GameWindow.GameLoopUpdate += () =>
+        {
+            CurrentWorld?.RunProcessors();
+            CurrentWorld?.EntityScriptExecutor.ProcessUpdates();
+        };
+        GameWindow.GameLoopDraw += () =>
+        {
+            CurrentWorld?.MeshRenderer.processComponents();
+            CurrentWorld?.EntityScriptExecutor.ProcessDraws();
+        };
         GameWindow.Run();
     }
 }

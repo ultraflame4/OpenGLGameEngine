@@ -1,7 +1,7 @@
 ﻿using OpenGLGameEngine.Components;
 using OpenGLGameEngine.ECS;
 using OpenGLGameEngine.Graphics;
-using OpenGLGameEngine.Utils;
+using OpenGLGameEngine.Processors;
 
 namespace OpenGLGameEngine;
 
@@ -16,10 +16,16 @@ public class GameWorld : World
 
     public Shader? WorldShader;
 
-
+    public readonly MeshRenderer MeshRenderer;
+    public readonly EntityScriptExecutor EntityScriptExecutor;
+    
     public GameWorld()
     {
         WorldShader = GlobalShader;
+        MeshRenderer = new MeshRenderer();
+        EntityScriptExecutor = new EntityScriptExecutor();
+        AddProcessor(MeshRenderer);
+        AddProcessor(EntityScriptExecutor);
     }
 
     public Entity CreateMainCamera()
@@ -30,4 +36,5 @@ public class GameWorld : World
         MAIN_CAMERA = entity.GetComponent<Camera>();
         return entity;
     }
+    
 }
