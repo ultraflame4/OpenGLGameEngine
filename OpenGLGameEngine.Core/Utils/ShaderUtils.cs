@@ -11,7 +11,22 @@ namespace OpenGLGameEngine.Utils;
 public static class ShaderUtils
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
-    
+    //
+    //
+    // /// <summary>
+    // /// Loads and Creates the default shader program. DOES NOT ACTUALLY BIND IT IN OPENGL
+    // /// </summary>
+    // /// <returns></returns>
+    // public static uint LoadDefaultShaderProgram()
+    // {
+    //     logger.Info("Loading default shader program!");
+    //     defaultVertexShader = LoadShaderFromResource("OpenGLGameEngine.Core.Resources.Shaders.vertex.glsl", ShaderType.VertexShader);
+    //     defaultFragmentShader = LoadShaderFromResource("OpenGLGameEngine.Core.Resources.Shaders.fragment.glsl", ShaderType.FragmentShader);
+    //     defaultShaderProgram = CreateProgam(new[] { defaultVertexShader, defaultFragmentShader });
+    //     
+    //     return defaultShaderProgram;
+    // }
+
     /// <summary>
     /// Creates a shader of the specified type from the given source string.
     /// </summary>
@@ -64,7 +79,7 @@ public static class ShaderUtils
 
     public static uint LoadShaderFromResource(string resource_name, ShaderType type)
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = Assembly.GetCallingAssembly();
         logger.Info($"Loading shader from embbed resource {resource_name}");
         using (Stream stream = assembly.GetManifestResourceStream(resource_name) ??
                                throw new InvalidOperationException($"Resource name not found! :{resource_name}"))

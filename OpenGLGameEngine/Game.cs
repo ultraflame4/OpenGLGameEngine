@@ -1,4 +1,5 @@
-﻿using GLFW;
+﻿using System.Reflection;
+using GLFW;
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core;
@@ -29,7 +30,7 @@ public static class Game
         {
             GameWorld.GlobalShader = new Shader(new[] {
                     ShaderUtils.LoadShaderFromResource("OpenGLGameEngine.Resources.Shaders.vertex.glsl", ShaderType.VertexShader),
-                    ShaderUtils.LoadShaderFromPath("OpenGLGameEngine.Resources.Shaders.fragment.glsl", ShaderType.FragmentShader)
+                    ShaderUtils.LoadShaderFromResource("OpenGLGameEngine.Resources.Shaders.fragment.glsl", ShaderType.FragmentShader)
             });
             logger.Info("Loaded default shaders into GlobalShader as it was null!");
         }
