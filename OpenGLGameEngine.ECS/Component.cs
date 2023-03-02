@@ -16,7 +16,10 @@ public abstract class Component : IComponent
 
     public World? World => Entity?.worldInstance;
 
-    public Logger logger { get; } = LogManager.GetCurrentClassLogger();
+    private Logger? _logger;
+
+    protected Logger logger => _logger ??= LogManager.GetLogger(GetType().FullName);
+    
 
     public bool Enabled { get; set; }
 
