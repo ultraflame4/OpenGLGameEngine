@@ -62,16 +62,16 @@ public static class GameWindow
 
 
         // Start initialisation and create opengl context and window.
-        logger.Info("beginning initialisation and creation...");
+        logger.Info("Beginning initialisation and creation of window...");
 
-        logger.Debug($"Finding glfw dll at {Directory.GetCurrentDirectory()}...");
+        logger.Trace($"Finding glfw dll at {Directory.GetCurrentDirectory()}...");
         if (!Glfw.Init())
         {
             logger.Fatal("Glfw Failed to initialised!");
             return;
         }
 
-        logger.Info("Glfw initialised successfully!");
+        logger.Debug("Glfw initialised successfully!");
         Glfw.SetErrorCallback(onGlfwError);
         logger.Info($"GLFW Version: {Glfw.VersionString}");
 
@@ -83,13 +83,13 @@ public static class GameWindow
         }
 
         // Window and context creation
-        logger.Info("Begin window and context creation...");
+        logger.Debug("Begin window and context creation...");
         window = WindowUtils.CreateWindow(windowTitle, windowSize, windowMode);
 
-        logger.Info("Configuring and initiating keyboard input");
+        logger.Debug("Configuring and initiating keyboard input");
         KeyboardMouseInput.Init(window);
 
-        logger.Info($"Set toggle fullscreen key: {fullscreenKey}");
+        logger.Trace($"Set toggle fullscreen key: {fullscreenKey}");
 
         KeyboardMouseInput.OnKeyDown += (key, code, state, mods) =>
         {
