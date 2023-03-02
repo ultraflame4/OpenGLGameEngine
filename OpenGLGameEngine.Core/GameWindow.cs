@@ -59,7 +59,7 @@ public static class GameWindow
     )
     {
         if (windowSize.Equals(default)) windowSize = WindowUtils.DefaultWindowSize;
-    
+
 
         // Start initialisation and create opengl context and window.
         logger.Info("Beginning initialisation and creation of window...");
