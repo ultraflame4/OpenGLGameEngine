@@ -110,23 +110,16 @@ public static class GameWindow
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }
 
-    private static void RunDrawThread()
-    {
-        while (!Glfw.WindowShouldClose(window))
-        {
-            Draw();
-        }
-    }
+
 
     public static void Run()
     {
-        Thread drawThread = new Thread(RunDrawThread);
 
         Glfw.SetWindowRefreshCallback(window, (window) =>
         {
             Draw();
         });
-        drawThread.Start();
+
         while (!Glfw.WindowShouldClose(window))
         {
             GameTime.UpdateDeltaTime(Glfw.Time);
@@ -145,8 +138,6 @@ public static class GameWindow
             OpenGL.ErrorCode code;
             while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !", code);
         }
-
-        drawThread.Join();
         Stop();
     }
 
