@@ -1,9 +1,11 @@
-﻿using GLFW;
+﻿
+using GLFW;
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Utils;
+using Window = OpenGLGameEngine.Core.Windowing.Window;
 
 namespace OpenGLGameEngine;
 
@@ -12,9 +14,11 @@ public static class Game
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public static GameWorld? CurrentWorld { get; private set; }
 
+    public static Window MainWindow;
+
     public static void CreateMainWindow(string windowTitle, Keys? fullscreenKey = Keys.F11, WindowModes windowMode = WindowModes.Windowed, (int width, int height) windowSize = default)
     {
-        GameWindow.Create(windowTitle, fullscreenKey, windowMode, windowSize);
+        MainWindow = new Window(windowTitle,fullscreenKey,windowMode,windowSize);
     }
 
     public static GameWorld GetCurrentWorld()
@@ -36,21 +40,32 @@ public static class Game
     }
 
     public static void Start()
-    {
-        logger.Info("-----------------Loading Defaults----------------------");
-        LoadDefaults();
+    {       
+        Gl.Initialize();
+        logger.Info("-----------------Start Window Creation----------------------");
+        MainWindow.Start();
+        
+        MainWindow.DrawThreadStart += () =>
+        {
+            logger.Info("-----------------Loading Defaults----------------------");
+            LoadDefaults();
+        };
+        
+
         logger.Info("--------Loading Defaults END >>> Starting Game Loop----------------");
-        CurrentWorld?.EntityScriptExecutor.ProcessStarts();
-        GameWindow.GameLoopUpdate += () =>
-        {
-            CurrentWorld?.RunProcessors();
-            CurrentWorld?.EntityScriptExecutor.ProcessUpdates();
-        };
-        GameWindow.GameLoopDraw += () =>
-        {
-            CurrentWorld?.MeshRenderer.processComponents();
-            CurrentWorld?.EntityScriptExecutor.ProcessDraws();
-        };
-        GameWindow.Run();
+        // CurrentWorld?.EntityScriptExecutor.ProcessStarts();
+        
+        // GameWindow.GameLoopUpdate += () =>
+        // {
+        //     CurrentWorld?.RunProcessors();
+        //     CurrentWorld?.EntityScriptExecutor.ProcessUpdates();
+        // };
+        // GameWindow.GameLoopDraw += () =>
+        // {
+        //     CurrentWorld?.MeshRenderer.processComponents();
+        //     CurrentWorld?.EntityScriptExecutor.ProcessDraws();
+        // };
+        // GameWindow.Run();
+        MainWindow.Run();
     }
 }

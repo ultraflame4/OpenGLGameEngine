@@ -151,15 +151,18 @@ public static class WindowUtils
         }
 
         SetWindowDisplayMode(window, windowMode);
-        Gl.Initialize();
+        Gl.BindAPI();
+
         Glfw.MakeContextCurrent(window);
 
-        logger.Debug("OpenGL Context created successfully. !");
         logger.Trace("OpenGL configuration:");
+        logger.Trace($"- GL Binding Version: {Gl.CurrentVersion}");
+        logger.Trace($"- Extensions: {Gl.CurrentExtensions}");
         logger.Trace($"- Version: {Gl.GetString(StringName.Version)}");
         logger.Trace($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
         logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
         logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
+        logger.Debug("OpenGL Context created successfully. !");
 
         logger.Info("Create window success!");
         UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
