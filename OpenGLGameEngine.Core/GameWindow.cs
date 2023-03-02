@@ -64,7 +64,7 @@ public static class GameWindow
         // Start initialisation and create opengl context and window.
         logger.Info("Beginning initialisation and creation of window...");
 
-        logger.Trace($"Finding glfw dll at {Directory.GetCurrentDirectory()}...");
+        logger.Trace("Attempting to find glfw.dll at {directory}...",Directory.GetCurrentDirectory());
         if (!Glfw.Init())
         {
             logger.Fatal("Glfw Failed to initialised!");
@@ -73,13 +73,13 @@ public static class GameWindow
 
         logger.Debug("Glfw initialised successfully!");
         Glfw.SetErrorCallback(onGlfwError);
-        logger.Info($"GLFW Version: {Glfw.VersionString}");
+        logger.Info("GLFW Version: {version}",Glfw.VersionString);
 
-        logger.Info("GLFW detected Monitors available:");
+        logger.Trace("GLFW detected Monitors available:");
         for (var i = 0; i < Glfw.Monitors.Length; i++)
         {
             var m = Glfw.Monitors[i];
-            logger.Info($"- index {i} Resolution: {m.WorkArea.Width}x{m.WorkArea.Height} position {m.WorkArea.X},{m.WorkArea.Y}");
+            logger.Trace("- index:{index} Resolution: {width}x{height} position {xpos},{ypos}",i,m.WorkArea.Width,m.WorkArea.Height,m.WorkArea.X,m.WorkArea.Y);
         }
 
         // Window and context creation
@@ -89,7 +89,7 @@ public static class GameWindow
         logger.Debug("Configuring and initiating keyboard input");
         KeyboardMouseInput.Init(window);
 
-        logger.Trace($"Set toggle fullscreen key: {fullscreenKey}");
+        logger.Trace("Set toggle fullscreen key: {fullscreenKey}",fullscreenKey);
 
         KeyboardMouseInput.OnKeyDown += (key, code, state, mods) =>
         {
@@ -131,7 +131,7 @@ public static class GameWindow
             Draw();
 
             OpenGL.ErrorCode code;
-            while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error($"OpenGL Error Code: {code} !");
+            while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !",code);
         }
 
         Stop();
@@ -163,6 +163,6 @@ public static class GameWindow
     private static void onGlfwError(ErrorCode errCode, IntPtr description_p)
     {
         var description = Marshal.PtrToStringAnsi(description_p);
-        logger.Error($"Glfw has encountered an error ({errCode}) {description_p}");
+        logger.Error("Glfw has encountered an error ({errCode}) {desc}",errCode,description);
     }
 }
