@@ -98,7 +98,7 @@ public static class ShaderUtils
             foreach (var shader in shaders)
             {
                 Gl.AttachShader(program, shader);
-                logger.Debug($"CreateProgram - Attached shader {shader} to program {program}");
+                logger.Trace($"CreateProgram - Attached shader {shader} to program {program}");
             }
 
         Gl.LinkProgram(program);
