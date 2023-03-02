@@ -62,7 +62,7 @@ public static class CoreUtils
 
     public static void ConfigureNLog(Logger logger)
     {
-        LogManager.Configuration = GetNLogConfig();
+        // LogManager.Configuration = GetNLogConfig();
         AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
         {
             var e = args.ExceptionObject as Exception;

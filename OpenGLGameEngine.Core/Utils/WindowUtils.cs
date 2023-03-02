@@ -37,7 +37,7 @@ public static class WindowUtils
     {
         Glfw.GetWindowPosition(window, out last_x, out last_y);
         Glfw.GetWindowSize(window, out last_w, out last_h);
-        logger.Debug($"Saved window spacial data (position and size) position: {last_x},{last_y} size: {last_w},{last_h}");
+        logger.Trace($"Saved window spacial data (position and size) position: {last_x},{last_y} size: {last_w},{last_h}");
     }
 
     public static (int width, int height) GetWindowSize()
@@ -138,9 +138,9 @@ public static class WindowUtils
     {
         Window window;
         SetWindowHints();
-        logger.Info($"- Set Window Title: {windowTitle}");
-        logger.Info($"- Set Window Mode: {windowMode.ToString()}");
-        logger.Info($"- Set Window Size: {windowMode.ToString()}");
+        logger.Trace($"- Set Window Title: {windowTitle}");
+        logger.Trace($"- Set Window Mode: {windowMode.ToString()}");
+        logger.Trace($"- Set Window Size: {windowMode.ToString()}");
 
         window = Glfw.CreateWindow(windowSize.width, windowSize.height, windowTitle, Monitor.None, Window.None);
 
@@ -154,12 +154,12 @@ public static class WindowUtils
         Gl.Initialize();
         Glfw.MakeContextCurrent(window);
 
-        logger.Info("OpenGL Context created successfully. !");
-        logger.Info("OpenGL configuration:");
-        logger.Info($"- Version: {Gl.GetString(StringName.Version)}");
-        logger.Info($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
-        logger.Info($"- Renderer: {Gl.GetString(StringName.Renderer)}");
-        logger.Info($"- Vender: {Gl.GetString(StringName.Vendor)}");
+        logger.Debug("OpenGL Context created successfully. !");
+        logger.Trace("OpenGL configuration:");
+        logger.Trace($"- Version: {Gl.GetString(StringName.Version)}");
+        logger.Trace($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
+        logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
+        logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
 
         logger.Info("Create window success!");
         UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
