@@ -52,7 +52,14 @@ public static class Game
         };
         
 
+        
         logger.Info("--------Loading Defaults END >>> Starting Game Loop----------------");
+        MainWindow.DrawEvent += () =>
+        {
+            CurrentWorld?.MeshRenderer.processComponents();
+            CurrentWorld?.EntityScriptExecutor.ProcessDraws();
+        };
+        
         // CurrentWorld?.EntityScriptExecutor.ProcessStarts();
         
         // GameWindow.GameLoopUpdate += () =>
