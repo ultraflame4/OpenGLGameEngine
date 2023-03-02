@@ -2,7 +2,6 @@ using System.Runtime.InteropServices;
 using GLFW;
 using NLog;
 using OpenGL;
-using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Utils;
 using Monitor = GLFW.Monitor;
 
@@ -20,8 +19,8 @@ public class Window
     
     private string title;
     private Keys? fullscreenKey;
-
-    private readonly Logger logger;
+    
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     
     private GLFW.Window glfwWindow;
     private WindowModes windowMode;
@@ -32,12 +31,10 @@ public class Window
         this.fullscreenKey = fullscreenKey;
         this.title = title;
         this.windowMode = windowMode;
-        logger=LogManager.GetLogger($"{GetType()} ({title})");
     }
 
     public static void Init()
     {
-        var logger = LogManager.GetCurrentClassLogger();
         logger.Trace("Attempting to find glfw.dll at {directory}...", Directory.GetCurrentDirectory());
         if (!Glfw.Init())
         {
@@ -100,7 +97,6 @@ public class Window
     }
 
     public event Action DrawThreadStart;
-    public event Action DrawEvent;
     
     private void DrawThread()
     {
@@ -108,19 +104,6 @@ public class Window
         Glfw.MakeContextCurrent(glfwWindow);
         Gl.BindAPI(); // REQUIRED SO THAT GL. IS NOT NULL AND IS BOUND TO THE CONTEXT
         
-        Glfw.SwapInterval(1);
-        Gl.Enable(EnableCap.DepthTest);
-        Texture.ConfigureOpenGl();
-
-        
-        Gl.DebugMessageCallback((source, type, id, severity, length, message, param) =>
-        {
-            var msg = Marshal.PtrToStringAnsi(message, length);
-            
-            logger.Error($"OpenGL Error! SOURCE:{source} TYPE:{type} ID: {id} LEVEL: {severity} : {msg}!");
-        },0);
-
-
         logger.Debug("OpenGL Context created successfully. !");
         logger.Trace("OpenGL configuration:");
         logger.Trace($"- Version: {Gl.GetString(StringName.Version)}");
@@ -129,14 +112,6 @@ public class Window
         logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
         DrawThreadStart?.Invoke();
         
-        
-        while (!Glfw.WindowShouldClose(glfwWindow))
-        {
-            Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            // draw here
-            DrawEvent?.Invoke();
-            Glfw.SwapBuffers(glfwWindow);
-        }
         
         
     }
