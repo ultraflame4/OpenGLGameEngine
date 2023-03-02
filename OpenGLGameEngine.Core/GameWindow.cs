@@ -112,9 +112,15 @@ public static class GameWindow
 
     public static void Run()
     {
+        
+        Glfw.SetWindowRefreshCallback(window, (window) =>
+        {
+            Draw();
+        });
+        
         while (!Glfw.WindowShouldClose(window))
         {
-            Glfw.SwapBuffers(window);
+
 
             GameTime.UpdateDeltaTime(Glfw.Time);
 
@@ -122,11 +128,7 @@ public static class GameWindow
 
             Update();
 
-            int width, height;
-            Glfw.GetFramebufferSize(window, out width, out height);
-
-            Gl.Viewport(0, 0, width, height);
-            Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+     
 
             Draw();
 
@@ -139,8 +141,14 @@ public static class GameWindow
 
     private static void Draw()
     {
+        int width, height;
+        Glfw.GetFramebufferSize(window, out width, out height);
+
+        Gl.Viewport(0, 0, width, height);
+        Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         // draw here
         GameLoopDraw?.Invoke();
+        Glfw.SwapBuffers(window);
     }
 
     private static void Update()
