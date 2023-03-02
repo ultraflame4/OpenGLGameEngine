@@ -49,7 +49,6 @@ public class Mesh : Component
 
     public override void OnAdd()
     {
-        logger.Info("Adding mesh to world!. Current World Type: {worldType}", World?.GetType());
         World?.GetProcessor<MeshRenderer>()?.addComponent(this);
     }
 
