@@ -64,7 +64,7 @@ public static class GameWindow
         // Start initialisation and create opengl context and window.
         logger.Info("Beginning initialisation and creation of window...");
 
-        logger.Trace("Attempting to find glfw.dll at {directory}...",Directory.GetCurrentDirectory());
+        logger.Trace("Attempting to find glfw.dll at {directory}...", Directory.GetCurrentDirectory());
         if (!Glfw.Init())
         {
             logger.Fatal("Glfw Failed to initialised!");
@@ -73,13 +73,13 @@ public static class GameWindow
 
         logger.Debug("Glfw initialised successfully!");
         Glfw.SetErrorCallback(onGlfwError);
-        logger.Info("GLFW Version: {version}",Glfw.VersionString);
+        logger.Info("GLFW Version: {version}", Glfw.VersionString);
 
         logger.Trace("GLFW detected Monitors available:");
         for (var i = 0; i < Glfw.Monitors.Length; i++)
         {
             var m = Glfw.Monitors[i];
-            logger.Trace("- index:{index} Resolution: {width}x{height} position {xpos},{ypos}",i,m.WorkArea.Width,m.WorkArea.Height,m.WorkArea.X,m.WorkArea.Y);
+            logger.Trace("- index:{index} Resolution: {width}x{height} position {xpos},{ypos}", i, m.WorkArea.Width, m.WorkArea.Height, m.WorkArea.X, m.WorkArea.Y);
         }
 
         // Window and context creation
@@ -89,7 +89,7 @@ public static class GameWindow
         logger.Debug("Configuring and initiating keyboard input");
         KeyboardMouseInput.Init(window);
 
-        logger.Trace("Set toggle fullscreen key: {fullscreenKey}",fullscreenKey);
+        logger.Trace("Set toggle fullscreen key: {fullscreenKey}", fullscreenKey);
 
         KeyboardMouseInput.OnKeyDown += (key, code, state, mods) =>
         {
@@ -110,41 +110,48 @@ public static class GameWindow
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }
 
+    private static void RunDrawThread()
+    {
+        while (!Glfw.WindowShouldClose(window))
+        {
+            Draw();
+        }
+    }
+
     public static void Run()
     {
-        
+        Thread drawThread = new Thread(RunDrawThread);
+
         Glfw.SetWindowRefreshCallback(window, (window) =>
         {
             Draw();
         });
-        
+        drawThread.Start();
         while (!Glfw.WindowShouldClose(window))
         {
-
-
             GameTime.UpdateDeltaTime(Glfw.Time);
 
             Glfw.PollEvents();
 
             Update();
+            int width, height;
+            Glfw.GetFramebufferSize(window, out width, out height);
 
-     
+            Gl.Viewport(0, 0, width, height);
+
 
             Draw();
 
             OpenGL.ErrorCode code;
-            while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !",code);
+            while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !", code);
         }
 
+        drawThread.Join();
         Stop();
     }
 
     private static void Draw()
     {
-        int width, height;
-        Glfw.GetFramebufferSize(window, out width, out height);
-
-        Gl.Viewport(0, 0, width, height);
         Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         // draw here
         GameLoopDraw?.Invoke();
@@ -171,6 +178,6 @@ public static class GameWindow
     private static void onGlfwError(ErrorCode errCode, IntPtr description_p)
     {
         var description = Marshal.PtrToStringAnsi(description_p);
-        logger.Error("Glfw has encountered an error ({errCode}) {desc}",errCode,description);
+        logger.Error("Glfw has encountered an error ({errCode}) {desc}", errCode, description);
     }
 }
