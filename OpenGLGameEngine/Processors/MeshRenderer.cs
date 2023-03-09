@@ -21,14 +21,15 @@ public class MeshRenderer : Processor<Mesh>
             logger.Error("No global shader set!");
             return;
         }
-
+        
+        GameWorld.MAIN_CAMERA.CalcViewMatrix();
         components.ForEach(mesh =>
         {
             if (mesh.Enabled)
             {
                 var shader = mesh.Shader ?? GameWorld.GlobalShader;
                 shader.Use();
-                var transformMatrix = mesh.transform.GetModelMatrix() * GameWorld.MAIN_CAMERA.projMatrix;
+                var transformMatrix = mesh.transform.GetModelMatrix() * GameWorld.MAIN_CAMERA.viewMatrix * GameWorld.MAIN_CAMERA.projMatrix;
                 shader.SetUniform("transform", transformMatrix);
                 mesh.Draw();
             }

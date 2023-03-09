@@ -17,7 +17,7 @@ var world = Game.GetCurrentWorld();
 //         ShaderUtils.LoadShaderFromPath("./fragment.glsl", ShaderType.FragmentShader)
 // });
 
-world.CreateMainCamera();
+world.CreateMainCamera(true);
 
 world.AddEntityObject(new TestObject());
 Game.Start();
@@ -29,6 +29,11 @@ public class TestObject : EntityObject
     public override void Load()
     {
         mesh = Entity.AddComponent(new Mesh(transform, true));
+       
+    }
+
+    public override void Start()
+    {
         var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
         mesh.SetVertices(
             new MeshVertex(new Vector3(-1f, 1f, 0f), Color.Red, new Vector2(0f, 1f)),
@@ -39,16 +44,18 @@ public class TestObject : EntityObject
 
         mesh.SetTriangles(0, 2, 1, 0, 3, 2);
         mesh.SetTexture(texture);
-
-        transform.scale = new Vector3(0.5f);
+        
+        // transform.scale = new Vector3(0.5f);
     }
 
-    public override void Start() { }
+    public override void Update()
+    {
 
-    public override void Update() { }
+    }
 
     public override void Draw()
     {
+
         var testTransform = Entity?.GetComponent<Transform>();
         if (testTransform == null) return;
         testTransform.rotation.X = (float)Glfw.Time * 2f;

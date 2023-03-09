@@ -6,7 +6,7 @@ namespace OpenGLGameEngine.Components;
 public class Transform : Component
 {
     public Transform? parent;
-    public Vector3 position = new(0, 0, -1f);
+    public Vector3 position = Vector3.Zero;
     public Vector3 rotation = Vector3.Zero;
     public Vector3 scale = Vector3.One;
 

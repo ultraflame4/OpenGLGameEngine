@@ -29,12 +29,16 @@ public class GameWorld : World
         AddProcessor(EntityScriptExecutor);
     }
 
-    public Entity CreateMainCamera()
+    public Entity CreateMainCamera(bool controls=false)
     {
         var entity = CreateEntity();
         entity.AddComponent(new Transform());
         entity.AddComponent(new Camera());
         MAIN_CAMERA = entity.GetComponent<Camera>();
+        if (controls)
+        {
+            entity.AddComponent(new CameraController());
+        }
         return entity;
     }
 

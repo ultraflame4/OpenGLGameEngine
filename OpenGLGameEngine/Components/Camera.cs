@@ -8,6 +8,7 @@ public class Camera : Component
 {
     public static double DEFAULT_FOV = Utils.Utils.Deg2Rad(45);
     public Matrix4x4 projMatrix;
+    public Matrix4x4 viewMatrix;
     public Transform transform;
 
     public Camera()
@@ -18,7 +19,14 @@ public class Camera : Component
 
     public bool Enabled { get; set; } = true;
 
-    public override void OnAdd() { }
+    public override void OnAdd()
+    {
+        if (Entity==null) return;
+        transform = Entity.GetComponent<Transform>();
+        if (transform==null) return;
+        transform.position = new Vector3(0f, 0f, 3f);
+        transform.rotation = -1 * Vector3.UnitZ;
+    }
     public override void OnRemove() { }
 
 
@@ -56,5 +64,10 @@ public class Camera : Component
     public void UsePersepective(double? fov = null, float? aspectRatio = null, float zNear = .1f, float zFar = 100f)
     {
         projMatrix = Matrix4x4.CreatePerspectiveFieldOfView((float)(fov ?? DEFAULT_FOV), aspectRatio ?? WindowUtils.GetAspectRatio(), 0.01f, 100f);
+    }
+
+    public void CalcViewMatrix()
+    {
+        viewMatrix = Matrix4x4.CreateLookAt(transform.position, transform.position+transform.rotation, Vector3.UnitY);
     }
 }

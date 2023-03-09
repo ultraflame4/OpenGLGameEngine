@@ -39,12 +39,22 @@ public class Entity
         return component;
     }
 
-    public T? GetComponent<T>() where T : class, IComponent
+    public T? TryGetComponent<T>() where T : class, IComponent
     {
         foreach (var component in Components)
             if (component.GetType() == typeof(T))
                 return (T)component;
         return null;
+    }
+    public T GetComponent<T>() where T : class, IComponent
+    {
+        T? component = TryGetComponent<T>();
+        if (component == null)
+        {
+            throw new NullReferenceException($"Tried to get component of type {typeof(T)} from entity {this.entity_id} but it does not exist!");
+        }
+
+        return component;
     }
 
     public void Destroy()
