@@ -1,24 +1,25 @@
 using System.Numerics;
 using GLFW;
 using OpenGLGameEngine.Inputs;
+using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components;
 
 public class CameraController : EntityScript
 {
     private Vector3 direction;
-    private float speed = 0.5f;
+    private float speed = 5f;
 
     public override void Start()
     {
         var inputs = GameInput.CreateInputGroup("CameraController");
         inputs.AddAction("forward", new[] { Keys.W }, type: InputControlType.Held, callback: () =>
         {
-            if (direction.Z < 1f) direction.Z += 1f;
+            if (direction.Z > -1f) direction.Z -= 1f;
         });
         inputs.AddAction("backward", new[] { Keys.S }, type: InputControlType.Held, callback: () =>
         {
-            if (direction.Z > -1f) direction.Z -= 1f;
+            if (direction.Z < 1f) direction.Z += 1f;
         });
         inputs.AddAction("left", new[] { Keys.A }, type: InputControlType.Held, callback: () =>
         {
@@ -36,8 +37,7 @@ public class CameraController : EntityScript
 
         if (transform == null)
             return;
-        transform.position += direction * speed;
-        logger.Debug(transform.position);
+        transform.position += direction * speed * GameTime.DeltaTime;
         direction = Vector3.Zero;
     }
 
