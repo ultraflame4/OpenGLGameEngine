@@ -60,7 +60,7 @@ public class CameraController : EntityScript
 
 
         transform.rotation += rotation * panSpeed * GameTime.DeltaTime;
-        transform.position += direction  * speed * GameTime.DeltaTime;
+        transform.position += transform.rotation * direction.Z  * speed * GameTime.DeltaTime;
         
         direction = Vector3.Zero;
         rotation=Vector3.Zero;
