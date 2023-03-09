@@ -8,7 +8,9 @@ namespace OpenGLGameEngine.Components;
 public class CameraController : EntityScript
 {
     private Vector3 direction;
+    private Vector3 rotation;
     private float speed = 5f;
+    private float panSpeed = 1f;
 
     public override void Start()
     {
@@ -29,6 +31,23 @@ public class CameraController : EntityScript
         {
             if (direction.X < 1f) direction.X += 1f;
         });
+        
+        inputs.AddAction("lookup", new[] { Keys.Up }, type: InputControlType.Held, callback: () =>
+        {
+            if (rotation.Y > -1f) rotation.Z -= 1f;
+        });
+        inputs.AddAction("lookdown", new[] { Keys.Down }, type: InputControlType.Held, callback: () =>
+        {
+            if (rotation.Y < 1f) rotation.Z += 1f;
+        });
+        inputs.AddAction("lookleft", new[] { Keys.Left }, type: InputControlType.Held, callback: () =>
+        {
+            if (rotation.X > -1f) rotation.X -= 1f;
+        });
+        inputs.AddAction("lookright", new[] { Keys.Right }, type: InputControlType.Held, callback: () =>
+        {
+            if (rotation.X < 1f) rotation.X += 1f;
+        });
     }
 
     public override void Update()
@@ -38,7 +57,9 @@ public class CameraController : EntityScript
         if (transform == null)
             return;
         transform.position += direction * speed * GameTime.DeltaTime;
+        transform.rotation += rotation * panSpeed * GameTime.DeltaTime;
         direction = Vector3.Zero;
+        rotation=Vector3.Zero;
     }
 
     public override void Draw() { }
