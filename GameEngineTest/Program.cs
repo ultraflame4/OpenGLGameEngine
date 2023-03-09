@@ -29,7 +29,6 @@ public class TestObject : EntityObject
     public override void Load()
     {
         mesh = Entity.AddComponent(new Mesh(transform, true));
-       
     }
 
     public override void Start()
@@ -44,22 +43,18 @@ public class TestObject : EntityObject
 
         mesh.SetTriangles(0, 2, 1, 0, 3, 2);
         mesh.SetTexture(texture);
-        
+
         // transform.scale = new Vector3(0.5f);
     }
 
-    public override void Update()
-    {
-
-    }
+    public override void Update() { }
 
     public override void Draw()
     {
-
         var testTransform = Entity?.GetComponent<Transform>();
         if (testTransform == null) return;
-        testTransform.rotation.X = (float)Glfw.Time * 2f;
-        testTransform.rotation.Y = (float)Glfw.Time * 1.25f;
-        testTransform.rotation.Z = (float)Glfw.Time;
+        testTransform.rotation.X = (float)Glfw.Time * 2f * 0.001f;
+        testTransform.rotation.Y = (float)Glfw.Time * 1.25f * 0.001f;
+        testTransform.rotation.Z = (float)Glfw.Time * 0.001f;
     }
 }

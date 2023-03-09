@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Numerics;
 using GLFW;
 using OpenGLGameEngine.Inputs;
@@ -17,11 +18,11 @@ public class CameraController : EntityScript
         var inputs = GameInput.CreateInputGroup("CameraController");
         inputs.AddAction("forward", new[] { Keys.W }, type: InputControlType.Held, callback: () =>
         {
-            if (direction.Z > -1f) direction.Z -= 1f;
+            if (direction.Z < 1f) direction.Z += 1f;
         });
         inputs.AddAction("backward", new[] { Keys.S }, type: InputControlType.Held, callback: () =>
         {
-            if (direction.Z < 1f) direction.Z += 1f;
+            if (direction.Z > -1f) direction.Z -= 1f;
         });
         inputs.AddAction("left", new[] { Keys.A }, type: InputControlType.Held, callback: () =>
         {
@@ -34,11 +35,11 @@ public class CameraController : EntityScript
         
         inputs.AddAction("lookup", new[] { Keys.Up }, type: InputControlType.Held, callback: () =>
         {
-            if (rotation.Y > -1f) rotation.Z -= 1f;
+            if (rotation.Y > -1f) rotation.Y -= 1f;
         });
         inputs.AddAction("lookdown", new[] { Keys.Down }, type: InputControlType.Held, callback: () =>
         {
-            if (rotation.Y < 1f) rotation.Z += 1f;
+            if (rotation.Y < 1f) rotation.Y += 1f;
         });
         inputs.AddAction("lookleft", new[] { Keys.Left }, type: InputControlType.Held, callback: () =>
         {
@@ -56,8 +57,11 @@ public class CameraController : EntityScript
 
         if (transform == null)
             return;
-        transform.position += direction * speed * GameTime.DeltaTime;
+
+
         transform.rotation += rotation * panSpeed * GameTime.DeltaTime;
+        transform.position += direction  * speed * GameTime.DeltaTime;
+        
         direction = Vector3.Zero;
         rotation=Vector3.Zero;
     }
