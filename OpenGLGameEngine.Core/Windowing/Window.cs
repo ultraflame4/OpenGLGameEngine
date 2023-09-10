@@ -23,14 +23,14 @@ public class Window
     public bool shouldClose => GLFW.Glfw.WindowShouldClose(glfwWindow);
     
     WindowModes currentMode = WindowModes.Windowed;
-    WindowRect current;
-    WindowRect saved;
-    
+    public WindowRect CurrentRect { get; private set; }
+    public WindowRect SavedRect { get; private set; }
 
-    public Window(GLFW.Window glfwWindow, WindowRect current)
+
+    public Window(GLFW.Window glfwWindow, WindowRect currentRect)
     {
         this.glfwWindow = glfwWindow;
-        saved = this.current = current;
+        SavedRect = CurrentRect = currentRect;
     }
 
     public void UpdateRectData()
@@ -38,7 +38,7 @@ public class Window
         int x, y, w, h;
         GLFW.Glfw.GetWindowPosition(glfwWindow, out x, out y);
         GLFW.Glfw.GetWindowSize(glfwWindow, out w, out h);
-        current = new WindowRect(new Vector2(x, y), new Vector2(w, h));
+        CurrentRect = new WindowRect(new Vector2(x, y), new Vector2(w, h));
     }
 
     public void UpdateDisplayMode(WindowModes mode)
@@ -49,17 +49,17 @@ public class Window
         switch (mode)
         {
             case WindowModes.Windowed:
-                current = saved;
-                GLFW.Glfw.SetWindowMonitor(glfwWindow, GLFW.Monitor.None, current.X, current.Y, current.Width,
-                    current.Height, 0);
+                CurrentRect = SavedRect;
+                GLFW.Glfw.SetWindowMonitor(glfwWindow, GLFW.Monitor.None, CurrentRect.X, CurrentRect.Y, CurrentRect.Width,
+                    CurrentRect.Height, 0);
                 break;
             case WindowModes.Maximised:
-                saved = current;
+                SavedRect = CurrentRect;
                 GLFW.Glfw.MaximizeWindow(glfwWindow);
 
                 break;
             case WindowModes.Fullscreen:
-                saved = current;
+                SavedRect = CurrentRect;
                 GLFW.Glfw.SetWindowMonitor(glfwWindow, monitor, 0, 0, videoMode.Width, videoMode.Height,
                     videoMode.RefreshRate);
 

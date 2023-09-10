@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Math;
 using OpenGLGameEngine.Utils;
 
@@ -24,6 +25,6 @@ public class PerspectiveProjection : ICameraProjection
 
     public Matrix4x4 GetProjMatrix()
     {
-        return Matrix4x4.CreatePerspectiveFieldOfView(fov, WindowUtils.GetAspectRatio() * size, 0.01f, 100f);
+        return Matrix4x4.CreatePerspectiveFieldOfView(fov, GameWindow.window.CurrentRect.aspectRatio * size, 0.01f, 100f);
     }
 }

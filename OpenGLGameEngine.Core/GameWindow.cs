@@ -88,6 +88,7 @@ public static class GameWindow
 
         // Window and context creation
         logger.Debug("Begin window and context creation...");
+
         window = Window.Create(windowTitle, new WindowRect(Vector2.Zero, new Vector2(windowSize.width,windowSize.height)), windowMode, true);
         window.InitOpenGL();
         window.MakeCurrent();

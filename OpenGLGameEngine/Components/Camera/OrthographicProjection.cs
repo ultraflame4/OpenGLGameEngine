@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components.Camera;
@@ -17,7 +18,7 @@ public class OrthographicProjection: ICameraProjection
 
     public Matrix4x4 GetProjMatrix()
     {
-        (int width, int height) = WindowUtils.GetWindowSize();
-        return Matrix4x4.CreateOrthographic(width*size, height*size, zNear, zFar);
+        Vector2 windowSize = GameWindow.window.CurrentRect.size;
+        return Matrix4x4.CreateOrthographic(windowSize.X*size, windowSize.Y*size, zNear, zFar);
     }
 }
