@@ -1,4 +1,4 @@
-﻿namespace OpenGLGameEngine;
+﻿namespace OpenGLGameEngine.Core.Windowing;
 
 /// <summary>
 ///     The Window Display Modes available:

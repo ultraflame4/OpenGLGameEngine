@@ -2,7 +2,9 @@
 using GLFW;
 using NLog;
 using OpenGL;
+using OpenGLGameEngine.Core.Windowing;
 using Monitor = GLFW.Monitor;
+using Window = GLFW.Window;
 
 namespace OpenGLGameEngine.Utils;
 
@@ -35,6 +37,7 @@ public static class WindowUtils
 
     public static void UpdateWindowSpacialData(Window window)
     {
+        if (currentMode == WindowModes.Fullscreen) return;
         Glfw.GetWindowPosition(window, out last_x, out last_y);
         Glfw.GetWindowSize(window, out last_w, out last_h);
         logger.Trace($"Saved window spacial data (position and size) position: {last_x},{last_y} size: {last_w},{last_h}");
@@ -88,8 +91,6 @@ public static class WindowUtils
 
     public static void SetWindowDisplayMode(Window window, WindowModes mode)
     {
-        if (mode == currentMode) return;
-
         var monitor = Glfw.Monitors.GetClosestMonitor(window);
         var videoMode = Glfw.GetVideoMode(monitor);
         switch (mode)
@@ -111,7 +112,11 @@ public static class WindowUtils
             default:
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
-
+    }
+    public static void UpdateWindowDisplayMode(Window window, WindowModes mode)
+    {
+        if (mode == currentMode) return;
+        SetWindowDisplayMode(window, mode);
         currentMode = mode;
     }
 
@@ -125,12 +130,12 @@ public static class WindowUtils
         if (IsFullscreen())
         {
             logger.Trace("ToggleFullscreen: Going back to windowed");
-            SetWindowDisplayMode(window, WindowModes.Windowed);
+            UpdateWindowDisplayMode(window, WindowModes.Windowed);
         }
         else
         {
             logger.Trace("ToggleFullscreen: Going to fullscreen");
-            SetWindowDisplayMode(window, WindowModes.Fullscreen);
+            UpdateWindowDisplayMode(window, WindowModes.Fullscreen);
         }
     }
 
@@ -150,7 +155,7 @@ public static class WindowUtils
             throw new InvalidOperationException("Window or OpenGL context failed");
         }
 
-        SetWindowDisplayMode(window, windowMode);
+        UpdateWindowDisplayMode(window, windowMode);
         Gl.Initialize();
         Glfw.MakeContextCurrent(window);
 

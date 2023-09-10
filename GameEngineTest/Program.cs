@@ -6,6 +6,7 @@ using OpenGLGameEngine;
 using OpenGLGameEngine.Components;
 using OpenGLGameEngine.Components.Mesh;
 using OpenGLGameEngine.Core.Graphics;
+using OpenGLGameEngine.Core.Windowing;
 
 var logger = LogManager.GetCurrentClassLogger();
 Console.WriteLine("Hello World!");

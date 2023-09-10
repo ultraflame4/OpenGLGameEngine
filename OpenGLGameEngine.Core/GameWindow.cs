@@ -3,8 +3,10 @@ using GLFW;
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core.Graphics;
+using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Utils;
 using ErrorCode = GLFW.ErrorCode;
+using Window = GLFW.Window;
 
 namespace OpenGLGameEngine.Core;
 
