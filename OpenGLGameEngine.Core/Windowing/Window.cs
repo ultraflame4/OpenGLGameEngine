@@ -7,7 +7,8 @@ namespace OpenGLGameEngine.Core.Windowing;
 
 public class Window
 {
-    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+    private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+    private readonly Logger logger;
     public static GLFW.Keys fullscreenKey = GLFW.Keys.F11;
 
     public readonly GLFW.Window glfwWindow;
@@ -28,8 +29,10 @@ public class Window
     public WindowRect SavedRect { get; private set; }
 
 
-    public Window(GLFW.Window glfwWindow, WindowRect currentRect)
+    public Window(GLFW.Window glfwWindow, string title, WindowRect currentRect)
     {
+
+        logger = LogManager.GetLogger($"{GetType().FullName} [{title}]");
         this.glfwWindow = glfwWindow;
         SavedRect = CurrentRect = currentRect;
     }
@@ -102,23 +105,23 @@ public class Window
         bool enableFullscreen = false)
     {
         GLFW.Window glfwWindow;
-        logger.Trace($"- Set Window Title: {title}");
-        logger.Trace($"- Set Window Mode: {windowMode.ToString()}");
-        logger.Trace($"- Set Window rect: {rect.ToString()}");
+        _logger.Trace($"- Set Window Title: {title}");
+        _logger.Trace($"- Set Window Mode: {windowMode.ToString()}");
+        _logger.Trace($"- Set Window rect: {rect.ToString()}");
         WindowUtils.SetWindowHints();
         glfwWindow = GLFW.Glfw.CreateWindow(rect.Width, rect.Height, title, GLFW.Monitor.None, GLFW.Window.None);
 
         if (glfwWindow == GLFW.Window.None)
         {
-            logger.Fatal("Failed to create window!");
+            _logger.Fatal("Failed to create window!");
             throw new InvalidOperationException("Window or OpenGL context failed");
         }
 
-        Window window = new(glfwWindow, rect);
+        Window window = new(glfwWindow, title, rect);
         window.enableFullscreen = enableFullscreen;
         window.RegisterCallbacks();
 
-        logger.Info("Create window success!");
+        _logger.Info("Create window success!");
 
         return window;
     }
