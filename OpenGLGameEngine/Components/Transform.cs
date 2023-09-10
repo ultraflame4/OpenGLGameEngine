@@ -15,7 +15,7 @@ public class Transform : Component
      * the camera will never flip around to the back because that would be negative and we are only adding. So we either do a custom function to detect if y>1
      * and set y=-1 or do something else) 
      */
-    public Vector3 rotation = Vector3.Zero;
+    public Quaternion rotation = Quaternion.Identity;
     public Vector3 scale = Vector3.One;
 
     public Matrix4x4 TransformMatrix =>
@@ -24,6 +24,14 @@ public class Transform : Component
             Matrix4x4.CreateTranslation(position);
 
     public bool Enabled { get; set; } = true;
+    
+    public Vector3 Up => Vector3.Transform(Vector3.UnitY, rotation);
+    public Vector3 Down => -Up;
+    public Vector3 Forward => Vector3.Transform(Vector3.UnitZ, rotation);
+    public Vector3 Backward => -Forward;
+    public Vector3 Right => Vector3.Transform(Vector3.UnitX, rotation);
+    public Vector3 Left => -Right;
+    
 
     public override void OnAdd() { }
 
@@ -32,5 +40,10 @@ public class Transform : Component
     public Matrix4x4 GetModelMatrix()
     {
         return parent is null ? TransformMatrix : parent.GetModelMatrix() * TransformMatrix;
+    }
+
+    public override string ToString()
+    {
+        return $"<{GetType().FullName}: Position: {position}, Rotation: {rotation}, Scale: {scale}>";
     }
 }

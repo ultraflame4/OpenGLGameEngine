@@ -51,10 +51,10 @@ public class TestObject : EntityObject
 
     public override void Draw()
     {
-        var testTransform = Entity?.GetComponent<Transform>();
-        if (testTransform == null) return;
-        testTransform.rotation.X = (float)Glfw.Time * 2f * 0.001f;
-        testTransform.rotation.Y = (float)Glfw.Time * 1.25f * 0.001f;
-        testTransform.rotation.Z = (float)Glfw.Time * 0.001f;
+        // var testTransform = Entity?.GetComponent<Transform>();
+        // if (testTransform == null) return;
+        // testTransform.rotation.X = (float)Glfw.Time * 2f * 0.001f;
+        // testTransform.rotation.Y = (float)Glfw.Time * 1.25f * 0.001f;
+        // testTransform.rotation.Z = (float)Glfw.Time * 0.001f;
     }
 }

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Numerics;
 using GLFW;
 using OpenGLGameEngine.Inputs;
+using OpenGLGameEngine.Math;
 using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components;
@@ -32,7 +33,7 @@ public class CameraController : EntityScript
         {
             if (direction.X < 1f) direction.X += 1f;
         });
-        
+
         inputs.AddAction("lookup", new[] { Keys.Up }, type: InputControlType.Held, callback: () =>
         {
             if (rotation.Y > -1f) rotation.Y -= 1f;
@@ -59,11 +60,13 @@ public class CameraController : EntityScript
             return;
 
 
-        transform.rotation += rotation * panSpeed * GameTime.DeltaTime;
-        transform.position += transform.rotation * direction.Z  * speed * GameTime.DeltaTime;
-        
+        rotation *= panSpeed * GameTime.DeltaTime;
+        transform.rotation *= Quaternion.CreateFromYawPitchRoll(rotation.X, -rotation.Y, rotation.Z);
+
+        transform.position += Vector3.Transform( direction, transform.rotation) * speed * GameTime.DeltaTime;
+
         direction = Vector3.Zero;
-        rotation=Vector3.Zero;
+        rotation = Vector3.Zero;
     }
 
     public override void Draw() { }

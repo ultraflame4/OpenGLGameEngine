@@ -1,5 +1,7 @@
 ﻿using System.Numerics;
+using NLog;
 using OpenGLGameEngine.ECS;
+using OpenGLGameEngine.Math;
 using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components;
@@ -10,7 +12,7 @@ public class Camera : Component
     public Matrix4x4 projMatrix;
     public Matrix4x4 viewMatrix;
     public Transform transform;
-
+    Logger logger = LogManager.GetCurrentClassLogger();
     public Camera()
     {
         UsePersepective();
@@ -25,7 +27,7 @@ public class Camera : Component
         transform = Entity.GetComponent<Transform>();
         if (transform==null) return;
         transform.position = new Vector3(0f, 0f, 3f);
-        transform.rotation = -1 * Vector3.UnitZ;
+        transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX, 180f.ToRadians());
     }
     public override void OnRemove() { }
 
@@ -68,6 +70,9 @@ public class Camera : Component
 
     public void CalcViewMatrix()
     {
-        viewMatrix = Matrix4x4.CreateLookAt(transform.position, transform.position+transform.rotation, Vector3.UnitY);
+        logger.Debug($"{transform} {transform.Forward}");
+       
+        viewMatrix = Matrix4x4.CreateLookAt(transform.position, transform.position+transform.Forward, Vector3.UnitY);
     }
+
 }
