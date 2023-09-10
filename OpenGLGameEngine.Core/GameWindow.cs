@@ -94,11 +94,8 @@ public static class GameWindow
         window.MakeCurrent();
         window.InitInput();
         logger.Debug("Window and context creation successful!");
-        Glfw.SwapInterval(1);
         Gl.Enable(EnableCap.DepthTest);
-
         Texture.ConfigureOpenGl();
-
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }
 

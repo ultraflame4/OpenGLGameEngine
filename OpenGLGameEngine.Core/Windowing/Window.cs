@@ -4,7 +4,10 @@ using OpenGL;
 using OpenGLGameEngine.Core.Utils;
 
 namespace OpenGLGameEngine.Core.Windowing;
-
+/// <summary>
+/// This class is used to create a GLFW window and OpenGL context.
+/// It also handles window resizing and fullscreen.
+/// </summary>
 public class Window
 {
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
@@ -167,6 +170,7 @@ public class Window
     {
         if (GLFW.Glfw.CurrentContext == glfwWindow) return;
         GLFW.Glfw.MakeContextCurrent(glfwWindow);
+        GLFW.Glfw.SwapInterval(1);
         logger.Trace("glfw set current window context");
     }
 
