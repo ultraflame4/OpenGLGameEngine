@@ -3,7 +3,7 @@ using NLog.Conditions;
 using NLog.Config;
 using NLog.Targets;
 
-namespace OpenGLGameEngine.Utils;
+namespace OpenGLGameEngine.Core.Utils;
 
 /// <summary>
 ///     A general utility class that contain information about the game engine and various methods used internally.

@@ -3,7 +3,6 @@ using System.Numerics;
 using NLog;
 using OpenGLGameEngine.ECS;
 using OpenGLGameEngine.Math;
-using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components.Camera;
 

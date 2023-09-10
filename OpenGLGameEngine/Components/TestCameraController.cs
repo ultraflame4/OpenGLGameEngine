@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Numerics;
 using GLFW;
+using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Inputs;
 using OpenGLGameEngine.Math;
-using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components;
 

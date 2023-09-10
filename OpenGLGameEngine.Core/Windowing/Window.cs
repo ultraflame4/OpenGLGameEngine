@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using NLog;
 using OpenGL;
-using OpenGLGameEngine.Utils;
+using OpenGLGameEngine.Core.Utils;
 
 namespace OpenGLGameEngine.Core.Windowing;
 

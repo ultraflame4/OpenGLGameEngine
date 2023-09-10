@@ -2,9 +2,9 @@
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core;
+using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics;
-using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine;
 

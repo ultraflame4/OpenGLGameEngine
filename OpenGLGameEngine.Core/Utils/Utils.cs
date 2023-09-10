@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace OpenGLGameEngine.Utils;
+namespace OpenGLGameEngine.Core.Utils;
 
 /// <summary>
 ///     A general utility class that has useful functions

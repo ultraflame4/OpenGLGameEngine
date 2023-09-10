@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Math;
-using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components.Camera;
 

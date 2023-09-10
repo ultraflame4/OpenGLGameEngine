@@ -1,6 +1,6 @@
 ﻿using NLog;
 
-namespace OpenGLGameEngine.Utils;
+namespace OpenGLGameEngine.Core.Utils;
 
 public static class GameTime
 {

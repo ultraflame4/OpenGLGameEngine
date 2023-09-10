@@ -3,7 +3,7 @@ using System.Text;
 using NLog;
 using OpenGL;
 
-namespace OpenGLGameEngine.Utils;
+namespace OpenGLGameEngine.Core.Utils;
 
 /// <summary>
 ///     A utility class to help in things related to shaders and programs

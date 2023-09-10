@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using NLog;
 using OpenGL;
-using OpenGLGameEngine.Utils;
+using OpenGLGameEngine.Core.Utils;
 
 namespace OpenGLGameEngine.Graphics;
 
