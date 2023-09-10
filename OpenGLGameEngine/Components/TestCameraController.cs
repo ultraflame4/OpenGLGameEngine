@@ -7,7 +7,7 @@ using OpenGLGameEngine.Utils;
 
 namespace OpenGLGameEngine.Components;
 
-public class CameraController : EntityScript
+public class TestCameraController : EntityScript
 {
     private Vector3 direction;
     private Vector3 rotation;

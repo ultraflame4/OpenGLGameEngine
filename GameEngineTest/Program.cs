@@ -28,6 +28,7 @@ public class TestObject : EntityObject
 
     public override void Load()
     {
+
         mesh = Entity.AddComponent(new Mesh(transform, true));
     }
 

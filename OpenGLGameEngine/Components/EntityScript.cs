@@ -6,6 +6,7 @@ namespace OpenGLGameEngine.Components;
 public abstract class EntityScript : Component
 {
     public bool Enabled { get; set; }
+    public new Entity Entity => base.Entity??throw new NullReferenceException("Entity is null!");
 
     public override void OnAdd()
     {
@@ -22,8 +23,8 @@ public abstract class EntityScript : Component
     ///     This method is called when the engine is loading the game. This is called before the main game loop starts.
     ///     Use this method to load resources or any other assets
     ///     that have big overhead computational costs <br />
-    ///     Also use this method when you need to add components (initially) <br />
-    ///     Not all components have been added to the entity yet. <br />
+    ///     Also use this method when you need to add components (initially) or instantiate child objects <br />
+    ///     Not all components have been added to the entity yet. (Depends on your code) <br />
     /// </summary>
     public virtual void Load() { }
 

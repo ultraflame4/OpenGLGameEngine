@@ -37,7 +37,7 @@ public class GameWorld : World
         MAIN_CAMERA = entity.GetComponent<Camera>();
         if (controls)
         {
-            entity.AddComponent(new CameraController());
+            entity.AddComponent(new TestCameraController());
         }
         return entity;
     }
