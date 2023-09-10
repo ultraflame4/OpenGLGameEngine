@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Numerics;
+using System.Runtime.InteropServices;
 using GLFW;
 using NLog;
 using OpenGL;
@@ -6,7 +7,7 @@ using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Utils;
 using ErrorCode = GLFW.ErrorCode;
-using Window = GLFW.Window;
+using Window = OpenGLGameEngine.Core.Windowing.Window;
 
 namespace OpenGLGameEngine.Core;
 
@@ -19,7 +20,7 @@ namespace OpenGLGameEngine.Core;
 public static class GameWindow
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-    private static Window window;
+    public static Window window { get; private set; }
 
     /// <summary>
     ///     Whether to use the default shader program before every render.
@@ -87,24 +88,11 @@ public static class GameWindow
 
         // Window and context creation
         logger.Debug("Begin window and context creation...");
-        window = WindowUtils.CreateWindow(windowTitle, windowSize, windowMode);
-        Glfw.SetFramebufferSizeCallback(window, onWindowResize);
-        logger.Debug("Configuring and initiating keyboard input");
-        KeyboardMouseInput.Init(window);
-
-        logger.Trace("Set toggle fullscreen key: {fullscreenKey}", fullscreenKey);
-
-        KeyboardMouseInput.OnKeyDown += (key, code, state, mods) =>
-        {
-            int winX, winY;
-            Glfw.GetWindowPosition(window, out winX, out winY);
-            if (key == fullscreenKey)
-            {
-                logger.Info("Toggling fullscreen!");
-                WindowUtils.ToggleFullscreen(window);
-            }
-        };
-
+        window = Window.Create(windowTitle, new WindowRect(Vector2.Zero, new Vector2(windowSize.width,windowSize.height)), windowMode, true);
+        window.InitOpenGL();
+        window.MakeCurrent();
+        window.InitInput();
+        logger.Debug("Window and context creation successful!");
         Glfw.SwapInterval(1);
         Gl.Enable(EnableCap.DepthTest);
 
@@ -117,47 +105,23 @@ public static class GameWindow
 
     public static void Run()
     {
-
-        Glfw.SetWindowRefreshCallback(window, (window) =>
-        {
-            Draw();
-        });
-
-        while (!Glfw.WindowShouldClose(window))
+        
+        while (!window.shouldClose)
         {
             GameTime.UpdateDeltaTime(Glfw.Time);
 
-            Glfw.PollEvents();
+            window.Poll();
 
-            Update();
-            int width, height;
-            Glfw.GetFramebufferSize(window, out width, out height);
-
-            Gl.Viewport(0, 0, width, height);
-
-
-            Draw();
-
-            OpenGL.ErrorCode code;
-            while ((code = Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !", code);
+            // Update game logic
+            GameLoopUpdate?.Invoke();
+            // Draw
+            window.Clear();
+            GameLoopDraw?.Invoke();
+            window.SwapBuffers();
         }
         Stop();
     }
-
-    private static void Draw()
-    {
-        Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        // draw here
-        GameLoopDraw?.Invoke();
-        Glfw.SwapBuffers(window);
-    }
-
-    private static void Update()
-    {
-        KeyboardMouseInput.Update();
-        GameLoopUpdate?.Invoke();
-    }
-
+    
     private static void Stop()
     {
         logger.Info("Exited game loop!");
@@ -173,12 +137,5 @@ public static class GameWindow
     {
         var description = Marshal.PtrToStringAnsi(description_p);
         logger.Error("Glfw has encountered an error ({errCode}) {desc}", errCode, description);
-    }
-    private static void onWindowResize(IntPtr description_p, int width, int height)
-    {
-        var description = Marshal.PtrToStringAnsi(description_p);
-        logger.Info("Window resized", description);
-        Gl.Viewport(0, 0, width, height);
-        WindowUtils.UpdateWindowSpacialData(window);        
     }
 }

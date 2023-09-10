@@ -113,65 +113,65 @@ public static class WindowUtils
                 throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
         }
     }
-    public static void UpdateWindowDisplayMode(Window window, WindowModes mode)
-    {
-        if (mode == currentMode) return;
-        currentMode = mode;
-        SetWindowDisplayMode(window, mode);
-    }
+    // public static void UpdateWindowDisplayMode(Window window, WindowModes mode)
+    // {
+    //     if (mode == currentMode) return;
+    //     currentMode = mode;
+    //     SetWindowDisplayMode(window, mode);
+    // }
+    //
+    // public static bool IsFullscreen()
+    // {
+    //     return currentMode == WindowModes.Fullscreen;
+    // }
 
-    public static bool IsFullscreen()
-    {
-        return currentMode == WindowModes.Fullscreen;
-    }
+    // public static void ToggleFullscreen(Window window)
+    // {
+    //     if (IsFullscreen())
+    //     {
+    //         logger.Trace("ToggleFullscreen: Going back to windowed");
+    //         UpdateWindowDisplayMode(window, WindowModes.Windowed);
+    //     }
+    //     else
+    //     {
+    //         logger.Trace("ToggleFullscreen: Going to fullscreen");
+    //         UpdateWindowDisplayMode(window, WindowModes.Fullscreen);
+    //     }
+    // }
 
-    public static void ToggleFullscreen(Window window)
-    {
-        if (IsFullscreen())
-        {
-            logger.Trace("ToggleFullscreen: Going back to windowed");
-            UpdateWindowDisplayMode(window, WindowModes.Windowed);
-        }
-        else
-        {
-            logger.Trace("ToggleFullscreen: Going to fullscreen");
-            UpdateWindowDisplayMode(window, WindowModes.Fullscreen);
-        }
-    }
-
-    public static Window CreateWindow(string windowTitle, (int width, int height) windowSize, WindowModes windowMode)
-    {
-        Window window;
-        SetWindowHints();
-        logger.Trace($"- Set Window Title: {windowTitle}");
-        logger.Trace($"- Set Window Mode: {windowMode.ToString()}");
-        logger.Trace($"- Set Window Size: {windowMode.ToString()}");
-
-        window = Glfw.CreateWindow(windowSize.width, windowSize.height, windowTitle, Monitor.None, Window.None);
-
-        if (window == Window.None)
-        {
-            logger.Fatal("Window or OpenGL context failed");
-            throw new InvalidOperationException("Window or OpenGL context failed");
-        }
-
-        UpdateWindowDisplayMode(window, windowMode);
-        Gl.Initialize();
-        Glfw.MakeContextCurrent(window);
-
-        logger.Debug("OpenGL Context created successfully. !");
-        logger.Trace("OpenGL configuration:");
-        logger.Trace($"- Version: {Gl.GetString(StringName.Version)}");
-        logger.Trace($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
-        logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
-        logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
-
-        logger.Info("Create window success!");
-        UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
-
-
-        return window;
-    }
-    
+    // public static Window CreateWindow(string windowTitle, (int width, int height) windowSize, WindowModes windowMode)
+    // {
+    //     Window window;
+    //     SetWindowHints();
+    //     logger.Trace($"- Set Window Title: {windowTitle}");
+    //     logger.Trace($"- Set Window Mode: {windowMode.ToString()}");
+    //     logger.Trace($"- Set Window Size: {windowMode.ToString()}");
+    //
+    //     window = Glfw.CreateWindow(windowSize.width, windowSize.height, windowTitle, Monitor.None, Window.None);
+    //
+    //     if (window == Window.None)
+    //     {
+    //         logger.Fatal("Window or OpenGL context failed");
+    //         throw new InvalidOperationException("Window or OpenGL context failed");
+    //     }
+    //
+    //     UpdateWindowDisplayMode(window, windowMode);
+    //     Gl.Initialize();
+    //     Glfw.MakeContextCurrent(window);
+    //
+    //     logger.Debug("OpenGL Context created successfully. !");
+    //     logger.Trace("OpenGL configuration:");
+    //     logger.Trace($"- Version: {Gl.GetString(StringName.Version)}");
+    //     logger.Trace($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
+    //     logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
+    //     logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
+    //
+    //     logger.Info("Create window success!");
+    //     UpdateWindowSpacialData(window); // must be called so that the user's window size config is not changed
+    //
+    //
+    //     return window;
+    // }
+    //
             
 }

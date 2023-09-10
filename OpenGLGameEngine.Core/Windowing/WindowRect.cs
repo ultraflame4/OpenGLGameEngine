@@ -21,6 +21,6 @@ public struct WindowRect
 
     public override string ToString()
     {
-        return $"<${GetType().FullName} Position: {position}; Size: {size}>";
+        return $"<{GetType().FullName} Position: {position}; Size: {size}>";
     }
 }
