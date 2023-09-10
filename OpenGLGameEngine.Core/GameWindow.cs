@@ -73,6 +73,7 @@ public static class GameWindow
 
         logger.Debug("Glfw initialised successfully!");
         Glfw.SetErrorCallback(onGlfwError);
+
         logger.Info("GLFW Version: {version}", Glfw.VersionString);
 
         logger.Trace("GLFW detected Monitors available:");
@@ -85,7 +86,7 @@ public static class GameWindow
         // Window and context creation
         logger.Debug("Begin window and context creation...");
         window = WindowUtils.CreateWindow(windowTitle, windowSize, windowMode);
-
+        Glfw.SetFramebufferSizeCallback(window, onWindowResize);
         logger.Debug("Configuring and initiating keyboard input");
         KeyboardMouseInput.Init(window);
 
@@ -170,5 +171,12 @@ public static class GameWindow
     {
         var description = Marshal.PtrToStringAnsi(description_p);
         logger.Error("Glfw has encountered an error ({errCode}) {desc}", errCode, description);
+    }
+    private static void onWindowResize(IntPtr description_p, int width, int height)
+    {
+        var description = Marshal.PtrToStringAnsi(description_p);
+        logger.Info("Window resized", description);
+        Gl.Viewport(0, 0, width, height);
+        WindowUtils.UpdateWindowSpacialData(window);        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OpenGLGameEngine.Components;
+using OpenGLGameEngine.Components.Camera;
 using OpenGLGameEngine.ECS;
 using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Processors;

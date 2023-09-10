@@ -4,7 +4,8 @@ using System.Numerics;
 namespace OpenGLGameEngine.Components.Mesh;
 
 /// <summary>
-///     Utility class to make accessing mesh vertices easier and hides behind the terrifying single array non-OOP mess
+/// Utility class to make accessing mesh vertices easier and hides behind the terrifying single array non-OOP mess.
+/// Represents a single vertex in a mesh.
 /// </summary>
 public class MeshVertex
 {
