@@ -40,7 +40,7 @@ public static class WindowUtils
         if (currentMode == WindowModes.Fullscreen) return;
         Glfw.GetWindowPosition(window, out last_x, out last_y);
         Glfw.GetWindowSize(window, out last_w, out last_h);
-        logger.Trace($"Saved window spacial data (position and size) position: {last_x},{last_y} size: {last_w},{last_h}");
+        logger.Trace($"Saved window spacial data (position and size) position: {last_x},{last_y} size: {last_w},{last_h} {currentMode.ToString()}");
     }
 
     public static (int width, int height) GetWindowSize()
@@ -116,8 +116,8 @@ public static class WindowUtils
     public static void UpdateWindowDisplayMode(Window window, WindowModes mode)
     {
         if (mode == currentMode) return;
-        SetWindowDisplayMode(window, mode);
         currentMode = mode;
+        SetWindowDisplayMode(window, mode);
     }
 
     public static bool IsFullscreen()

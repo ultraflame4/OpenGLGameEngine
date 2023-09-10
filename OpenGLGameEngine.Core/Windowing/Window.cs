@@ -8,7 +8,7 @@ namespace OpenGLGameEngine.Core.Windowing;
 public class Window
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-    GLFW.Window glfwWindow;
+    public readonly GLFW.Window glfwWindow;
     
     public bool IsFullscreen { get; private set; }
     WindowModes currentMode = WindowModes.Windowed;
@@ -25,10 +25,30 @@ public class Window
     public void UpdateDisplayMode(WindowModes mode)
     {
         if (mode == currentMode) return;
-        WindowUtils.SetWindowDisplayMode(glfwWindow, mode);
+        var monitor = GLFW.Glfw.Monitors.GetClosestMonitor(glfwWindow);
+        var videoMode = GLFW.Glfw.GetVideoMode(monitor);
+        switch (mode)
+        {
+            case WindowModes.Windowed:
+                current = saved;
+                GLFW.Glfw.SetWindowMonitor(glfwWindow, GLFW.Monitor.None, current.X, current.Y, current.Width, current.Height, 0);
+                break;
+            case WindowModes.Maximised:
+                saved = current;
+                GLFW.Glfw.MaximizeWindow(glfwWindow);
+
+                break;
+            case WindowModes.Fullscreen:
+                saved = current;
+                GLFW.Glfw.SetWindowMonitor(glfwWindow, monitor, 0, 0, videoMode.Width, videoMode.Height, videoMode.RefreshRate);
+
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+        }
         currentMode = mode;
     }
-    public void ToggleFullscreen(Window window)
+    public void ToggleFullscreen()
     {
         if (IsFullscreen)
         {
@@ -41,7 +61,7 @@ public class Window
             UpdateDisplayMode(WindowModes.Fullscreen);
         }
     }
-    
+ 
     public static Window Create(string title, WindowRect rect, WindowModes windowMode = WindowModes.Windowed)
     {
         GLFW.Window glfwWindow;
@@ -66,8 +86,8 @@ public class Window
         logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
         logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
         Window window = new(glfwWindow, rect);
-        
         logger.Info("Create window success!");
+        
         return window;
     }
 }

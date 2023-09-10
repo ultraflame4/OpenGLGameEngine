@@ -10,6 +10,8 @@ public struct WindowRect
     public float aspectRatio => size.X / size.Y;
     public int Width => (int)size.X;
     public int Height => (int)size.Y;
+    public int X => (int)position.X;
+    public int Y => (int)position.Y;
 
     public WindowRect(Vector2 position, Vector2 size)
     {
