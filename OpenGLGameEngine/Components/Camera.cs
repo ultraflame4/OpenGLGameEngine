@@ -70,8 +70,6 @@ public class Camera : Component
 
     public void CalcViewMatrix()
     {
-        logger.Debug($"{transform} {transform.Forward}");
-       
         viewMatrix = Matrix4x4.CreateLookAt(transform.position, transform.position+transform.Forward, Vector3.UnitY);
     }
 

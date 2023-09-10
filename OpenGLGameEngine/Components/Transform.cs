@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using OpenGLGameEngine.ECS;
+using OpenGLGameEngine.Math;
 
 namespace OpenGLGameEngine.Components;
 
@@ -44,6 +45,6 @@ public class Transform : Component
 
     public override string ToString()
     {
-        return $"<{GetType().FullName}: Position: {position}, Rotation: {rotation}, Scale: {scale}>";
+        return $"<{GetType().FullName}: Position: {position}, Rotation: {rotation.ToDegrees()}, Scale: {scale}>";
     }
 }
