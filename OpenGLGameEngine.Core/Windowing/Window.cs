@@ -9,19 +9,20 @@ public class Window
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public static GLFW.Keys fullscreenKey = GLFW.Keys.F11;
-    
+
     public readonly GLFW.Window glfwWindow;
-    public bool enableFullscreen = false; 
+    public bool enableFullscreen = false;
 
     /// <summary>
     /// Whether the window is fullscreen or not.
     /// </summary>
     public bool IsFullscreen => currentMode == WindowModes.Fullscreen;
+
     /// <summary>
     /// Shorthand for <see cref="GLFW.Glfw.WindowShouldClose"/>
     /// </summary>
     public bool shouldClose => GLFW.Glfw.WindowShouldClose(glfwWindow);
-    
+
     WindowModes currentMode = WindowModes.Windowed;
     public WindowRect CurrentRect { get; private set; }
     public WindowRect SavedRect { get; private set; }
@@ -50,7 +51,8 @@ public class Window
         {
             case WindowModes.Windowed:
                 CurrentRect = SavedRect;
-                GLFW.Glfw.SetWindowMonitor(glfwWindow, GLFW.Monitor.None, CurrentRect.X, CurrentRect.Y, CurrentRect.Width,
+                GLFW.Glfw.SetWindowMonitor(glfwWindow, GLFW.Monitor.None, CurrentRect.X, CurrentRect.Y,
+                    CurrentRect.Width,
                     CurrentRect.Height, 0);
                 break;
             case WindowModes.Maximised:
@@ -85,8 +87,19 @@ public class Window
         }
     }
 
-
-    public static Window Create(string title, WindowRect rect, WindowModes windowMode = WindowModes.Windowed, bool enableFullscreen = false)
+    /// <summary>
+    /// Creates a new window with the specified title, rect and window mode.
+    /// </summary>
+    /// <param name="title">Title of the window</param>
+    /// <param name="rect">Position and size of window</param>
+    /// <param name="windowMode">Mode to start the window in</param>
+    /// <param name="enableFullscreen">Whether to allow fullscreen with f11.
+    /// Fullscreen can still be set using <see cref="ToggleFullscreen"/> or
+    /// <see cref="UpdateDisplayMode"/> regardless if true or false</param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static Window Create(string title, WindowRect rect, WindowModes windowMode = WindowModes.Windowed,
+        bool enableFullscreen = false)
     {
         GLFW.Window glfwWindow;
         logger.Trace($"- Set Window Title: {title}");
@@ -100,10 +113,11 @@ public class Window
             logger.Fatal("Failed to create window!");
             throw new InvalidOperationException("Window or OpenGL context failed");
         }
+
         Window window = new(glfwWindow, rect);
         window.enableFullscreen = enableFullscreen;
         window.RegisterCallbacks();
-        
+
         logger.Info("Create window success!");
 
         return window;
@@ -114,6 +128,9 @@ public class Window
         GLFW.Glfw.SetFramebufferSizeCallback(glfwWindow, (window, width, height) => UpdateRectData());
     }
 
+    /// <summary>
+    /// Initialise OpenGL context and set current context to this window for the current thread.
+    /// </summary>
     public void InitOpenGL()
     {
         Gl.Initialize();
@@ -125,7 +142,10 @@ public class Window
         logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
         logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
     }
-    
+
+    /// <summary>
+    /// Initialise keyboard input and configure defaults. (NOT THREAD SAFE)
+    /// </summary>
     public void InitInput()
     {
         logger.Debug("Initialisng keyboard input and configuring defaults");
@@ -136,13 +156,17 @@ public class Window
             if (key == fullscreenKey && enableFullscreen) ToggleFullscreen();
         };
     }
+
+    /// <summary>
+    /// Makes this window the current opengl context for the current thread.
+    /// </summary>
     public void MakeCurrent()
     {
         if (GLFW.Glfw.CurrentContext == glfwWindow) return;
         GLFW.Glfw.MakeContextCurrent(glfwWindow);
         logger.Trace("glfw set current window context");
     }
-    
+
     /// <summary>
     /// Poll and Updates this window, check for input, poll events, update viewport, etc.
     /// </summary>
@@ -150,13 +174,14 @@ public class Window
     {
         GLFW.Glfw.PollEvents();
         KeyboardMouseInput.Update();
-        
+
         GLFW.Glfw.GetFramebufferSize(glfwWindow, out int width, out int height);
         Gl.Viewport(0, 0, width, height);
         UpdateRectData();
         ErrorCode code;
         while ((code = Gl.GetError()) != ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !", code);
     }
+
     /// <summary>
     /// Clears the buffers for drawing. Shorthand for <see cref="Gl.Clear"/>
     /// </summary>
@@ -164,6 +189,7 @@ public class Window
     {
         Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
     }
+
     /// <summary>
     /// Swap the front and back buffers of this window. Shorthand for <see cref="GLFW.Glfw.SwapBuffers"/>
     /// </summary>
