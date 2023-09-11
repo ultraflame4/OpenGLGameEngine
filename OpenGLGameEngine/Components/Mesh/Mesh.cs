@@ -33,10 +33,10 @@ public class Mesh : Component
         var totalStride = PositionStride + ColourStride + (enableTextures ? TexCoordStride : 0); // Only add texture coords if textures are enabled
 
         vro = new VertexRenderObject(Array.Empty<float>(), totalStride);
-        vro.SetVertexAttrib(0, 3, 0);
-        vro.SetVertexAttrib(1, 3, 3);
+        vro.AddVertexAttrib( 3);
+        vro.AddVertexAttrib( 3);
         // If textures are enabled set the vertex attribute for texture coords
-        if (enableTextures) vro.SetVertexAttrib(2, 2, 6);
+        if (enableTextures) vro.AddVertexAttrib(2, 2, 6);
     }
 
     public Shader? Shader

@@ -38,6 +38,9 @@ public class VertexRenderObject
     public uint VertexArrayObject;
     public uint VertexBufferObject;
 
+    private uint _attrib_index_counter;
+    private uint _attrib_offset_counter;
+
     /// <summary>
     ///     <b>BufferUsage Guide:</b>
     ///     <br />
@@ -82,19 +85,23 @@ public class VertexRenderObject
     public void SetVertices(float[] vertices)
     {
         Bind();
-        Gl.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject); // Bind the VBO to the VAO and so we can put data into the buffer
-        Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices, bufferUsage); // put in data
+        Gl.BindBuffer(BufferTarget.ArrayBuffer,
+            VertexBufferObject); // Bind the VBO to the VAO and so we can put data into the buffer
+        Gl.BufferData(BufferTarget.ArrayBuffer, (uint)(sizeof(float) * vertices.Length), vertices,
+            bufferUsage); // put in data
         draw_count = vertices.Length / stride;
     }
 
     public void SetTriangles(uint[] indices)
     {
         Bind();
-        if (ElementBufferObject is null) ElementBufferObject = Gl.GenBuffer(); // If we have not created an EBO, create one
+        if (ElementBufferObject is null)
+            ElementBufferObject = Gl.GenBuffer(); // If we have not created an EBO, create one
 
         draw_count = indices.Length; // number of triangles to draw
         Gl.BindBuffer(BufferTarget.ElementArrayBuffer, (uint)ElementBufferObject); // bind the EBO to the VAO
-        Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(uint)), indices, bufferUsage); // do some config for EBO
+        Gl.BufferData(BufferTarget.ElementArrayBuffer, (uint)(indices.Length * sizeof(uint)), indices,
+            bufferUsage); // do some config for EBO
     }
 
     /// <summary>
@@ -119,23 +126,36 @@ public class VertexRenderObject
     /// Offset for texture coords is 3, because that is its index.
     /// </code>
     /// </summary>
-    /// <param name="index">The index of this attribute ( to be used in the shader script eg. index is 0 if layout (location = 0) )</param>
     /// <param name="size">The size of the attribute. (in number of items not bytes)</param>
-    /// <param name="offset_index">Offset</param>
     /// <param name="enable">Whether to enable the vertex attribute</param>
-    public void SetVertexAttrib(uint index, int size, int offset_index, bool enable = true,
-        [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
+    public void AddVertexAttrib(
+        int size, bool enable = true,
+        [CallerFilePath] string callerFile = "",
+        [CallerLineNumber] int lineno = -1)
     {
         Gl.GetInteger(GetPName.VertexArrayBinding, out int index_);
         if (VertexArrayObject != index_)
         {
-            logger.Warn($"{callerFile}({lineno}) !! Current Bound Vertex Attribute Object (VAO) (current:{index_}, instance{index}) is not the one in this instance!");
+            logger.Warn(
+                $"{callerFile}({lineno}) !!" +
+                $" Current Bound Vertex Attribute Object (VAO) (current:{index_}, " +
+                $"instance {VertexArrayObject}) is not the one in this instance!");
             logger.Warn("Will AutoBind!");
             Bind();
         }
 
-        Gl.VertexAttribPointer(index, size, VertexAttribType.Float, false, stride * sizeof(float), (IntPtr)(offset_index * sizeof(float)));
-        if (enable) Gl.EnableVertexAttribArray(index);
+        Gl.VertexAttribPointer(
+            _attrib_index_counter,
+            size,
+            VertexAttribType.Float,
+            false,
+            stride * sizeof(float),
+            (IntPtr)(_attrib_offset_counter * sizeof(float)));
+        
+        if (enable) Gl.EnableVertexAttribArray(_attrib_index_counter);
+
+        _attrib_index_counter++;
+        _attrib_offset_counter += (uint)size;
     }
 
     public void Bind()
@@ -154,6 +174,7 @@ public class VertexRenderObject
 
     ~VertexRenderObject()
     {
-        logger.Warn($"{callerFile}({lineno})!!! Vertex Render Object is being deleted! This will cause memory leaks!!! Please change the contents of the buffer instead!");
+        logger.Warn(
+            $"{callerFile}({lineno})!!! Vertex Render Object is being deleted! This will cause memory leaks!!! Please change the contents of the buffer instead!");
     }
 }
