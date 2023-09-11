@@ -36,7 +36,7 @@ public class Mesh : Component
         vro.AddVertexAttrib( 3);
         vro.AddVertexAttrib( 3);
         // If textures are enabled set the vertex attribute for texture coords
-        if (enableTextures) vro.AddVertexAttrib(2, 2, 6);
+        if (enableTextures) vro.AddVertexAttrib(2);
     }
 
     public Shader? Shader
