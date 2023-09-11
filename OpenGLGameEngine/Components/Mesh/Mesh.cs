@@ -45,8 +45,6 @@ public class Mesh : Component
         set => shader = value;
     }
 
-    public bool Enabled { get; set; } = true;
-
     public override void OnAdd()
     {
         World?.GetProcessor<MeshRenderer>()?.addComponent(this);
