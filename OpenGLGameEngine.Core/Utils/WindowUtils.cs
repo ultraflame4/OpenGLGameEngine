@@ -2,9 +2,7 @@
 using GLFW;
 using NLog;
 using OpenGLGameEngine.Core.Windowing;
-using OpenGLGameEngine.Math;
 using Monitor = GLFW.Monitor;
-using Window = GLFW.Window;
 
 namespace OpenGLGameEngine.Core.Utils;
 

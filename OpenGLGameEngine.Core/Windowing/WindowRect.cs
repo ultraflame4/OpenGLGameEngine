@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using OpenGLGameEngine.Math;
+﻿using OpenGLGameEngine.Math;
 
 namespace OpenGLGameEngine.Core.Windowing;
 
