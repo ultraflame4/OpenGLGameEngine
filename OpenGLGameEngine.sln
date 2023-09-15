@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLGameEngine", "OpenGLG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngineTest", "GameEngineTest\GameEngineTest.csproj", "{D08EFDBE-01F5-4674-AC06-26DC1B74A91C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLGameEngine.ECS", "OpenGLGameEngine.ECS\OpenGLGameEngine.ECS.csproj", "{429AB7E8-10F4-4E27-9D72-FAACF4353C8F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLGameEngine.Core", "OpenGLGameEngine.Core\OpenGLGameEngine.Core.csproj", "{303BBC2A-07B1-4F83-A3F0-BC0DE772FFFE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLGameEngine.Inputs", "OpenGLGameEngine.Inputs\OpenGLGameEngine.Inputs.csproj", "{2458D1BD-BBB3-4F1B-B149-188640DA459B}"
@@ -26,10 +24,6 @@ Global
 		{D08EFDBE-01F5-4674-AC06-26DC1B74A91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D08EFDBE-01F5-4674-AC06-26DC1B74A91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D08EFDBE-01F5-4674-AC06-26DC1B74A91C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{429AB7E8-10F4-4E27-9D72-FAACF4353C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{429AB7E8-10F4-4E27-9D72-FAACF4353C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{429AB7E8-10F4-4E27-9D72-FAACF4353C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{429AB7E8-10F4-4E27-9D72-FAACF4353C8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{303BBC2A-07B1-4F83-A3F0-BC0DE772FFFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{303BBC2A-07B1-4F83-A3F0-BC0DE772FFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{303BBC2A-07B1-4F83-A3F0-BC0DE772FFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU

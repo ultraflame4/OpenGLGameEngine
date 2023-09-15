@@ -28,7 +28,6 @@
 
     <ItemGroup>
         <Folder Include="bin\Debug\net6.0" />
-        <Folder Include="Universe\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -38,7 +37,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OpenGLGameEngine.Core\OpenGLGameEngine.Core.csproj" />
-        <ProjectReference Include="..\OpenGLGameEngine.ECS\OpenGLGameEngine.ECS.csproj" />
         <ProjectReference Include="..\OpenGLGameEngine.Math\OpenGLGameEngine.Math.csproj" />
     </ItemGroup>
 

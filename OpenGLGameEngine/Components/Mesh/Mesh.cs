@@ -1,10 +1,9 @@
 ﻿using OpenGLGameEngine.Core.Graphics;
-using OpenGLGameEngine.ECS;
-using OpenGLGameEngine.Processors;
+using OpenGLGameEngine.Universe;
 
 namespace OpenGLGameEngine.Components.Mesh;
 
-public class Mesh : Component
+public class Mesh
 {
     public const int TexCoordStride = 2;
     public const int PositionStride = 3;
@@ -13,21 +12,20 @@ public class Mesh : Component
 
     private readonly VertexRenderObject vro;
 
-    private float[] _vertices;
+    private float[] _vertices = Array.Empty<float>();
 
     private Shader? shader;
 
     public Texture? texture;
-    public Transform transform;
+
 
     /// <summary>
     ///     Creates a new mesh
     /// </summary>
     /// <param name="transform"></param>
     /// <param name="enableTextures">Whether to enable the use of textures or not. </param>
-    public Mesh(Transform transform, bool enableTextures = false)
+    public Mesh( bool enableTextures = false)
     {
-        this.transform = transform;
         TexturesEnabled = enableTextures;
         var totalStride = PositionStride + ColourStride + (enableTextures ? TexCoordStride : 0); // Only add texture coords if textures are enabled
 
@@ -38,22 +36,8 @@ public class Mesh : Component
         if (enableTextures) vro.AddVertexAttrib(2);
     }
 
-    public Shader? Shader
-    {
-        get => (shader ?? World.ToGameWorld()?.WorldShader) ?? GameWorld.GlobalShader;
-        set => shader = value;
-    }
-
-    public override void OnAdd()
-    {
-        World?.GetProcessor<MeshRenderer>()?.addComponent(this);
-    }
-
-    public override void OnRemove()
-    {
-        World?.GetProcessor<MeshRenderer>()?.removeComponent(this);
-    }
-
+    public Shader? Shader { get; set; }
+    
     public void SetVertices(params MeshVertex[] meshVertices)
     {
         _vertices = new float[meshVertices.Length * vro.stride];
