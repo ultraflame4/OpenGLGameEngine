@@ -13,7 +13,7 @@ public class Camera : Component
     public Matrix4x4 viewMatrix;
     public Transform transform;
 
-    Logger logger = LogManager.GetCurrentClassLogger();
+    new Logger logger = LogManager.GetCurrentClassLogger();
     public Camera()
     {   
         UsePerspective();

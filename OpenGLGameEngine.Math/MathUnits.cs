@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace OpenGLGameEngine.Math;
+﻿namespace OpenGLGameEngine.Math;
 
 public static class MathUnits
 {

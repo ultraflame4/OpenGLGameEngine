@@ -1,6 +1,5 @@
 ﻿using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.ECS;
-using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Processors;
 
 namespace OpenGLGameEngine.Components.Mesh;

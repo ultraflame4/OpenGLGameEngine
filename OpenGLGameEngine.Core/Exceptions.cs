@@ -2,7 +2,7 @@
 using System.Text;
 using OpenGL;
 
-namespace OpenGLGameEngine;
+namespace OpenGLGameEngine.Core;
 
 public class GameEngineException : Exception
 {

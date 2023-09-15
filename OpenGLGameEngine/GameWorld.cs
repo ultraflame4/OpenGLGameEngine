@@ -1,7 +1,7 @@
 ﻿using OpenGLGameEngine.Components;
 using OpenGLGameEngine.Components.Camera;
+using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.ECS;
-using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Processors;
 
 namespace OpenGLGameEngine;

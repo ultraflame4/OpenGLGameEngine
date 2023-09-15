@@ -4,7 +4,7 @@ using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core.Utils;
 
-namespace OpenGLGameEngine.Graphics;
+namespace OpenGLGameEngine.Core.Graphics;
 
 /// <summary>
 ///     This class simplifies the usage and creation of shaders and shaders programs

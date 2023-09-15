@@ -1,14 +1,14 @@
 ﻿using GLFW;
 using NLog;
 
-namespace OpenGLGameEngine;
+namespace OpenGLGameEngine.Inputs;
 
 /// <summary>
 ///     A class to handle mouse and keyboard event callbacks from Glfw.
 ///     <br />
 ///     Includes several related events and functions.
 ///     <br />
-///     For proper inputs controls, look at <see cref="Game.CreateInputActonScheme" />
+///     For proper inputs controls, look at <see cref="GameInput.CreateInputGroup" />
 /// </summary>
 public static class KeyboardMouseInput
 {
@@ -42,34 +42,34 @@ public static class KeyboardMouseInput
     /// <summary>
     ///     This event fires everytime a key is pressed or released. Will only be fired ONCE for that frame when it was pressed
     /// </summary>
-    public static event OnKeyEventHandler OnKeyUpDown;
+    public static event OnKeyEventHandler? OnKeyUpDown;
 
     /// <summary>
     ///     This event fires when the key is pressed. Will only be fired ONCE for that frame when it was pressed
     /// </summary>
-    public static event OnKeyEventHandler OnKeyDown;
+    public static event OnKeyEventHandler? OnKeyDown;
 
     /// <summary>
     ///     This event fires when the key is released.
     /// </summary>
-    public static event OnKeyEventHandler OnKeyUp;
+    public static event OnKeyEventHandler? OnKeyUp;
 
     /// <summary>
     ///     This event will fire continuously as long as a key is held. Please note that there is a delay before it starts firing continuously.
     ///     <br />
     ///     This is recommended for text inputs
     /// </summary>
-    public static event OnKeyEventHandler OnKeyRepeat;
+    public static event OnKeyEventHandler? OnKeyRepeat;
 
     /// <summary>
     ///     This event will fire continuously as long as a key is held. Unlike <see cref="OnKeyRepeat" />, there is no delay.
     /// </summary>
-    public static event OnKeyEventHandler OnKeyHeld;
+    public static event OnKeyEventHandler? OnKeyHeld;
 
     /// <summary>
     ///     Fires on any key events.
     /// </summary>
-    public static event OnKeyEventHandler OnAllKey;
+    public static event OnKeyEventHandler? OnAllKey;
 
     public static void Init(Window _window)
     {
@@ -133,22 +133,22 @@ public static class KeyboardMouseInput
     /// <summary>
     ///     This event fires when the mouse button is pressed. Will only be fired ONCE for that frame when it was pressed
     /// </summary>
-    public static event OnMouseBtnEventHandler OnMouseButtonDown;
+    public static event OnMouseBtnEventHandler? OnMouseButtonDown;
 
     /// <summary>
     ///     This event fires when the mouse button is released.
     /// </summary>
-    public static event OnMouseBtnEventHandler OnMouseButtonUp;
+    public static event OnMouseBtnEventHandler? OnMouseButtonUp;
 
     /// <summary>
     ///     This event fires as long as a mouse button is held continuously.
     /// </summary>
-    public static event OnMouseBtnEventHandler OnMouseButtonHeld;
+    public static event OnMouseBtnEventHandler? OnMouseButtonHeld;
 
     /// <summary>
     ///     This event fires on any mouse button events
     /// </summary>
-    public static event OnMouseBtnEventHandler OnAllMouseButton;
+    public static event OnMouseBtnEventHandler? OnAllMouseButton;
 
     private static void OnGlfwMouseButtonCallback(IntPtr intPtr, MouseButton btn, InputState state, ModifierKeys mods)
     {

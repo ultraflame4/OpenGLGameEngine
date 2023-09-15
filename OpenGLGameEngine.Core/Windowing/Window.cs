@@ -2,6 +2,7 @@
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core.Utils;
+using OpenGLGameEngine.Inputs;
 
 namespace OpenGLGameEngine.Core.Windowing;
 /// <summary>

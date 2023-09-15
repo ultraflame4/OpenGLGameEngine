@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using GLFW;
 using NLog;
 using OpenGL;
@@ -20,7 +19,7 @@ namespace OpenGLGameEngine.Core;
 public static class GameWindow
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-    public static Window window { get; private set; }
+    public static Window? window { get; private set; }
 
     /// <summary>
     ///     Whether to use the default shader program before every render.
@@ -40,10 +39,9 @@ public static class GameWindow
     /// <summary>
     ///     This event is invoked when the game loops exits and the window closes.
     /// </summary>
-    public static event Action GameLoopExit;
-
-    public static event Action GameLoopDraw;
-    public static event Action GameLoopUpdate;
+    public static event Action? GameLoopExit;
+    public static event Action? GameLoopDraw;
+    public static event Action? GameLoopUpdate;
 
 
     /// <summary>
