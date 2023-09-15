@@ -6,7 +6,7 @@ The entire ECS system will be removed and replaced with a better one that makes 
 
 This repository consists of 2 main projects:
 
-1. [GameEngineTest](GameEngineTest) - This project is a test game (well not really a game) used to test the engine
+1. [GameEngineTest](GameEngineTest) - This project is a test project used to test the engine and some of its features. Click on hyperlink for more info
 2. [OpenGLGameEngine](OpenGLGameEngine) - The main engine that is being developed
    - The OpenGLGameEngine project is further splitted into many sub-projects
     1. [OpenGLGameEngine.Inputs](OpenGLGameEngine.Inputs) - The input system used by the engine<br/>
@@ -14,3 +14,4 @@ This repository consists of 2 main projects:
       level stuff like glfw and opengl.
    3. ~~[OpenGLGameEngine.ECS](OpenGLGameEngine.ECS) - The basic Entity Component System used by the engine<br/>~~ It has been removed and will be included with OpenGLGameEngine
    4. [OpenGLGameEngine](OpenGLGameEngine) - The main project itself. This combines the projects above and provides the user with a simple api to use the engine.
+
