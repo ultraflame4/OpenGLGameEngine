@@ -3,11 +3,13 @@
 public class World
 {
     private List<Actor> actors = new();
+    private bool started = false;
     
     public void AddActor(Actor actor)
     {
         actors.Add(actor);
         actor.Init(this);
+        if (started) actor.Start();
     }
     public void RemoveActor(Actor actor)
     {
@@ -17,6 +19,7 @@ public class World
     
     public void Start()
     {
+        started = true;
         foreach (var actor in actors)
         {
             actor.Start();

@@ -14,7 +14,7 @@ public static class QuaternionExt
     /// <returns></returns>
     public static Quaternion Rotate(this ref Quaternion a, Quaternion b)
     {
-        return a *= b;
+        return a = b * a;
     }
 
     /// <summary>
@@ -27,9 +27,38 @@ public static class QuaternionExt
     /// <returns></returns>
     public static Quaternion RotateEuler(this ref Quaternion a, Vector3 angles)
     {
-        var q = Quaternion.CreateFromYawPitchRoll(angles.X, angles.Y, angles.Z);
-        return a *= q;
+        return a.Rotate(Quaternion.CreateFromYawPitchRoll(angles.X, angles.Y, angles.Z));
     }
+
+    /// <summary>
+    /// Rotates this quaternion <b>IN PLACE</b> around an axis by an angle in radians.
+    /// </summary>
+    /// <param name="a">Current quaternion to be rotated</param>
+    /// <param name="axis">Axis to rotate quaternion around</param>
+    /// <param name="angle">Angle in radian</param>
+    /// <returns></returns>
+    public static Quaternion RotateAxis(this ref Quaternion a, Vector3 axis, float angle)
+    {
+        return a.Rotate(Quaternion.CreateFromAxisAngle(axis, angle));
+    }
+    
+    /// <summary>
+    /// Rotates this quaternion <b>IN PLACE</b> by euler angles in radians using the world axes.
+    /// This essentially rotates the quaternion in world space.
+    /// </summary>
+    /// <param name="a">Current quaternion to be rotated</param>
+    /// <param name="angles">Angles in radians to rotate this quaternion by</param>
+    /// <returns></returns>
+    public static Quaternion RotateAxes(this ref Quaternion a, Vector3 angles)
+    {
+        var x = Quaternion.CreateFromAxisAngle(Vector3.UnitX, angles.Y);
+        var y = Quaternion.CreateFromAxisAngle(Vector3.UnitY, angles.X);
+        var z = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, angles.Z);
+        return a = a * x * y * z;
+                   
+    }
+
+
     /// <summary>
     /// Converts a quaternion to euler angles in radians.
     /// 
