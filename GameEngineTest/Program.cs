@@ -19,7 +19,7 @@ Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSi
 // });
 
 var world = new World();
-world.AddActor(new CameraActor());
+world.AddActor(new TestCameraController());
 world.AddActor(new TestObject());
 WorldManager.LoadWorld(world);
 Game.Start();
@@ -28,8 +28,10 @@ Game.Start();
 public class TestObject : MeshRenderer
 {
     
+    
     public override void Start()
     {
+        Mesh = new Mesh(true);
         var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
         Mesh.SetVertices(
             new MeshVertex(new Vector3(-1f, 1f, 0f), Color.Red, new Vector2(0f, 1f)),

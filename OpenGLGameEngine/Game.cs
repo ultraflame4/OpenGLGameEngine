@@ -38,7 +38,7 @@ public static class Game
         logger.Info("-----------------Loading Defaults----------------------");
         LoadDefaults();
         logger.Info("--------Loading Defaults END >>> Starting Game Loop----------------");
-
+        WorldManager.CurrentWorld?.Start();
         GameWindow.GameLoopUpdate += () => { WorldManager.CurrentWorld?.TickUpdate();};
         GameWindow.GameLoopDraw += () => { WorldManager.CurrentWorld?.TickDraw(); };
         GameWindow.Run();

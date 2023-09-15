@@ -11,7 +11,7 @@ public class MeshRenderer : Actor
     private Logger logger = LogManager.GetCurrentClassLogger();
     public Mesh.Mesh Mesh = new ();
     public CameraActor? camera = CameraActor.main;
-
+    
     public override void DrawTick()
     {
         if (camera == null)
