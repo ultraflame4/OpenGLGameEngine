@@ -18,8 +18,8 @@ public class CameraActor : Actor
     public CameraActor()
     {   
         UsePerspective();
-        transform.position = new Vector3(0f, 0f, 3f);
-        transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX, 180f.ToRad());
+        transform.position = new Vector3(0f, 0f, -3f);
+        transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX, 0);
         if (main == null) CameraActor.main = this;
     }
 
