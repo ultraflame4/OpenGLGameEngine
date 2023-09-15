@@ -1,5 +1,8 @@
-# OpenGLGameEngine
+# OpenGLGameEngine V2
 An attempt at a "simple" game engine by me, so that i can learn about game engine and opengl :) .
+
+This is the second 2 of the engine, which will include major changes into how objects in scene are handled.
+The entire ECS system will be removed and replaced with a better one that makes more sense and hopefully easier to use.
 
 This repository consists of 2 main projects:
 
@@ -9,5 +12,6 @@ This repository consists of 2 main projects:
     2. [OpenGLGameEngine.Inputs](OpenGLGameEngine.Inputs) - The input system used by the engine<br/>
     1. [OpenGLGameEngine.Core](OpenGLGameEngine.Core) - The engine core, which deals with low <br/>
       level stuff like glfw and opengl.
-   3. [OpenGLGameEngine.ECS](OpenGLGameEngine.ECS) - The basic Entity Component System used by the engine<br/>
+   ~~3. [OpenGLGameEngine.ECS](OpenGLGameEngine.ECS) - The basic Entity Component System used by the engine<br/>~~
+   3. [OpenGLGameEngine.Universe](OpenGLGameEngine.Universe) - The newer system replacing OpenGlGameEngine.ECS<br/>
    4. [OpenGLGameEngine](OpenGLGameEngine) - The main project itself. This combines the projects above and provides the user with a simple api to use the engine.
