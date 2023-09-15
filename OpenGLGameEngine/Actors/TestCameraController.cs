@@ -13,8 +13,8 @@ public class TestCameraController : CameraActor
     private Vector3 inputDirection;
     private Vector3 inputRotation;
     private float speed = 3f;
-    private float panSpeed = 3f;
-    private Vector3 angles = new Vector3(0,0, 0).ToRad();
+    private float panSpeed = 1f;
+    private Vector3 angles = new Vector3(180,0, 0).ToRad();
 
     Logger logger = LogManager.GetCurrentClassLogger();
     public override void Start()
@@ -24,8 +24,8 @@ public class TestCameraController : CameraActor
             callback: () => { inputDirection.Z = 1f; });
         inputs.AddAction("backward", new[] { Keys.S }, type: InputControlType.Held,
             callback: () => { inputDirection.Z = -1f; });
-        inputs.AddAction("left", new[] { Keys.A }, type: InputControlType.Held, callback: () => { inputDirection.X = -1f; });
-        inputs.AddAction("right", new[] { Keys.D }, type: InputControlType.Held, callback: () => { inputDirection.X = 1f; });
+        inputs.AddAction("left", new[] { Keys.A }, type: InputControlType.Held, callback: () => { inputDirection.X = 1f; });
+        inputs.AddAction("right", new[] { Keys.D }, type: InputControlType.Held, callback: () => { inputDirection.X = -1f; });
         inputs.AddAction("lookup", new[] { Keys.Up }, type: InputControlType.Held,
             callback: () => { inputRotation.Y = 1f; });
         inputs.AddAction("lookdown", new[] { Keys.Down }, type: InputControlType.Held,
@@ -40,6 +40,7 @@ public class TestCameraController : CameraActor
     {
         inputRotation *= panSpeed * GameTime.DeltaTime;
         angles -= inputRotation;
+
         transform.rotation = Quaternion.CreateFromYawPitchRoll(angles.X, angles.Y, angles.Z);
         transform.position += Vector3.Transform(inputDirection, transform.rotation) * speed * GameTime.DeltaTime;
         inputDirection = Vector3.Zero;

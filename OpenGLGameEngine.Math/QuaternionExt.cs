@@ -6,20 +6,17 @@ public static class QuaternionExt
 {
     /// <summary>
     /// Rotates this quaternion <b>IN PLACE</b> by another quaternion.
-    /// In other words, this = this * b.
+    /// In other words, this = b * this.
     /// Or in an
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static Quaternion Rotate(this ref Quaternion a, Quaternion b)
-    {
-        return a = b*a ;
-    }
+    public static Quaternion Rotate(this ref Quaternion a, Quaternion b) { return a = b * a; }
 
     /// <summary>
     /// Rotates this quaternion <b>IN PLACE</b> by euler angles in radians.
-    /// In other words, this = this * b.
+    /// In other words, this = b * this.
     /// Or in an
     /// </summary>
     /// <param name="a">Current quaternion to be rotated</param>

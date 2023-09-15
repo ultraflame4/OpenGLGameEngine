@@ -41,12 +41,13 @@ public class Transform
         };
     }
     public Matrix4x4 TransformMatrix =>
-            Matrix4x4.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z) *
+            Matrix4x4.CreateFromQuaternion(rotation) *
             Matrix4x4.CreateScale(scale) *
             Matrix4x4.CreateTranslation(position);
 
     public override string ToString()
     {
+
         return $"<{GetType().FullName} xy:{position}, rot:{rotation.ToEuler().ToDeg()}, scale:{scale}>";
     }
 }
