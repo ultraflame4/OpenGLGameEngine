@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Numerics;
+﻿using System.Numerics;
 using NLog;
 using OpenGLGameEngine.ECS;
 using OpenGLGameEngine.Math;
@@ -29,7 +28,7 @@ public class Camera : Component
         transform = Entity.GetComponent<Transform>();
         if (transform==null) return;
         transform.position = new Vector3(0f, 0f, 3f);
-        transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX, 180f.ToRadians());
+        transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX, 180f.ToRad());
     }
     public override void OnRemove() { }
 

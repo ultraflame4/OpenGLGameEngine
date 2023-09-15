@@ -39,7 +39,7 @@ public class TestCameraController : EntityScript
 
         transform.rotation.RotateEuler(rotation);
 
-        transform.position += direction.Transform(transform.rotation) * speed * GameTime.DeltaTime;
+        transform.position += Vector3.Transform(direction, transform.rotation) * speed * GameTime.DeltaTime;
 
         direction = Vector3.Zero;
         rotation = Vector3.Zero;

@@ -38,6 +38,7 @@
     <ItemGroup>
         <ProjectReference Include="..\OpenGLGameEngine.Core\OpenGLGameEngine.Core.csproj" />
         <ProjectReference Include="..\OpenGLGameEngine.ECS\OpenGLGameEngine.ECS.csproj" />
+        <ProjectReference Include="..\OpenGLGameEngine.Math\OpenGLGameEngine.Math.csproj" />
     </ItemGroup>
 
     <ItemGroup>

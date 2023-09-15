@@ -45,6 +45,6 @@ public class Transform : Component
 
     public override string ToString()
     {
-        return $"<{GetType().FullName}: Position: {position}, Rotation: {rotation.ToDegrees()}, Scale: {scale}>";
+        return $"<{GetType().FullName}: Position: {position}, Rotation: {rotation.ToEuler().ToDeg()}, Scale: {scale}>";
     }
 }

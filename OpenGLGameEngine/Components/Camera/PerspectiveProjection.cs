@@ -6,7 +6,7 @@ namespace OpenGLGameEngine.Components.Camera;
 
 public class PerspectiveProjection : ICameraProjection
 {
-    public static float DEFAULT_FOV = 45f.ToRadians();
+    public static float DEFAULT_FOV = 45f.ToRad();
     public float size { get; set; }
     public float zNear { get; set; }
     public float zFar { get; set; }
