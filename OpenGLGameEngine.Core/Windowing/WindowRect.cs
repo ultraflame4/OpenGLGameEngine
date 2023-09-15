@@ -1,28 +1,36 @@
 ﻿using System.Numerics;
+using OpenGLGameEngine.Math;
 
 namespace OpenGLGameEngine.Core.Windowing;
 
 public struct WindowRect
 {
-    public Vector2 position { get; } = Vector2.Zero;
-    public Vector2 size { get; }
+    public Point position = new(0, 0);
+    public Point size = new(0, 0);
+
+    public float aspectRatio => size.X / (float)size.Y;
+    public int Width => size.X;
+    public int Height => size.Y;
+    public int X => position.X;
+    public int Y => position.Y;
     
-    public float aspectRatio => size.X / size.Y;
-    public int Width => (int)size.X;
-    public int Height => (int)size.Y;
-    public int X => (int)position.X;
-    public int Y => (int)position.Y;
-    
-    public WindowRect(Vector2 position, Vector2 size)
+
+    public WindowRect(int x, int y, int w, int h)
+    {
+        this.position = new Point(x, y);
+        this.size = new Point(w, h);
+    }
+
+    public WindowRect(Point position, Point size)
     {
         this.position = position;
         this.size = size;
     }
 
-    public override string ToString()
-    {
-        return $"<{GetType().FullName} Position: {position}; Size: {size}>";
-    }
+    public override string ToString() { return $"<{GetType().FullName} Position: {position}; Size: {size}>"; }
 
-    
+    /// <summary>
+    /// Returns the center of the window rect
+    /// </summary>
+    public Point center => new(X + Width / 2, Y + Height / 2);
 }

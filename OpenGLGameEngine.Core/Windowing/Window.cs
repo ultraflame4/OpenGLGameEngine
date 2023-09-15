@@ -45,13 +45,13 @@ public class Window
         int x, y, w, h;
         GLFW.Glfw.GetWindowPosition(glfwWindow, out x, out y);
         GLFW.Glfw.GetWindowSize(glfwWindow, out w, out h);
-        CurrentRect = new WindowRect(new Vector2(x, y), new Vector2(w, h));
+        CurrentRect = new WindowRect(x, y, w, h);
     }
 
     public void UpdateDisplayMode(WindowModes mode)
     {
         if (mode == currentMode) return;
-        var monitor = GLFW.Glfw.Monitors.GetClosestMonitor(glfwWindow);
+        var monitor = WindowUtils.GetClosestMonitor(CurrentRect);
         var videoMode = GLFW.Glfw.GetVideoMode(monitor);
         switch (mode)
         {

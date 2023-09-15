@@ -15,6 +15,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OpenGLGameEngine.Inputs\OpenGLGameEngine.Inputs.csproj" />
+        <ProjectReference Include="..\OpenGLGameEngine.Math\OpenGLGameEngine.Math.csproj" />
     </ItemGroup>
 
     <ItemGroup>

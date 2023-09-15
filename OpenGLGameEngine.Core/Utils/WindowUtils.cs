@@ -2,6 +2,7 @@
 using GLFW;
 using NLog;
 using OpenGLGameEngine.Core.Windowing;
+using OpenGLGameEngine.Math;
 using Monitor = GLFW.Monitor;
 using Window = GLFW.Window;
 
@@ -27,31 +28,22 @@ public static class WindowUtils
         Glfw.WindowHint(Hint.AutoIconify, false);
     }
 
-    
+
     /// <summary>
     ///     Returns the monitor closest to the window's central position.
     /// </summary>
-    /// <param name="monitors">The monitors to compare</param>
-    /// <param name="window">The window to use</param>
+    /// <param name="windowRect">Rect of the window</param>
     /// <returns></returns>
-    public static Monitor GetClosestMonitor(this Monitor[] monitors, Window window)
+    public static Monitor GetClosestMonitor( WindowRect windowRect)
     {
-        int winX, winY, winW, winH;
-        Glfw.GetWindowPosition(window, out winX, out winY);
-        Glfw.GetWindowSize(window, out winW, out winH);
-        // Get the position in the center & reassign existing variables
-        (winX, winY) = Utils.TopLeft2CenterPosition(winX, winY, winW, winH);
-        // convert to vector for distance calculation
-        var windowPosition = (winX, winY).xy2Vector2();
-
+        var monitors = Glfw.Monitors;
         var last_closest = Monitor.None;
         float last_dist = -1;
         for (var i = 0; i < monitors.Length; i++)
         {
             var monitor = monitors[i];
-            var monitorPosition = Utils.TopLeft2CenterPosition(monitor.WorkArea.X, monitor.WorkArea.Y, monitor.WorkArea.Width, monitor.WorkArea.Height).xy2Vector2();
-
-            var currentDist = Vector2.Distance(windowPosition, monitorPosition);
+            var monitorRect = new WindowRect(monitor.WorkArea.X, monitor.WorkArea.Y, monitor.WorkArea.Width,monitor.WorkArea.Height);
+            var currentDist = Vector2.Distance(windowRect.center, monitorRect.center);
 
             if (currentDist < last_dist || i == 0)
             {
