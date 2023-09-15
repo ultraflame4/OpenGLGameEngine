@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using NLog;
-using OpenGLGameEngine.Components.Camera;
 using OpenGLGameEngine.Math;
 using OpenGLGameEngine.Universe;
 

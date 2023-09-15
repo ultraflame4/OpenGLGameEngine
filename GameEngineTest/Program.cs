@@ -2,11 +2,11 @@
 using System.Numerics;
 using NLog;
 using OpenGLGameEngine;
-using OpenGLGameEngine.Components;
-using OpenGLGameEngine.Components.Mesh;
+using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics.Camera;
+using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Universe;
 
 var logger = LogManager.GetCurrentClassLogger();

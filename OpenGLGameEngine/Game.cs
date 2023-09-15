@@ -1,7 +1,7 @@
 ﻿using GLFW;
 using NLog;
 using OpenGL;
-using OpenGLGameEngine.Components;
+using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Core.Utils;

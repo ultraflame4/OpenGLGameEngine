@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Numerics;
 using GLFW;
 using NLog;
@@ -6,9 +5,8 @@ using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Inputs;
 using OpenGLGameEngine.Math;
-using OpenGLGameEngine.Universe;
 
-namespace OpenGLGameEngine.Components;
+namespace OpenGLGameEngine.Actors;
 
 public class TestCameraController : CameraActor
 {

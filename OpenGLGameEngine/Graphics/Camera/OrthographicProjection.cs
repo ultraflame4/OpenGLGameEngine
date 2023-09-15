@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using OpenGLGameEngine.Core;
 
-namespace OpenGLGameEngine.Components.Camera;
+namespace OpenGLGameEngine.Graphics.Camera;
 
 public class OrthographicProjection: ICameraProjection
 {

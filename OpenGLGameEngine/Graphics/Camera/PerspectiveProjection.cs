@@ -2,7 +2,7 @@
 using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Math;
 
-namespace OpenGLGameEngine.Components.Camera;
+namespace OpenGLGameEngine.Graphics.Camera;
 
 public class PerspectiveProjection : ICameraProjection
 {

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace OpenGLGameEngine.Components.Camera;
+namespace OpenGLGameEngine.Graphics.Camera;
 
 public interface ICameraProjection
 {

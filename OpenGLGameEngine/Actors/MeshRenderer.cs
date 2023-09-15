@@ -1,15 +1,16 @@
 ﻿using NLog;
 using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Graphics.Camera;
+using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Universe;
 
-namespace OpenGLGameEngine.Components;
+namespace OpenGLGameEngine.Actors;
 
 public class MeshRenderer : Actor
 {
     public static Shader? defaultShader; 
     private Logger logger = LogManager.GetCurrentClassLogger();
-    public Mesh.Mesh Mesh = new ();
+    public Mesh Mesh = new ();
     public CameraActor? camera = CameraActor.main;
     
     public override void DrawTick()

@@ -1,7 +1,6 @@
 ﻿using OpenGLGameEngine.Core.Graphics;
-using OpenGLGameEngine.Universe;
 
-namespace OpenGLGameEngine.Components.Mesh;
+namespace OpenGLGameEngine.Graphics.Mesh;
 
 public class Mesh
 {
