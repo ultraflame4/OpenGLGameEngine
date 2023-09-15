@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLGameEngine.Inputs", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLGameEngine.Math", "OpenGLGameEngine.Math\OpenGLGameEngine.Math.csproj", "{A21BFB58-8912-495B-AF7F-30470FA3FDB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGLGameEngine.Universe", "OpenGLGameEngine.Universe\OpenGLGameEngine.Universe.csproj", "{55DE3028-8421-4ACF-8916-3E6B1A49CCAD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,9 +42,5 @@ Global
 		{A21BFB58-8912-495B-AF7F-30470FA3FDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A21BFB58-8912-495B-AF7F-30470FA3FDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A21BFB58-8912-495B-AF7F-30470FA3FDB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55DE3028-8421-4ACF-8916-3E6B1A49CCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55DE3028-8421-4ACF-8916-3E6B1A49CCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55DE3028-8421-4ACF-8916-3E6B1A49CCAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55DE3028-8421-4ACF-8916-3E6B1A49CCAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

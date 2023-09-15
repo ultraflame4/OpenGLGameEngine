@@ -9,9 +9,8 @@ This repository consists of 2 main projects:
 1. [GameEngineTest](GameEngineTest) - This project is a test game (well not really a game) used to test the engine
 2. [OpenGLGameEngine](OpenGLGameEngine) - The main engine that is being developed
    - The OpenGLGameEngine project is further splitted into many sub-projects
-    2. [OpenGLGameEngine.Inputs](OpenGLGameEngine.Inputs) - The input system used by the engine<br/>
-    1. [OpenGLGameEngine.Core](OpenGLGameEngine.Core) - The engine core, which deals with low <br/>
+    1. [OpenGLGameEngine.Inputs](OpenGLGameEngine.Inputs) - The input system used by the engine<br/>
+    2. [OpenGLGameEngine.Core](OpenGLGameEngine.Core) - The engine core, which deals with low <br/>
       level stuff like glfw and opengl.
-   ~~3. [OpenGLGameEngine.ECS](OpenGLGameEngine.ECS) - The basic Entity Component System used by the engine<br/>~~
-   3. [OpenGLGameEngine.Universe](OpenGLGameEngine.Universe) - The newer system replacing OpenGlGameEngine.ECS<br/>
+   3. ~~[OpenGLGameEngine.ECS](OpenGLGameEngine.ECS) - The basic Entity Component System used by the engine<br/>~~ It has been removed and will be included with OpenGLGameEngine
    4. [OpenGLGameEngine](OpenGLGameEngine) - The main project itself. This combines the projects above and provides the user with a simple api to use the engine.
