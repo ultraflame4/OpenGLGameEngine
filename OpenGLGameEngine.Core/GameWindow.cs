@@ -93,6 +93,7 @@ public static class GameWindow
         window.InitInput();
         logger.Debug("Window and context creation successful!");
         Gl.Enable(EnableCap.DepthTest);
+        Gl.Enable(EnableCap.Multisample);
         Texture.ConfigureOpenGl();
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }

@@ -24,6 +24,7 @@ public static class WindowUtils
         Glfw.WindowHint(Hint.Doublebuffer, true);
         Glfw.WindowHint(Hint.Decorated, true);
         Glfw.WindowHint(Hint.AutoIconify, false);
+        Glfw.WindowHint(Hint.Samples, 4);
     }
 
 
