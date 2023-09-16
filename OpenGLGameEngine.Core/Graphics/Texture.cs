@@ -9,8 +9,6 @@ namespace OpenGLGameEngine.Core.Graphics;
 public class Texture
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-    public readonly uint texureId;
-
     public static Texture defaultTexture = new Texture(new byte[] {
             255, 50, 255,
             50, 255, 50,
@@ -20,12 +18,16 @@ public class Texture
             
     }, 2, 2, OpenGL.PixelFormat.Rgb);
 
+    public readonly uint texId;
+
     public Texture(Bitmap bitmap)
     {
         var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly,
             PixelFormat.Format32bppArgb);
-        texureId = Gl.GenTexture();
-        Gl.BindTexture(TextureTarget.Texture2d, texureId);
+        texId = Gl.GenTexture();
+        Gl.BindTexture(TextureTarget.Texture2d, texId);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, Gl.NEAREST);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.LINEAR);
         Gl.TexImage2D(
             TextureTarget.Texture2d,
             0,
@@ -39,8 +41,10 @@ public class Texture
 
     public Texture(byte[] bytes, int width, int height, OpenGL.PixelFormat pixelFormat)
     {
-        texureId = Gl.GenTexture();
-        Gl.BindTexture(TextureTarget.Texture2d, texureId);
+        texId = Gl.GenTexture();
+        Gl.BindTexture(TextureTarget.Texture2d, texId);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, Gl.NEAREST);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.NEAREST);
         Gl.TexImage2D(
             TextureTarget.Texture2d,
             0,
@@ -72,6 +76,6 @@ public class Texture
     public void Bind(TextureUnit unit = TextureUnit.Texture0)
     {
         Gl.ActiveTexture(unit);
-        Gl.BindTexture(TextureTarget.Texture2d, texureId);
+        Gl.BindTexture(TextureTarget.Texture2d, texId);
     }
 }
