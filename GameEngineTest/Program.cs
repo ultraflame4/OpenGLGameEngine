@@ -33,7 +33,7 @@ public class TestObject : MeshRenderer
     public override void Start()
     {
         Mesh = new Mesh();
-        var texture = new Texture(new Bitmap("./CheckerboardMap.png"));
+        var texture = Texture.FromBitmap(new Bitmap("./CheckerboardMap.png"),new ());
         Mesh.SetVertices(
             new MeshVertex(new Vector3(-1f, 1f, 0f), Color.Red, new Vector2(0f, 1f)),
             new MeshVertex(new Vector3(1f, 1f, 0f), Color.Lime, new Vector2(1f, 1f)),

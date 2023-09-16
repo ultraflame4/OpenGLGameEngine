@@ -6,56 +6,73 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace OpenGLGameEngine.Core.Graphics;
 
+public struct TextureConfig
+{
+    public InternalFormat internalFormat = InternalFormat.Rgba;
+    public TextureFilterType minFilter = TextureFilterType.NEAREST;
+    public TextureFilterType magFilter = TextureFilterType.LINEAR;
+    public TextureConfig() { }
+}
+
 public class Texture
 {
-    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-    public static Texture defaultTexture = new Texture(new byte[] {
+    public static Texture defaultTexture = Texture.FromBytes(new byte[] {
             255, 50, 255,
             50, 255, 50,
             0, 0,
             50, 255, 50,
             255, 50, 255,
-            
-    }, 2, 2, OpenGL.PixelFormat.Rgb);
+    }, 2, 2, OpenGL.PixelFormat.Rgb, new() {
+            minFilter = TextureFilterType.NEAREST,
+            magFilter = TextureFilterType.NEAREST
+    });
 
-    public readonly uint texId;
+    protected uint texId;
+    protected readonly TextureConfig config;
 
-    public Texture(Bitmap bitmap)
+    protected Texture(TextureConfig config)
     {
-        var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly,
-            PixelFormat.Format32bppArgb);
+        this.config = config;
         texId = Gl.GenTexture();
         Gl.BindTexture(TextureTarget.Texture2d, texId);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, Gl.NEAREST);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.LINEAR);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, this.config.minFilter);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, this.config.magFilter);
+    }
+    
+
+    public static Texture FromBytes(byte[] bytes, int width, int height,OpenGL.PixelFormat pixelFormat, TextureConfig config)
+    {
+        Texture tex = new Texture(config);
+        tex.Bind();
         Gl.TexImage2D(
             TextureTarget.Texture2d,
             0,
-            InternalFormat.Rgba,
+            config.internalFormat,
+            width, height, 0,
+            pixelFormat, // using bgra here because somehow it is bgra in opengl when it is argb in C#
+            PixelType.UnsignedByte, bytes);
+        Gl.GenerateMipmap(TextureTarget.Texture2d);
+        return tex;
+    }
+    public static Texture FromBitmap(Bitmap bitmap, TextureConfig config)
+    {
+        
+        var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly,
+            PixelFormat.Format32bppArgb);
+        Texture tex = new Texture(config);
+        tex.Bind();
+        Gl.TexImage2D(
+            TextureTarget.Texture2d,
+            0,
+            config.internalFormat,
             data.Width, data.Height, 0,
             OpenGL.PixelFormat.Bgra, // using bgra here because somehow it is bgra in opengl when it is argb in C#
             PixelType.UnsignedByte, data.Scan0);
         Gl.GenerateMipmap(TextureTarget.Texture2d);
         bitmap.UnlockBits(data);
+        return tex;
     }
-
-    public Texture(byte[] bytes, int width, int height, OpenGL.PixelFormat pixelFormat)
-    {
-        texId = Gl.GenTexture();
-        Gl.BindTexture(TextureTarget.Texture2d, texId);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, Gl.NEAREST);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.NEAREST);
-        Gl.TexImage2D(
-            TextureTarget.Texture2d,
-            0,
-            InternalFormat.Rgba,
-            width, height, 0,
-            pixelFormat, // using bgra here because somehow it is bgra in opengl when it is argb in C#
-            PixelType.UnsignedByte, bytes);
-        Gl.GenerateMipmap(TextureTarget.Texture2d);
-    }
-
-
+    
 
     /// <summary>
     ///     Binds this texture for use in OpenGL
