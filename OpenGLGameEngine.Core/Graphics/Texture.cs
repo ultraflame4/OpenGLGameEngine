@@ -11,17 +11,18 @@ public struct TextureConfig
     public InternalFormat internalFormat = InternalFormat.Rgba;
     public TextureFilterType minFilter = TextureFilterType.NEAREST;
     public TextureFilterType magFilter = TextureFilterType.LINEAR;
+
+    
+    public TextureTarget textureTarget => TextureTarget.Texture2d;
     public TextureConfig() { }
 }
 
 public class Texture
 {
     public static Texture defaultTexture = Texture.FromBytes(new byte[] {
-            255, 50, 255,
-            50, 255, 50,
+            255, 50, 255, 50, 255, 50, 
             0, 0,
-            50, 255, 50,
-            255, 50, 255,
+            50, 255, 50, 255, 50, 255
     }, 2, 2, OpenGL.PixelFormat.Rgb, new() {
             minFilter = TextureFilterType.NEAREST,
             magFilter = TextureFilterType.NEAREST
@@ -34,24 +35,28 @@ public class Texture
     {
         this.config = config;
         texId = Gl.GenTexture();
-        Gl.BindTexture(TextureTarget.Texture2d, texId);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, this.config.minFilter);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, this.config.magFilter);
+        Gl.BindTexture(config.textureTarget, texId);
+        Gl.TexParameteri(config.textureTarget, TextureParameterName.TextureMinFilter, this.config.minFilter);
+        Gl.TexParameteri(config.textureTarget, TextureParameterName.TextureMagFilter, this.config.magFilter);
     }
     
+    protected void GenerateMipmap()
+    {
+        Gl.GenerateMipmap(config.textureTarget);
+    }
 
     public static Texture FromBytes(byte[] bytes, int width, int height,OpenGL.PixelFormat pixelFormat, TextureConfig config)
     {
         Texture tex = new Texture(config);
         tex.Bind();
         Gl.TexImage2D(
-            TextureTarget.Texture2d,
+            config.textureTarget,
             0,
             config.internalFormat,
             width, height, 0,
-            pixelFormat, // using bgra here because somehow it is bgra in opengl when it is argb in C#
+            pixelFormat,
             PixelType.UnsignedByte, bytes);
-        Gl.GenerateMipmap(TextureTarget.Texture2d);
+        tex.GenerateMipmap();
         return tex;
     }
     public static Texture FromBitmap(Bitmap bitmap, TextureConfig config)
@@ -62,13 +67,13 @@ public class Texture
         Texture tex = new Texture(config);
         tex.Bind();
         Gl.TexImage2D(
-            TextureTarget.Texture2d,
+            config.textureTarget,
             0,
             config.internalFormat,
             data.Width, data.Height, 0,
             OpenGL.PixelFormat.Bgra, // using bgra here because somehow it is bgra in opengl when it is argb in C#
             PixelType.UnsignedByte, data.Scan0);
-        Gl.GenerateMipmap(TextureTarget.Texture2d);
+        tex.GenerateMipmap();
         bitmap.UnlockBits(data);
         return tex;
     }
@@ -93,6 +98,6 @@ public class Texture
     public void Bind(TextureUnit unit = TextureUnit.Texture0)
     {
         Gl.ActiveTexture(unit);
-        Gl.BindTexture(TextureTarget.Texture2d, texId);
+        Gl.BindTexture(config.textureTarget, texId);
     }
 }

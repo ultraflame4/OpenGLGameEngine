@@ -11,8 +11,7 @@ public class Mesh
     private readonly VertexRenderObject vro;
 
     private float[] _vertices = Array.Empty<float>();
-
-    private Shader? shader;
+    public Shader? Shader { get; set; }
 
     public Texture? texture;
 
@@ -33,7 +32,7 @@ public class Mesh
 
     }
 
-    public Shader? Shader { get; set; }
+
     
     public void SetVertices(params MeshVertex[] meshVertices)
     {
