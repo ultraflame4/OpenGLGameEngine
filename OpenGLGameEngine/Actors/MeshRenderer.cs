@@ -1,5 +1,6 @@
 ﻿using NLog;
 using OpenGLGameEngine.Core.Graphics;
+using OpenGLGameEngine.Graphics;
 using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Universe;

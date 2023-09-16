@@ -19,8 +19,6 @@ public class Mesh
     /// <summary>
     ///     Creates a new mesh
     /// </summary>
-    /// <param name="transform"></param>
-    /// <param name="enableTextures">Whether to enable the use of textures or not. </param>
     public Mesh( )
     {
         var totalStride = PositionStride + ColourStride + TexCoordStride;
@@ -29,7 +27,6 @@ public class Mesh
         vro.AddVertexAttrib( 3);
         vro.AddVertexAttrib( 3);
         vro.AddVertexAttrib(2);
-
     }
 
 

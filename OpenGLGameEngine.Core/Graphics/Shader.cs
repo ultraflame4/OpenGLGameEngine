@@ -35,61 +35,38 @@ public class Shader
         var uniformLocation = Gl.GetUniformLocation(shaderProgram, name);
         if (uniformLocation == -1)
         {
-            logger.Error($"Could not get uniform location for name: {name} from shaderProgram {shaderProgram}");
+            logger.Error($"Could not get uniform location for name: {name} from shaderProgram {shaderProgram}!");
             return -1;
         }
-
         return uniformLocation;
     }
+    
 
-    /// <summary>
-    ///     Tells opengl to use this shader if not already in use <br />
-    ///     Use this where you expect the shader program to already be in use.
-    /// </summary>
-    private void AutoUse(string callerFile, int lineno)
-    {
-        Gl.GetInteger(GetPName.CurrentProgram, out int current_shader);
-        if (current_shader != shaderProgram)
-        {
-            logger.Warn($"{callerFile}({lineno}) !! Shader Program ({shaderProgram}) is not in use! Will auto use!! (Current shader: {current_shader})");
-            Use();
-        }
-    }
-
-    public void AutoUse([CallerLineNumber] int lineno = -1, [CallerFilePath] string callerFile = "")
-    {
-        AutoUse(callerFile, lineno);
-    }
-
-    public void SetUniform(string name, bool value, [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
+    public void SetUniform(string name, bool value)
     {
         var uniformLocation = GetUniformLocation(name);
         if (uniformLocation == -1) return;
-        AutoUse(callerFile, lineno);
         Gl.Uniform1i(uniformLocation, 1, value);
     }
 
-    public void SetUniform(string name, int value, [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
+    public void SetUniform(string name, int value)
     {
         var uniformLocation = GetUniformLocation(name);
         if (uniformLocation == -1) return;
-        AutoUse(callerFile, lineno);
         Gl.Uniform1i(uniformLocation, 1, value);
     }
 
-    public void SetUniform(string name, float value, [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
+    public void SetUniform(string name, float value)
     {
         var uniformLocation = GetUniformLocation(name);
         if (uniformLocation == -1) return;
-        AutoUse(callerFile, lineno);
         Gl.Uniform1f(uniformLocation, 1, value);
     }
 
-    public void SetUniform(string name, Matrix4x4 value, [CallerFilePath] string callerFile = "", [CallerLineNumber] int lineno = -1)
+    public void SetUniform(string name, Matrix4x4 value)
     {
         var uniformLocation = GetUniformLocation(name);
         if (uniformLocation == -1) return;
-        AutoUse(callerFile, lineno);
         Gl.UniformMatrix4f(uniformLocation, 1, false, value);
     }
 }

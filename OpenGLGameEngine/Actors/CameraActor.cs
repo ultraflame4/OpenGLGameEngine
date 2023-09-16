@@ -1,9 +1,10 @@
 ﻿using System.Numerics;
 using NLog;
+using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Math;
 using OpenGLGameEngine.Universe;
 
-namespace OpenGLGameEngine.Graphics.Camera;
+namespace OpenGLGameEngine.Actors;
 
 public class CameraActor : Actor
 {
