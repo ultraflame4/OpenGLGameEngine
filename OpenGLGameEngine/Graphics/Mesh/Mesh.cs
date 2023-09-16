@@ -7,7 +7,6 @@ public class Mesh
     public const int TexCoordStride = 2;
     public const int PositionStride = 3;
     public const int ColourStride = 3;
-    public readonly bool TexturesEnabled;
 
     private readonly VertexRenderObject vro;
 
@@ -23,16 +22,15 @@ public class Mesh
     /// </summary>
     /// <param name="transform"></param>
     /// <param name="enableTextures">Whether to enable the use of textures or not. </param>
-    public Mesh( bool enableTextures = false)
+    public Mesh( )
     {
-        TexturesEnabled = enableTextures;
-        var totalStride = PositionStride + ColourStride + (enableTextures ? TexCoordStride : 0); // Only add texture coords if textures are enabled
+        var totalStride = PositionStride + ColourStride + TexCoordStride;
 
         vro = new VertexRenderObject(Array.Empty<float>(), totalStride);
         vro.AddVertexAttrib( 3);
         vro.AddVertexAttrib( 3);
-        // If textures are enabled set the vertex attribute for texture coords
-        if (enableTextures) vro.AddVertexAttrib(2);
+        vro.AddVertexAttrib(2);
+
     }
 
     public Shader? Shader { get; set; }
@@ -44,7 +42,7 @@ public class Mesh
         {
             var current = meshVertices[i];
             // Use the properties in the MeshVertex class to set the values in the vertices array because im lazy
-            var setter = new MeshVertex(_vertices, i, TexturesEnabled);
+            var setter = new MeshVertex(_vertices, i);
             setter.Position = current.Position;
             setter.Color_ = current.Color_;
             setter.TexCoord = current.TexCoord;
@@ -55,7 +53,7 @@ public class Mesh
 
     public MeshVertex GetVertex(int index)
     {
-        return new MeshVertex(_vertices, index, TexturesEnabled);
+        return new MeshVertex(_vertices, index);
     }
 
 
@@ -79,7 +77,7 @@ public class Mesh
     /// </summary>
     public void Draw()
     {
-        if (TexturesEnabled) texture?.Bind();
+        (texture??Texture.defaultTexture).Bind();
         vro.Draw();
     }
 }

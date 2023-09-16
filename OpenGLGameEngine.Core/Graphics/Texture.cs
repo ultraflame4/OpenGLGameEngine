@@ -11,9 +11,19 @@ public class Texture
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public readonly uint texureId;
 
+    public static Texture defaultTexture = new Texture(new byte[] {
+            255, 50, 255,
+            50, 255, 50,
+            0, 0,
+            50, 255, 50,
+            255, 50, 255,
+            
+    }, 2, 2, OpenGL.PixelFormat.Rgb);
+
     public Texture(Bitmap bitmap)
     {
-        var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+        var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly,
+            PixelFormat.Format32bppArgb);
         texureId = Gl.GenTexture();
         Gl.BindTexture(TextureTarget.Texture2d, texureId);
         Gl.TexImage2D(
@@ -25,6 +35,20 @@ public class Texture
             PixelType.UnsignedByte, data.Scan0);
         Gl.GenerateMipmap(TextureTarget.Texture2d);
         bitmap.UnlockBits(data);
+    }
+
+    public Texture(byte[] bytes, int width, int height, OpenGL.PixelFormat pixelFormat)
+    {
+        texureId = Gl.GenTexture();
+        Gl.BindTexture(TextureTarget.Texture2d, texureId);
+        Gl.TexImage2D(
+            TextureTarget.Texture2d,
+            0,
+            InternalFormat.Rgba,
+            width, height, 0,
+            pixelFormat, // using bgra here because somehow it is bgra in opengl when it is argb in C#
+            PixelType.UnsignedByte, bytes);
+        Gl.GenerateMipmap(TextureTarget.Texture2d);
     }
 
     /// <summary>

@@ -9,7 +9,6 @@ namespace OpenGLGameEngine.Graphics.Mesh;
 /// </summary>
 public class MeshVertex
 {
-    private readonly bool texturesEnabled;
     private readonly float[] vertices;
     public int vertexIndex;
 
@@ -19,12 +18,11 @@ public class MeshVertex
     /// <param name="vertices"></param>
     /// <param name="vertexIndex"></param>
     /// <param name="texturesEnabled"></param>
-    public MeshVertex(float[] vertices, int vertexIndex, bool texturesEnabled = false)
+    public MeshVertex(float[] vertices, int vertexIndex)
     {
-        var stride = texturesEnabled ? 8 : 6;
+        var stride = 8 ;
         this.vertices = vertices;
         this.vertexIndex = vertexIndex * stride;
-        this.texturesEnabled = texturesEnabled;
     }
 
     /// <summary>
@@ -37,7 +35,6 @@ public class MeshVertex
     {
         vertices = new float[8];
         vertexIndex = 0;
-        texturesEnabled = true;
         Position = position;
         Color_ = colour;
         TexCoord = texCoord;
@@ -81,22 +78,14 @@ public class MeshVertex
 
     public float TexCoordX
     {
-        get => texturesEnabled ? vertices[vertexIndex + 6] : 0;
-        set
-        {
-            if (texturesEnabled)
-                vertices[vertexIndex + 6] = value;
-        }
+        get => vertices[vertexIndex + 6];
+        set { vertices[vertexIndex + 6] = value; }
     }
 
     public float TexCoordY
     {
-        get => texturesEnabled ? vertices[vertexIndex + 7] : 0;
-        set
-        {
-            if (texturesEnabled)
-                vertices[vertexIndex + 7] = value;
-        }
+        get => vertices[vertexIndex + 7];
+        set { vertices[vertexIndex + 7] = value; }
     }
 
     public Vector3 Position
