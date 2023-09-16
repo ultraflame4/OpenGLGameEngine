@@ -92,9 +92,14 @@ public static class GameWindow
         window.MakeCurrent();
         window.InitInput();
         logger.Debug("Window and context creation successful!");
+        logger.Debug("Configuring common OpenGL settings...");
         Gl.Enable(EnableCap.DepthTest);
         Gl.Enable(EnableCap.Multisample);
-        Texture.ConfigureOpenGl();
+        logger.Trace("Configuring common texture settings...");
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.MIRRORED_REPEAT);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, Gl.NEAREST);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.LINEAR);
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }
 

@@ -51,17 +51,7 @@ public class Texture
         Gl.GenerateMipmap(TextureTarget.Texture2d);
     }
 
-    /// <summary>
-    ///     Sets the opengl configurations for textures
-    /// </summary>
-    public static void ConfigureOpenGl()
-    {
-        logger.Info("Configuring OpenGl Textures...");
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.MIRRORED_REPEAT);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMinFilter, Gl.NEAREST);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureMagFilter, Gl.LINEAR);
-    }
+
 
     /// <summary>
     ///     Binds this texture for use in OpenGL
