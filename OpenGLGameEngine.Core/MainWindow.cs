@@ -16,7 +16,7 @@ namespace OpenGLGameEngine.Core;
 ///     <br />
 ///     * portions of the code were modified and copied from https://gist.github.com/dcronqvist/4e83dc3a4defe5780f1d4b6cac7558f6
 /// </summary>
-public static class GameWindow
+public static class MainWindow
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public static Window? window { get; private set; }
@@ -30,7 +30,7 @@ public static class GameWindow
     /// </summary>
     public static bool UseDefaultShader = true;
 
-    static GameWindow()
+    static MainWindow()
     {
         CoreUtils.ConfigureNLog(logger);
         logger.Info($"GameEngine version: {CoreUtils.VERSION}");

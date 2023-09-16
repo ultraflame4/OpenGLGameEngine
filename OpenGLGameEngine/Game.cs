@@ -17,7 +17,7 @@ public static class Game
     public static void CreateMainWindow(string windowTitle, Keys? fullscreenKey = Keys.F11,
         WindowModes windowMode = WindowModes.Windowed, (int width, int height) windowSize = default)
     {
-        GameWindow.Create(windowTitle, fullscreenKey, windowMode, windowSize);
+        MainWindow.Create(windowTitle, fullscreenKey, windowMode, windowSize);
     }
 
     private static void LoadDefaults()
@@ -39,8 +39,8 @@ public static class Game
         LoadDefaults();
         logger.Info("--------Loading Defaults END >>> Starting Game Loop----------------");
         WorldManager.CurrentWorld?.Start();
-        GameWindow.GameLoopUpdate += () => { WorldManager.CurrentWorld?.TickUpdate();};
-        GameWindow.GameLoopDraw += () => { WorldManager.CurrentWorld?.TickDraw(); };
-        GameWindow.Run();
+        MainWindow.GameLoopUpdate += () => { WorldManager.CurrentWorld?.TickUpdate();};
+        MainWindow.GameLoopDraw += () => { WorldManager.CurrentWorld?.TickDraw(); };
+        MainWindow.Run();
     }
 }
