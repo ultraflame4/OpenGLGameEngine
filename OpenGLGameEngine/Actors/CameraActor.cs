@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using NLog;
+using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Math;
 using OpenGLGameEngine.Universe;
@@ -9,19 +10,20 @@ namespace OpenGLGameEngine.Actors;
 public class CameraActor : Actor
 {
 
-    public static CameraActor? main;
+
+    public static CameraActor? Main;
     public ICameraProjection Projection;
     public Matrix4x4 projMatrix => Projection.GetProjMatrix();
     public Matrix4x4 viewMatrix => Matrix4x4.CreateLookAt(transform.position, transform.position+transform.Forward, Vector3.UnitY);
 
     Logger logger = LogManager.GetCurrentClassLogger();
-    
+
     public CameraActor()
     {   
         UsePerspective();
         transform.position = new Vector3(0f, 0f, 3f);
         transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX, 180f.ToRad());
-        if (main == null) CameraActor.main = this;
+        if (Main == null) CameraActor.Main = this;
     }
 
     public void UseOrthographic(float size=1f, float zNear = .1f, float zFar = 100f)
@@ -39,5 +41,20 @@ public class CameraActor : Actor
     {
         Projection = new PerspectiveProjection(fov,size, zNear, zFar);
     }
+    
+    public void UpdateContextMatrices()
+    {
+        if (MainWindow.window == null)
+        {
+            logger.Error("MainWindow.window is null! Cannot update context matrices!");
+            return;
+        }
+        MainWindow.window.viewMatrix = viewMatrix;
+        MainWindow.window.projMatrix = projMatrix;
+    }
 
+    public override void UpdateTick()
+    {
+        UpdateContextMatrices();
+    }
 }

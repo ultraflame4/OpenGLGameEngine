@@ -59,7 +59,7 @@ public class GraphicalContext
         Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
         CheckError();
     }
-
+    
     /// <summary>
     /// Checks for any OpenGL errors and logs them.
     /// </summary>
@@ -73,4 +73,9 @@ public class GraphicalContext
     /// Clears the buffers for drawing. Shorthand for <see cref="Gl.Clear"/>
     /// </summary>
     public void Clear() { Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit); }
+
+    public void UpdateContextData()
+    {
+        
+    }
 }

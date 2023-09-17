@@ -1,7 +1,6 @@
 ﻿using NLog;
+using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Core.Drawing;
-using OpenGLGameEngine.Graphics;
-using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Universe;
 
@@ -12,7 +11,7 @@ public class MeshRenderer : Actor
     public static Shader? defaultShader; 
     private Logger logger = LogManager.GetCurrentClassLogger();
     public Mesh Mesh = new ();
-    public CameraActor? camera = CameraActor.main;
+    public CameraActor? camera = CameraActor.Main;
     
     public override void DrawTick()
     {
@@ -28,8 +27,11 @@ public class MeshRenderer : Actor
             return;
         }
         shader.Use();
-        var transformMatrix = transform.GetModelMatrix() * camera.viewMatrix * camera.projMatrix;
-        shader.SetUniform("transform", transformMatrix);
+        // var transformMatrix = transform.GetModelMatrix() * camera.viewMatrix * camera.projMatrix;
+        // shader.SetUniform("transform", transformMatrix);
+        shader.SetUniform("model", transform.GetModelMatrix());
+        shader.SetUniform("projection", MainWindow.window.projMatrix);
+        shader.SetUniform("view", MainWindow.window.viewMatrix);
         Mesh.Draw();
     }   
 }
