@@ -12,7 +12,8 @@ public class Shader
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public readonly uint shaderProgram;
-
+    private Dictionary<string, int> uniformLocations = new();
+    
     /// <summary>
     /// </summary>
     /// <param name="shaders">Array of shaders loaded into memory. Use ShaderUtils to load them initially.</param>
@@ -31,12 +32,14 @@ public class Shader
 
     public int GetUniformLocation(string name)
     {
-        var uniformLocation = Gl.GetUniformLocation(shaderProgram, name);
+        int uniformLocation;
+        if (uniformLocations.TryGetValue(name, out uniformLocation)) return uniformLocation;
+        uniformLocation = Gl.GetUniformLocation(shaderProgram, name);
         if (uniformLocation == -1)
         {
-            logger.Error($"Could not get uniform location for name: {name} from shaderProgram {shaderProgram}!");
-            return -1;
+            logger.Error($"Could not get uniform location for name: {name} from shaderProgram {shaderProgram}! This error is only logged once! Did you bind your shader? Is the uniform defined in the shader code?!");
         }
+        uniformLocations.Add(name, uniformLocation);
         return uniformLocation;
     }
     
