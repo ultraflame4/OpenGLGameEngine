@@ -91,7 +91,7 @@ public static class ShaderUtils
     /// </summary>
     /// <param name="shaders">The shaders you want to attach to the shader program</param>
     /// <returns>The shader program</returns>
-    public static uint CreateProgam(uint[]? shaders)
+    public static uint CreateProgram(uint[]? shaders)
     {
         var program = Gl.CreateProgram();
         if (shaders is not null)

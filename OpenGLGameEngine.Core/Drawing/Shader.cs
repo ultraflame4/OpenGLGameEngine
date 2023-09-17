@@ -18,7 +18,7 @@ public class Shader
     /// <param name="shaders">Array of shaders loaded into memory. Use ShaderUtils to load them initially.</param>
     public Shader(uint[] shaders)
     {
-        shaderProgram = ShaderUtils.CreateProgam(shaders);
+        shaderProgram = ShaderUtils.CreateProgram(shaders);
     }
 
     /// <summary>

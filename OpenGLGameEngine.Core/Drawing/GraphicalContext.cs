@@ -1,4 +1,5 @@
-﻿using GLFW;
+﻿using System.Numerics;
+using GLFW;
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core.Windowing;
@@ -21,6 +22,14 @@ namespace OpenGLGameEngine.Core.Drawing;
 public class GraphicalContext
 {
     private readonly Logger logger = LogManager.GetCurrentClassLogger();
+    /// <summary>
+    /// The current camera's view matrix to be used for rendering.
+    /// </summary>
+    public Matrix4x4 viewMatrix;
+    /// <summary>
+    /// The current camera's projection matrix to be used for rendering.
+    /// </summary>
+    public Matrix4x4 projMatrix;
 
     protected static void SetWindowHints()
     {
