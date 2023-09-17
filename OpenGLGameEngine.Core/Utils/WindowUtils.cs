@@ -11,21 +11,7 @@ public static class WindowUtils
     public static (int width, int height) DefaultWindowSize = (848, 480);
 
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
-    public static void SetWindowHints()
-    {
-        // Set some common hints for the OpenGL profile creation
-        Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
-        // Set opengl version
-        Glfw.WindowHint(Hint.ContextVersionMajor, 4);
-        Glfw.WindowHint(Hint.ContextVersionMinor, 6);
-
-        Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
-        Glfw.WindowHint(Hint.Doublebuffer, true);
-        Glfw.WindowHint(Hint.Decorated, true);
-        Glfw.WindowHint(Hint.AutoIconify, false);
-        Glfw.WindowHint(Hint.Samples, 4);
-    }
+    
 
 
     /// <summary>

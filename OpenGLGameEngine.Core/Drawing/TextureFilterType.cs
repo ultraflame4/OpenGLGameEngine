@@ -1,6 +1,6 @@
 ﻿using OpenGL;
 
-namespace OpenGLGameEngine.Core.Graphics;
+namespace OpenGLGameEngine.Core.Drawing;
 
 public enum TextureFilterType
 {

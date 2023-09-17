@@ -1,4 +1,4 @@
-﻿using OpenGLGameEngine.Core.Graphics;
+﻿using OpenGLGameEngine.Core.Drawing;
 
 namespace OpenGLGameEngine.Graphics.Mesh;
 

@@ -2,7 +2,6 @@
 using GLFW;
 using NLog;
 using OpenGL;
-using OpenGLGameEngine.Core.Graphics;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
 using ErrorCode = GLFW.ErrorCode;
@@ -88,20 +87,11 @@ public static class MainWindow
         logger.Debug("Begin window and context creation...");
 
         window = Window.Create(windowTitle, new WindowRect(0,0, windowSize.width,windowSize.height), windowMode, true);
-        window.InitOpenGL();
+        window.Init();
         window.MakeCurrent();
         window.InitInput();
-        logger.Debug("Window and context creation successful!");
-        logger.Debug("Configuring common OpenGL settings...");
-        Gl.Enable(EnableCap.DepthTest);
-        Gl.Enable(EnableCap.Multisample);
-        logger.Trace("Configuring common texture settings...");
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.MIRRORED_REPEAT);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
-
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }
-
 
 
     public static void Run()

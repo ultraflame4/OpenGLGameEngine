@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using NLog;
 using OpenGL;
+using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Inputs;
 
@@ -9,7 +10,7 @@ namespace OpenGLGameEngine.Core.Windowing;
 /// This class is used to create a GLFW window and OpenGL context.
 /// It also handles window resizing and fullscreen.
 /// </summary>
-public class Window
+public class Window : GraphicalContext
 {
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
     private readonly Logger logger;
@@ -112,7 +113,7 @@ public class Window
         _logger.Trace($"- Set Window Title: {title}");
         _logger.Trace($"- Set Window Mode: {windowMode.ToString()}");
         _logger.Trace($"- Set Window rect: {rect.ToString()}");
-        WindowUtils.SetWindowHints();
+        SetWindowHints();
         glfwWindow = GLFW.Glfw.CreateWindow(rect.Width, rect.Height, title, GLFW.Monitor.None, GLFW.Window.None);
 
         if (glfwWindow == GLFW.Window.None)
@@ -138,7 +139,7 @@ public class Window
     /// <summary>
     /// Initialise OpenGL context and set current context to this window for the current thread.
     /// </summary>
-    public void InitOpenGL()
+    public void Init()
     {
         Gl.Initialize();
         MakeCurrent();
@@ -148,6 +149,7 @@ public class Window
         logger.Trace($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
         logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
         logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
+        Configure();
     }
 
     /// <summary>
@@ -182,20 +184,10 @@ public class Window
     {
         GLFW.Glfw.PollEvents();
         KeyboardMouseInput.Update();
-
         GLFW.Glfw.GetFramebufferSize(glfwWindow, out int width, out int height);
         Gl.Viewport(0, 0, width, height);
         UpdateRectData();
-        ErrorCode code;
-        while ((code = Gl.GetError()) != ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !", code);
-    }
-
-    /// <summary>
-    /// Clears the buffers for drawing. Shorthand for <see cref="Gl.Clear"/>
-    /// </summary>
-    public void Clear()
-    {
-        Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        CheckError();
     }
 
     /// <summary>

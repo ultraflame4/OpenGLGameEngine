@@ -1,10 +1,9 @@
 ﻿using System.Numerics;
-using System.Runtime.CompilerServices;
 using NLog;
 using OpenGL;
 using OpenGLGameEngine.Core.Utils;
 
-namespace OpenGLGameEngine.Core.Graphics;
+namespace OpenGLGameEngine.Core.Drawing;
 
 /// <summary>
 ///     This class simplifies the usage and creation of shaders and shaders programs

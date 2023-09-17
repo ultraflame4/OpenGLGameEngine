@@ -1,10 +1,9 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
-using NLog;
 using OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
-namespace OpenGLGameEngine.Core.Graphics;
+namespace OpenGLGameEngine.Core.Drawing;
 
 public struct TextureConfig
 {

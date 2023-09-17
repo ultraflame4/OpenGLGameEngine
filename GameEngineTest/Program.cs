@@ -3,7 +3,7 @@ using System.Numerics;
 using NLog;
 using OpenGLGameEngine;
 using OpenGLGameEngine.Actors;
-using OpenGLGameEngine.Core.Graphics;
+using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.Mesh;
