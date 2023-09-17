@@ -41,20 +41,5 @@ public class CameraActor : Actor
     {
         Projection = new PerspectiveProjection(fov,size, zNear, zFar);
     }
-    
-    public void UpdateContextMatrices()
-    {
-        if (MainWindow.window == null)
-        {
-            logger.Error("MainWindow.window is null! Cannot update context matrices!");
-            return;
-        }
-        MainWindow.window.viewMatrix = viewMatrix;
-        MainWindow.window.projMatrix = projMatrix;
-    }
-
-    public override void UpdateTick()
-    {
-        UpdateContextMatrices();
-    }
+  
 }

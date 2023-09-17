@@ -107,7 +107,7 @@ public static class MainWindow
             GameLoopUpdate?.Invoke();
             // Draw
             window.Clear();
-            window.UpdateContextData();
+
             GameLoopDraw?.Invoke();
             window.SwapBuffers();
         }

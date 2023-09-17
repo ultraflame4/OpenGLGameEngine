@@ -1,16 +1,17 @@
-﻿using System.Numerics;
+﻿using GLFW;
 using NLog;
 using OpenGL;
-using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Inputs;
+using ErrorCode = OpenGL.ErrorCode;
 
 namespace OpenGLGameEngine.Core.Windowing;
+
 /// <summary>
 /// This class is used to create a GLFW window and OpenGL context.
 /// It also handles window resizing and fullscreen.
 /// </summary>
-public class Window : GraphicalContext
+public class Window
 {
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
     private readonly Logger logger;
@@ -36,7 +37,6 @@ public class Window : GraphicalContext
 
     public Window(GLFW.Window glfwWindow, string title, WindowRect currentRect)
     {
-
         logger = LogManager.GetLogger($"{GetType().FullName} [{title}]");
         this.glfwWindow = glfwWindow;
         SavedRect = CurrentRect = currentRect;
@@ -193,8 +193,48 @@ public class Window : GraphicalContext
     /// <summary>
     /// Swap the front and back buffers of this window. Shorthand for <see cref="GLFW.Glfw.SwapBuffers"/>
     /// </summary>
-    public void SwapBuffers()
+    public void SwapBuffers() { GLFW.Glfw.SwapBuffers(glfwWindow); }
+
+    protected static void SetWindowHints()
     {
-        GLFW.Glfw.SwapBuffers(glfwWindow);
+        // Set some common hints for the OpenGL profile creation
+        Glfw.WindowHint(Hint.ClientApi, ClientApi.OpenGL);
+        // Set opengl version
+        Glfw.WindowHint(Hint.ContextVersionMajor, 4);
+        Glfw.WindowHint(Hint.ContextVersionMinor, 6);
+
+        Glfw.WindowHint(Hint.OpenglProfile, Profile.Core);
+        Glfw.WindowHint(Hint.Doublebuffer, true);
+        Glfw.WindowHint(Hint.Decorated, true);
+        Glfw.WindowHint(Hint.AutoIconify, false);
+        Glfw.WindowHint(Hint.Samples, 4);
     }
+
+    /// <summary>
+    /// Configures the graphical context. This should be called after creating the window and opengl context.
+    /// </summary>
+    protected void Configure()
+    {
+        logger.Debug("Configuring OpenGL settings...");
+        Gl.Enable(EnableCap.DepthTest);
+        Gl.Enable(EnableCap.Multisample);
+        logger.Trace("Configuring common texture settings...");
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.MIRRORED_REPEAT);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
+        CheckError();
+    }
+
+    /// <summary>
+    /// Checks for any OpenGL errors and logs them.
+    /// </summary>
+    public void CheckError()
+    {
+        ErrorCode code;
+        while ((code = Gl.GetError()) != ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !", code);
+    }
+
+    /// <summary>
+    /// Clears the buffers for drawing. Shorthand for <see cref="Gl.Clear"/>
+    /// </summary>
+    public void Clear() { Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit); }
 }

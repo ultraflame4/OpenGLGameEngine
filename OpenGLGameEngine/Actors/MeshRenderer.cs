@@ -30,8 +30,8 @@ public class MeshRenderer : Actor
         // var transformMatrix = transform.GetModelMatrix() * camera.viewMatrix * camera.projMatrix;
         // shader.SetUniform("transform", transformMatrix);
         shader.SetUniform("model", transform.GetModelMatrix());
-        shader.SetUniform("projection", MainWindow.window.projMatrix);
-        shader.SetUniform("view", MainWindow.window.viewMatrix);
+        shader.SetUniform("projection", camera.projMatrix);
+        shader.SetUniform("view", camera.viewMatrix);
         Mesh.Draw();
     }   
 }
