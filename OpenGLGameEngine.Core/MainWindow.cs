@@ -15,19 +15,11 @@ namespace OpenGLGameEngine.Core;
 ///     <br />
 ///     * portions of the code were modified and copied from https://gist.github.com/dcronqvist/4e83dc3a4defe5780f1d4b6cac7558f6
 /// </summary>
-public static class MainWindow
+public class MainWindow
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public static Window? window { get; private set; }
-
-    /// <summary>
-    ///     Whether to use the default shader program before every render.
-    ///     <br />
-    ///     <br />
-    ///     If you are using your own shader program, i.e you are calling Gl.UseProgram every loop before any render functions,
-    ///     <br />you can set this to false to prevent unnecessarily updating opengl state.
-    /// </summary>
-    public static bool UseDefaultShader = true;
+    
 
     static MainWindow()
     {
@@ -85,10 +77,8 @@ public static class MainWindow
 
         // Window and context creation
         logger.Debug("Begin window and context creation...");
-
         window = Window.Create(windowTitle, new WindowRect(0,0, windowSize.width,windowSize.height), windowMode, true);
         window.Init();
-        window.MakeCurrent();
         window.InitInput();
         logger.Info("!!!!!!!!!!!!!!!!!!!!! Initial configuration and initialisation done !!!!!!!!!!!!!!!!!!!!!");
     }

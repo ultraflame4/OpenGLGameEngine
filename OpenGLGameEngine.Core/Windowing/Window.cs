@@ -11,7 +11,7 @@ namespace OpenGLGameEngine.Core.Windowing;
 /// This class is used to create a GLFW window and OpenGL context.
 /// It also handles window resizing and fullscreen.
 /// </summary>
-public class Window
+public sealed class Window
 {
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
     private readonly Logger logger;
@@ -140,7 +140,8 @@ public class Window
     /// Initialise OpenGL context and set current context to this window for the current thread.
     /// </summary>
     public void Init()
-    {
+    {   
+        logger.Debug("Initialising OpenGL context...");
         Gl.Initialize();
         MakeCurrent();
         logger.Debug("OpenGL Context initialised successfully. !");
