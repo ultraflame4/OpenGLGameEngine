@@ -9,6 +9,7 @@ namespace OpenGLGameEngine.Core;
 /// Should be created using <see cref="Create"/> method.
 /// Todo - further improve this class to eventually replace MainWindow.
 /// todo - Maybe put universe system in here? and have it auto draw and update? would cut down on files & function / event calls inbetween.
+/// todo - still need main window class to act as initialiser for glfw and opengl.
 /// </summary>
 public sealed class GameWindow
 {
