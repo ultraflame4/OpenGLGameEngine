@@ -2,6 +2,7 @@
 using GLFW;
 using NLog;
 using OpenGL;
+using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
 using ErrorCode = GLFW.ErrorCode;
@@ -95,10 +96,9 @@ public class MainWindow
 
             // Update game logic
             GameLoopUpdate?.Invoke();
-            // Draw
-            window.Clear();
-
+            
             GameLoopDraw?.Invoke();
+            
             window.SwapBuffers();
         }
         Stop();

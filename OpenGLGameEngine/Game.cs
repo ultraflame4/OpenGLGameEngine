@@ -6,6 +6,7 @@ using OpenGLGameEngine.Core;
 using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
+using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Universe;
 
 namespace OpenGLGameEngine;
@@ -18,6 +19,9 @@ public static class Game
         WindowModes windowMode = WindowModes.Windowed, (int width, int height) windowSize = default)
     {
         MainWindow.Create(windowTitle, fullscreenKey, windowMode, windowSize);
+        logger.Debug("Initialising render pipeline...");
+        RenderPipeline.Init();
+        logger.Info("Initialised render pipeline successfully!");
     }
 
     private static void LoadDefaults()
@@ -40,7 +44,11 @@ public static class Game
         logger.Info("--------Loading Defaults END >>> Starting Game Loop----------------");
         WorldManager.CurrentWorld?.Start();
         MainWindow.GameLoopUpdate += () => { WorldManager.CurrentWorld?.TickUpdate();};
-        MainWindow.GameLoopDraw += () => { WorldManager.CurrentWorld?.TickDraw(); };
+        MainWindow.GameLoopDraw += () =>
+        {
+            WorldManager.CurrentWorld?.TickDraw();
+            RenderPipeline.Render();
+        };
         MainWindow.Run();
     }
 }
