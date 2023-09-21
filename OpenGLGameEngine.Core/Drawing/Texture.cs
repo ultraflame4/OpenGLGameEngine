@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using NLog;
 using OpenGL;
+using OpenGLGameEngine.Core.Utils;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace OpenGLGameEngine.Core.Drawing;
@@ -27,12 +29,21 @@ public class Texture
             magFilter = TextureFilterType.NEAREST
     });
 
-    protected uint texId;
+    public readonly uint texId;
+    public readonly int width;
+    public readonly int height;
     protected readonly TextureConfig config;
 
-    protected Texture(TextureConfig config)
+    /// <summary>
+    /// Tells OpenGl to create a new texture. This also binds the texture.
+    /// 
+    /// </summary>
+    /// <param name="config"></param>
+    protected Texture(TextureConfig config, int height, int width)
     {
         this.config = config;
+        this.height = height;
+        this.width = width;
         texId = Gl.GenTexture();
         Gl.BindTexture(config.textureTarget, texId);
         Gl.TexParameteri(config.textureTarget, TextureParameterName.TextureMinFilter, this.config.minFilter);
@@ -46,8 +57,7 @@ public class Texture
 
     public static Texture FromBytes(byte[] bytes, int width, int height,OpenGL.PixelFormat pixelFormat, TextureConfig config)
     {
-        Texture tex = new Texture(config);
-        tex.Bind();
+        Texture tex = new Texture(config,width, height);
         Gl.TexImage2D(
             config.textureTarget,
             0,
@@ -63,8 +73,7 @@ public class Texture
         
         var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly,
             PixelFormat.Format32bppArgb);
-        Texture tex = new Texture(config);
-        tex.Bind();
+        Texture tex = new Texture(config,data.Width,data.Height);
         Gl.TexImage2D(
             config.textureTarget,
             0,
@@ -74,6 +83,24 @@ public class Texture
             PixelType.UnsignedByte, data.Scan0);
         tex.GenerateMipmap();
         bitmap.UnlockBits(data);
+        return tex;
+    }
+
+    /// <summary>
+    /// An empty texture with the specified width and height and config. Good for creating render targets.
+    /// </summary>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <param name="config"></param>
+    /// <returns></returns>
+    public static Texture CreateEmpty(int width, int height, TextureConfig config)
+    {
+
+        Texture tex = new Texture(config,width, height);
+        WindowUtils.CheckError();
+        Gl.TexImage2D(config.textureTarget,0, config.internalFormat, width, height, 0, OpenGL.PixelFormat.Rgba,
+            PixelType.UnsignedByte, IntPtr.Zero);
+        tex.GenerateMipmap();
         return tex;
     }
     

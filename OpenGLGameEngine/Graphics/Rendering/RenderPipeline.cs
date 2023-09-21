@@ -1,4 +1,5 @@
 ﻿using NLog;
+using OpenGLGameEngine.Core.Utils;
 
 namespace OpenGLGameEngine.Graphics.Rendering;
 
@@ -9,7 +10,11 @@ public static class RenderPipeline
     // static List<RenderTarget> renderTargets = new ();
     public static List<IRenderable> renderables { get; } = new();
     public static HashSet<IRenderCamera> cameras { get; } = new();
-    public static void Init() { }
+
+    public static void Init()
+    {
+        WindowUtils.CheckError();
+    }
 
     private static void SetShaderUniforms()
     {

@@ -11,8 +11,6 @@ public static class WindowUtils
     public static (int width, int height) DefaultWindowSize = (848, 480);
 
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-    
-
 
     /// <summary>
     ///     Returns the monitor closest to the window's central position.
@@ -39,5 +37,13 @@ public static class WindowUtils
 
         return last_closest;
     }
-           
+    /// <summary>
+    /// Checks for any OpenGL errors and logs them.
+    /// </summary>
+    public static void CheckError()
+    {
+        OpenGL.ErrorCode code;
+        while ((code = OpenGL.Gl.GetError()) != OpenGL.ErrorCode.NoError) logger.Error("OpenGL Error Code: {code} !", code);
+    }
+
 }

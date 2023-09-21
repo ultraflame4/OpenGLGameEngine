@@ -7,6 +7,7 @@ using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.Mesh;
+using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Universe;
 
 var logger = LogManager.GetCurrentClassLogger();
@@ -19,8 +20,13 @@ Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSi
 // });
 
 var world = new World();
+var renderTexture = Texture.CreateEmpty(720, 720, new TextureConfig());
+var testRenderTarget = RenderTarget.Create(renderTexture, DepthBuffer.Create(720, 720));
+world.AddActor(new TestCameraController() {
+        renderTarget = testRenderTarget
+});
 world.AddActor(new TestCameraController());
-world.AddActor(new TestObject());
+world.AddActor(new TestObject(renderTexture));
 world.AddActor(PrimitiveShape.CreateCube());
 WorldManager.LoadWorld(world);
 Game.Start();
@@ -28,12 +34,13 @@ Game.Start();
 
 public class TestObject : MeshRenderer
 {
-    
-    
+    private Texture renderTex;
+    public TestObject(Texture renderTex) { this.renderTex = renderTex; }
+
     public override void Start()
     {
+        transform.position.X = 2;
         Mesh = new Mesh();
-        var texture = Texture.FromBitmap(new Bitmap("./CheckerboardMap.png"),new ());
         Mesh.SetVertices(
             new MeshVertex(new Vector3(-1f, 1f, 0f), Color.Red, new Vector2(0f, 1f)),
             new MeshVertex(new Vector3(1f, 1f, 0f), Color.Lime, new Vector2(1f, 1f)),
@@ -42,7 +49,7 @@ public class TestObject : MeshRenderer
         );
 
         Mesh.SetTriangles(0, 2, 1, 0, 3, 2);
-        Mesh.SetTexture(texture);
+        Mesh.SetTexture(renderTex);
 
         // transform.scale = new Vector3(0.5f);
     }
