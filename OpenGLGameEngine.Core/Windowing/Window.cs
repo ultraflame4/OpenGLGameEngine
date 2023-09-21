@@ -219,6 +219,7 @@ public sealed class Window
         logger.Debug("Configuring OpenGL settings...");
         Gl.Enable(EnableCap.DepthTest);
         Gl.Enable(EnableCap.Multisample);
+        Gl.Enable(EnableCap.CullFace);
         logger.Trace("Configuring common texture settings...");
         Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.MIRRORED_REPEAT);
         Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
