@@ -24,6 +24,11 @@ public class CameraActor : Actor, IRenderCamera
         UsePerspective();
         transform.position = new Vector3(0f, 0f, 3f);
         transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX, 180f.ToRad());
+    }
+
+    public override void Load()
+    {
+        base.Load();
         RenderPipeline.cameras.Add(this);
     }
 

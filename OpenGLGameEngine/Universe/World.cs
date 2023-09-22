@@ -16,6 +16,7 @@ public class World
         if (actors.Contains(actor)) return actor;
         actors.Add(actor);
         actor.Init(this, parent);
+        actor.Load();
         if (started) actor.Start();
         return actor;
     }
