@@ -1,36 +1,45 @@
-﻿namespace OpenGLGameEngine.UI;
+﻿using OpenGLGameEngine.Universe;
 
-public abstract class UIElement
+namespace OpenGLGameEngine.UI;
+
+public class UIElement : TransformNode
 {
     private UIElement? parent { get; set; } = null;
     private List<UIElement> children { get; } = new();
 
-    public void AddChild(UIElement child)
-    {
-        child.parent = this;
-        children.Add(child);
-    }
-    public void RemoveChild(UIElement child)
-    {
-        child.parent = null;
-        children.Remove(child);
-        child.Destroy();
-    }
+    public int width = 100;
+    public int height = 100;
+    public ElementBackground Background { get; } = new();
+
 
     public virtual void Update() { }
 
-    public virtual void Destroy()
+    /// <summary>
+    /// Removes a child from this node and destroys it.
+    /// </summary>
+    /// <param name="child"></param>
+    public void DestroyChild(TransformNode child)
+    {
+        RemoveChild(child);
+        child.Destroy();
+    }
+
+    /// <summary>
+    /// Destroys this element and all its children.
+    /// </summary>
+    public override void Destroy()
     {
         // Remove all children in list.
         // We can modify the list while iterating over it because we're iterating backwards.
         for (var i = children.Count - 1; i >= 0; i--)
         {
-            RemoveChild(children[i]);
+            DestroyChild(children[i]);
         }
     }
 
     public virtual void Render()
     {
+        Background.Render();
         children.ForEach(child => child.Render());
     }
 }

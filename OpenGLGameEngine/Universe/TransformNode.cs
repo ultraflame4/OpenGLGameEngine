@@ -31,4 +31,18 @@ public class TransformNode : Transform
     {
         child.SetParent(this);
     }
+    
+    /// <summary>
+    /// Removes a child from this node. Same as child.SetParent(null).
+    /// </summary>
+    /// <param name="child"></param>
+    public virtual void RemoveChild(TransformNode child)
+    {
+        child.SetParent(null);
+    }
+
+    public virtual void Destroy()
+    {
+        
+    }
 }

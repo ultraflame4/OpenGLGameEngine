@@ -1,12 +1,12 @@
 ﻿using System.Drawing;
 using System.Numerics;
+using GameEngineTest;
 using NLog;
 using OpenGLGameEngine;
 using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
-using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Math;
@@ -24,7 +24,7 @@ Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSi
 
 var world = new World();
 
-var testCanvas = world.AddActor(new CanvasActor());
+var testCanvas = world.AddActor(new CanvasActor(ProgramUi.GetUi()));
 
 var renderTexture = Texture.CreateEmpty(720, 720, new TextureConfig());
 var testRenderTarget = new RenderTarget(renderTexture, DepthBuffer.Create(720, 720));
