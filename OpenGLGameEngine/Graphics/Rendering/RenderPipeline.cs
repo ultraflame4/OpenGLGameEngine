@@ -11,20 +11,14 @@ public static class RenderPipeline
     public static List<IRenderable> renderables { get; } = new();
     public static HashSet<IRenderCamera> cameras { get; } = new();
 
-    public static void Init()
-    {
-        WindowUtils.CheckError();
-    }
+    public static void Init() { WindowUtils.CheckError(); }
 
     private static void SetShaderUniforms()
     {
         // todo in future: use uniform buffer objects instead of setting uniforms for every shader
     }
-    
-    public static HashSet<string> GetDefaultLayers()
-    {
-        return new HashSet<string>() {"default"};
-    } 
+
+    public static HashSet<string> GetDefaultLayers() { return new HashSet<string>() { "default" }; }
 
     public static void Render()
     {
@@ -34,10 +28,12 @@ public static class RenderPipeline
             cam.renderTarget.Clear();
             foreach (IRenderable renderable in renderables)
             {
-                if (renderable.layers.Intersect(cam.layers).Any())
+                if (!renderable.layers.Overlaps(cam.layers))
                 {
-                    renderable.Render(cam);
+                    continue;
                 }
+
+                renderable.Render(cam);
             }
         }
     }
