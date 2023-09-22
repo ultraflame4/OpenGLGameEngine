@@ -29,7 +29,9 @@ world.AddActor(new TestCameraController() {
 });
 world.AddActor(new TestCameraController());
 var parent = world.AddActor(new TestObject(renderTexture));
-world.AddActor(PrimitiveShape.CreateCube(),parent.transform);
+var cube = PrimitiveShape.CreateCube();
+cube.transform.position = new Vector3(0, 2, 0);
+world.AddActor(cube, parent.transform);
 
 WorldManager.LoadWorld(world);
 Game.Start();
@@ -42,7 +44,7 @@ public class TestObject : MeshRenderer
 
     public override void Start()
     {
-        transform.position.X = 2;
+        
         Mesh = new Mesh();
         Mesh.SetVertices(
             new MeshVertex(new Vector3(-1f, 1f, 0f), Color.Red, new Vector2(0f, 1f)),
@@ -59,6 +61,6 @@ public class TestObject : MeshRenderer
 
     public override void DrawTick()
     {
-        // transform.rotation.RotateEuler(Vector3.UnitZ*GameTime.DeltaTime/100);
+        transform.rotation.RotateEuler(Vector3.UnitZ*GameTime.DeltaTime);
     }
 }
