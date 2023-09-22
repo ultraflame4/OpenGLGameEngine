@@ -10,4 +10,8 @@
       <ProjectReference Include="..\OpenGLGameEngine\OpenGLGameEngine.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Elements\" />
+    </ItemGroup>
+
 </Project>

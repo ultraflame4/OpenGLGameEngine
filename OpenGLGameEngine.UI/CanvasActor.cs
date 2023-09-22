@@ -16,10 +16,12 @@ public class CanvasActor : Actor, IRenderable
     public readonly RenderTarget renderTarget;
     public readonly Texture texture;
     public readonly Mesh mesh;
+    public UIElement Element;
     private Logger logger = LogManager.GetCurrentClassLogger();
     public HashSet<string> layers { get; } = new (){"ui"};
-    public CanvasActor()
+    public CanvasActor(UIElement element)
     {
+        this.Element = element;
         texture = Texture.CreateEmpty(720, 720, new TextureConfig());
         renderTarget = new RenderTarget(texture, DepthBuffer.Create(texture.width, texture.height));
         camera = new CameraActor() {
