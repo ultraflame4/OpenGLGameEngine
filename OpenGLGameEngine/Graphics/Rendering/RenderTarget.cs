@@ -16,30 +16,29 @@ public class RenderTarget
     /// </summary>
     /// <returns></returns>
     public static RenderTarget CreateEmpty() { return new RenderTarget(Gl.GenFramebuffer()); }
-
-    /// <summary>
-    /// Creates a new render target with the specified texture attached to it.
-    /// </summary>
-    /// <returns></returns>
-    public static RenderTarget Create(Texture texture, DepthBuffer depthBuffer)
-    {
-        var target = RenderTarget.CreateEmpty();
-        target.Bind();
-        texture.Bind();
-        Gl.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0,
-            TextureTarget.Texture2d, texture.texId, 0);
-        depthBuffer.Bind();
-        Gl.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment,
-            RenderbufferTarget.Renderbuffer, depthBuffer.depthBufferId);
-
-        if (!target.Verify()) throw new InvalidOperationException("Failed to create render target!");
-        Default.Bind();
-        return target;
-    }
-
+    
     public uint fbo { get; }
+    public readonly Texture? texture = null;
+    public readonly DepthBuffer? depth = null;
 
     public RenderTarget(uint fbo) { this.fbo = fbo; }
+
+    public RenderTarget(Texture texture, DepthBuffer depth)
+    {
+        fbo = Gl.GenFramebuffer();
+        Bind();
+        this.texture = texture;
+        this.depth = depth;
+        this.texture.Bind();
+        Gl.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0,
+            TextureTarget.Texture2d, texture.texId, 0);
+        this.depth.Bind();
+        Gl.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment,
+            RenderbufferTarget.Renderbuffer, this.depth.depthBufferId);
+        
+        if (!Verify()) throw new InvalidOperationException("Failed to create render target!");
+        Default.Bind();
+    }
 
     public void Bind()
     {

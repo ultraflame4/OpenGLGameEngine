@@ -4,10 +4,12 @@ using NLog;
 using OpenGLGameEngine;
 using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Core.Drawing;
+using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Graphics.Rendering;
+using OpenGLGameEngine.Math;
 using OpenGLGameEngine.Universe;
 
 var logger = LogManager.GetCurrentClassLogger();
@@ -21,13 +23,14 @@ Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSi
 
 var world = new World();
 var renderTexture = Texture.CreateEmpty(720, 720, new TextureConfig());
-var testRenderTarget = RenderTarget.Create(renderTexture, DepthBuffer.Create(720, 720));
+var testRenderTarget = new RenderTarget(renderTexture, DepthBuffer.Create(720, 720));
 world.AddActor(new TestCameraController() {
         renderTarget = testRenderTarget
 });
 world.AddActor(new TestCameraController());
-world.AddActor(new TestObject(renderTexture));
-world.AddActor(PrimitiveShape.CreateCube());
+var parent = world.AddActor(new TestObject(renderTexture));
+world.AddActor(PrimitiveShape.CreateCube(),parent.transform);
+
 WorldManager.LoadWorld(world);
 Game.Start();
 
@@ -53,5 +56,9 @@ public class TestObject : MeshRenderer
 
         // transform.scale = new Vector3(0.5f);
     }
-    
+
+    public override void DrawTick()
+    {
+        // transform.rotation.RotateEuler(Vector3.UnitZ*GameTime.DeltaTime/100);
+    }
 }

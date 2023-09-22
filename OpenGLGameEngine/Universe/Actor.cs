@@ -7,11 +7,17 @@ public class Actor
     public TransformNode transform { get; private set; } = new();
     public bool Enabled;
 
-    public void Init(World world)
+    public void Init(World world, TransformNode? parent = null)
     {
         World = world;
         Enabled = true;
+        transform.SetParent(parent);
     }
+    /// <summary>
+    /// Called once when the actor is added to the world and stuff is initialized.
+    /// </summary>
+    public virtual void Load() { }
+
     /// <summary>
     /// Called once before the first frame
     /// </summary>
