@@ -22,6 +22,7 @@ public class World
     public void RemoveActor(Actor actor)
     {
         actors.Remove(actor);
+        actor.transform.SetParent(null);
         actor.OnRemove();
     }
     
