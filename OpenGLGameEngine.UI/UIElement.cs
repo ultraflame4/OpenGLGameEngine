@@ -18,6 +18,19 @@ public abstract class UIElement
     }
 
     public virtual void Update() { }
-    public abstract void Destroy();
-    public abstract void Render();
+
+    public virtual void Destroy()
+    {
+        // Remove all children in list.
+        // We can modify the list while iterating over it because we're iterating backwards.
+        for (var i = children.Count - 1; i >= 0; i--)
+        {
+            RemoveChild(children[i]);
+        }
+    }
+
+    public virtual void Render()
+    {
+        children.ForEach(child => child.Render());
+    }
 }
