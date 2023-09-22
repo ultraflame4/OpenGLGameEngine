@@ -20,6 +20,11 @@ public static class RenderPipeline
     {
         // todo in future: use uniform buffer objects instead of setting uniforms for every shader
     }
+    
+    public static HashSet<string> GetDefaultLayers()
+    {
+        return new HashSet<string>() {"default"};
+    } 
 
     public static void Render()
     {
@@ -29,7 +34,10 @@ public static class RenderPipeline
             cam.renderTarget.Clear();
             foreach (IRenderable renderable in renderables)
             {
-                renderable.Render(cam);
+                if (renderable.layers.Intersect(cam.layers).Any())
+                {
+                    renderable.Render(cam);
+                }
             }
         }
     }

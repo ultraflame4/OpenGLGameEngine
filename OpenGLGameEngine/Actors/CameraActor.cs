@@ -18,7 +18,7 @@ public class CameraActor : Actor, IRenderCamera
 
     Logger logger = LogManager.GetCurrentClassLogger();
     public RenderTarget renderTarget  { get; set; } = RenderTarget.Default;
-
+    public HashSet<string> layers { get; set; } = RenderPipeline.GetDefaultLayers() ;
     public CameraActor()
     {   
         UsePerspective();

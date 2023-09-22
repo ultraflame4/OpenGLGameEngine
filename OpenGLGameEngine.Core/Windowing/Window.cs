@@ -14,9 +14,11 @@ namespace OpenGLGameEngine.Core.Windowing;
 public sealed class Window
 {
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-    private readonly Logger logger;
     public static GLFW.Keys fullscreenKey = GLFW.Keys.F11;
-
+    
+    public event Action<Window> WindowResizedEvent;
+    
+    private readonly Logger logger;
     public readonly GLFW.Window glfwWindow;
     public bool enableFullscreen = false;
 
@@ -133,7 +135,11 @@ public sealed class Window
 
     void RegisterCallbacks()
     {
-        GLFW.Glfw.SetFramebufferSizeCallback(glfwWindow, (window, width, height) => UpdateRectData());
+        GLFW.Glfw.SetFramebufferSizeCallback(glfwWindow, (window, width, height) =>
+        {
+            UpdateRectData();
+            WindowResizedEvent?.Invoke(this);
+        });
     }
 
     /// <summary>

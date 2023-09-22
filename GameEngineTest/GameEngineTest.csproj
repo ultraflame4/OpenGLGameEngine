@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\OpenGLGameEngine.UI\OpenGLGameEngine.UI.csproj" />
         <ProjectReference Include="..\OpenGLGameEngine\OpenGLGameEngine.csproj" />
     </ItemGroup>
 

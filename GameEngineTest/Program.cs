@@ -10,6 +10,7 @@ using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Math;
+using OpenGLGameEngine.UI;
 using OpenGLGameEngine.Universe;
 
 var logger = LogManager.GetCurrentClassLogger();
@@ -22,6 +23,9 @@ Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSi
 // });
 
 var world = new World();
+
+var testCanvas = world.AddActor(new CanvasActor());
+
 var renderTexture = Texture.CreateEmpty(720, 720, new TextureConfig());
 var testRenderTarget = new RenderTarget(renderTexture, DepthBuffer.Create(720, 720));
 world.AddActor(new TestCameraController() {
