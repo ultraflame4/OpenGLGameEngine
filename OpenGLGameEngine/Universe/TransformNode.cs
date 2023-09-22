@@ -9,7 +9,7 @@ public class TransformNode : Transform
     public List<TransformNode> Children { get; } = new();
     public Matrix4x4 GetModelMatrix()
     {
-        return Parent == null ? TransformMatrix : Parent.GetModelMatrix() * TransformMatrix;
+        return Parent == null ? TransformMatrix : TransformMatrix * Parent.GetModelMatrix();
     }
 
     /// <summary>

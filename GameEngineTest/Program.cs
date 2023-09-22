@@ -44,7 +44,7 @@ public class TestObject : MeshRenderer
 
     public override void Start()
     {
-        
+        transform.position.X = 2f;
         Mesh = new Mesh();
         Mesh.SetVertices(
             new MeshVertex(new Vector3(-1f, 1f, 0f), Color.Red, new Vector2(0f, 1f)),
