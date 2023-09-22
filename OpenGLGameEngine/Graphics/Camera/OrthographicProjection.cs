@@ -8,7 +8,7 @@ public class OrthographicProjection: ICameraProjection
     public float size { get; set; }
     public float zNear { get; set; }
     public float zFar { get; set; }
-    public OrthographicProjection(float size, float zNear, float zFar)
+    public OrthographicProjection(float size = 1f, float zNear = .1f, float zFar = 100f)
     {
         this.size = size;
         this.zNear = zNear;
