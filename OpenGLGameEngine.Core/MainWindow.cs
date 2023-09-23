@@ -55,26 +55,7 @@ public class MainWindow
 
 
         // Start initialisation and create opengl context and window.
-        logger.Info("Beginning initialisation and creation of window...");
-
-        logger.Trace("Attempting to find glfw.dll at {directory}...", Directory.GetCurrentDirectory());
-        if (!Glfw.Init())
-        {
-            logger.Fatal("Glfw Failed to initialised!");
-            return;
-        }
-
-        logger.Debug("Glfw initialised successfully!");
-        Glfw.SetErrorCallback(onGlfwError);
-
-        logger.Info("GLFW Version: {version}", Glfw.VersionString);
-
-        logger.Trace("GLFW detected Monitors available:");
-        for (var i = 0; i < Glfw.Monitors.Length; i++)
-        {
-            var m = Glfw.Monitors[i];
-            logger.Trace("- index:{index} Resolution: {width}x{height} position {xpos},{ypos}", i, m.WorkArea.Width, m.WorkArea.Height, m.WorkArea.X, m.WorkArea.Y);
-        }
+        WindowManager.Init();
 
         // Window and context creation
         logger.Debug("Begin window and context creation...");
@@ -110,14 +91,7 @@ public class MainWindow
         logger.Debug("Invoking GameLoopExit events...");
         GameLoopExit?.Invoke();
         logger.Debug("Event invocation success. Terminating Glfw...");
-        Glfw.Terminate();
-        logger.Debug("Terminated Glfw !");
+        WindowManager.Terminate();
         logger.Info("Game shutdown and exited successfully.");
-    }
-
-    private static void onGlfwError(ErrorCode errCode, IntPtr description_p)
-    {
-        var description = Marshal.PtrToStringAnsi(description_p);
-        logger.Error("Glfw has encountered an error ({errCode}) {desc}", errCode, description);
     }
 }
