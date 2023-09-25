@@ -66,7 +66,6 @@ public static class Game
     public static void Stop()
     {
         logger.Info("Exited game loop!");
-
         WindowManager.Terminate();
         logger.Info("Game shutdown and exited successfully.");
     }

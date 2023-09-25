@@ -27,7 +27,7 @@ var world = new World();
 var testCanvas = world.AddActor(new CanvasActor(ProgramUi.GetUi()));
 
 var renderTexture = Texture.CreateEmpty(720, 720, new TextureConfig());
-var testRenderTarget = new RenderTarget(renderTexture, DepthBuffer.Create(720, 720));
+var testRenderTarget = new RenderTarget(renderTexture);
 world.AddActor(new TestCameraController() {
         renderTarget = testRenderTarget
 });

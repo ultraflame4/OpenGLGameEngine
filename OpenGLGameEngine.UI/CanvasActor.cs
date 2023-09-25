@@ -24,7 +24,7 @@ public class CanvasActor : Actor, IRenderable
     {
         this.rootElement = rootElement;
         texture = Texture.CreateEmpty(720, 720, new TextureConfig());
-        renderTarget = new RenderTarget(texture, DepthBuffer.Create(texture.width, texture.height));
+        renderTarget = new RenderTarget(texture);
         camera = new CameraActor() {
                 renderTarget = renderTarget,
                 Projection = new OrthographicProjection(),
