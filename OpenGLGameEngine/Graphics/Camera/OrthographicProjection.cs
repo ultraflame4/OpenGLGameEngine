@@ -17,7 +17,7 @@ public class OrthographicProjection: ICameraProjection
 
     public Matrix4x4 GetProjMatrix()
     {
-        Vector2 windowSize = MainWindow.window.CurrentRect.size;
+        Vector2 windowSize = Game.MainWindow.CurrentRect.size;
         return Matrix4x4.CreateOrthographic(windowSize.X*size, windowSize.Y*size, zNear, zFar);
     }
 }

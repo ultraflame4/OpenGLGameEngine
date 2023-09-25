@@ -20,6 +20,7 @@ public sealed class Window
     
     private readonly Logger logger;
     public readonly GLFW.Window glfwWindow;
+    public readonly string title;
     public bool enableFullscreen = false;
 
     /// <summary>
@@ -41,6 +42,7 @@ public sealed class Window
     {
         logger = LogManager.GetLogger($"{GetType().FullName} [{title}]");
         this.glfwWindow = glfwWindow;
+        this.title = title;
         SavedRect = CurrentRect = currentRect;
     }
 
@@ -145,7 +147,7 @@ public sealed class Window
     /// <summary>
     /// Initialise OpenGL context and set current context to this window for the current thread.
     /// </summary>
-    public void Init()
+    public void CreateGLContext()
     {   
         logger.Debug("Initialising OpenGL context...");
         Gl.Initialize();
@@ -156,7 +158,15 @@ public sealed class Window
         logger.Trace($"- ShaderLang Version: {Gl.GetString(StringName.ShadingLanguageVersion)}");
         logger.Trace($"- Renderer: {Gl.GetString(StringName.Renderer)}");
         logger.Trace($"- Vender: {Gl.GetString(StringName.Vendor)}");
-        Configure();
+        
+        logger.Debug("Configuring OpenGL settings...");
+        Gl.Enable(EnableCap.DepthTest);
+        Gl.Enable(EnableCap.Multisample);
+        Gl.Enable(EnableCap.CullFace);
+        logger.Trace("Configuring common texture settings...");
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.MIRRORED_REPEAT);
+        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
+        CheckError();
     }
 
     /// <summary>
@@ -216,21 +226,7 @@ public sealed class Window
         Glfw.WindowHint(Hint.AutoIconify, false);
         Glfw.WindowHint(Hint.Samples, 4);
     }
-
-    /// <summary>
-    /// Configures the graphical context. This should be called after creating the window and opengl context.
-    /// </summary>
-    protected void Configure()
-    {
-        logger.Debug("Configuring OpenGL settings...");
-        Gl.Enable(EnableCap.DepthTest);
-        Gl.Enable(EnableCap.Multisample);
-        Gl.Enable(EnableCap.CullFace);
-        logger.Trace("Configuring common texture settings...");
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapS, Gl.MIRRORED_REPEAT);
-        Gl.TexParameteri(TextureTarget.Texture2d, TextureParameterName.TextureWrapT, Gl.MIRRORED_REPEAT);
-        CheckError();
-    }
+    
 
     /// <summary>
     /// Checks for any OpenGL errors and logs them.

@@ -15,7 +15,7 @@ using OpenGLGameEngine.Universe;
 
 var logger = LogManager.GetCurrentClassLogger();
 Console.WriteLine("Hello World!");
-Game.CreateMainWindow("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
+Game.Init("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 720));
 
 // GameWorld.GlobalShader = new Shader(new[] {
 //         ShaderUtils.LoadShaderFromPath("./vertex.glsl", ShaderType.VertexShader),

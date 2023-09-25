@@ -1,5 +1,6 @@
 ﻿using NLog;
 using OpenGLGameEngine.Core.Utils;
+using OpenGLGameEngine.Core.Windowing;
 
 namespace OpenGLGameEngine.Graphics.Rendering;
 
@@ -11,7 +12,14 @@ public static class RenderPipeline
     public static List<IRenderable> renderables { get; } = new();
     public static HashSet<IRenderCamera> cameras { get; } = new();
 
-    public static void Init() { WindowUtils.CheckError(); }
+    public static void Init(Window window)
+    {
+        logger.Debug("Initialising render pipeline with window {window}", window.title);
+        logger.Trace("Create Gl context...");
+        window.CreateGLContext();
+        WindowUtils.CheckError();
+        logger.Info("Initialised render pipeline successfully!");
+    }
 
     private static void SetShaderUniforms()
     {

@@ -8,20 +8,27 @@ using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Universe;
+using Window = OpenGLGameEngine.Core.Windowing.Window;
 
 namespace OpenGLGameEngine;
 
 public static class Game
 {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+    private static Window? _mainWindow = null;
 
-    public static void CreateMainWindow(string windowTitle, Keys? fullscreenKey = Keys.F11,
+    public static Window MainWindow => _mainWindow ?? throw new InvalidOperationException("Call Game.Init() first!");
+
+
+    public static void Init(string windowTitle, Keys? fullscreenKey = Keys.F11,
         WindowModes windowMode = WindowModes.Windowed, (int width, int height) windowSize = default)
     {
-        MainWindow.Create(windowTitle, fullscreenKey, windowMode, windowSize);
-        logger.Debug("Initialising render pipeline...");
-        RenderPipeline.Init();
-        logger.Info("Initialised render pipeline successfully!");
+        WindowManager.Init();
+        _mainWindow = Window.Create(windowTitle, new WindowRect(0,0, windowSize.width,windowSize.height), windowMode, true);
+        _mainWindow.CreateGLContext();
+        _mainWindow.InitInput();
+        RenderPipeline.Init(_mainWindow);
+
     }
 
     private static void LoadDefaults()
@@ -43,12 +50,24 @@ public static class Game
         LoadDefaults();
         logger.Info("--------Loading Defaults END >>> Starting Game Loop----------------");
         WorldManager.CurrentWorld?.Start();
-        MainWindow.GameLoopUpdate += () => { WorldManager.CurrentWorld?.TickUpdate();};
-        MainWindow.GameLoopDraw += () =>
+
+        while (!MainWindow.shouldClose)
         {
+            GameTime.UpdateDeltaTime(Glfw.Time);
+            MainWindow.Poll();
+            WorldManager.CurrentWorld?.TickUpdate();
             WorldManager.CurrentWorld?.TickDraw();
             RenderPipeline.Render();
-        };
-        MainWindow.Run();
+            MainWindow.SwapBuffers();
+        }
+        Stop();
+    }
+
+    public static void Stop()
+    {
+        logger.Info("Exited game loop!");
+
+        WindowManager.Terminate();
+        logger.Info("Game shutdown and exited successfully.");
     }
 }

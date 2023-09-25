@@ -24,6 +24,6 @@ public class PerspectiveProjection : ICameraProjection
 
     public Matrix4x4 GetProjMatrix()
     {
-        return Matrix4x4.CreatePerspectiveFieldOfView(fov, MainWindow.window.CurrentRect.aspectRatio * size, 0.01f, 100f);
+        return Matrix4x4.CreatePerspectiveFieldOfView(fov, Game.MainWindow.CurrentRect.aspectRatio * size, 0.01f, 100f);
     }
 }
