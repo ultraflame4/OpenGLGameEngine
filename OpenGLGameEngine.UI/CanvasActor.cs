@@ -4,6 +4,7 @@ using NLog;
 using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Graphics.Camera;
+using OpenGLGameEngine.Graphics.LowLevel;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Universe;

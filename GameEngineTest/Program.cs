@@ -7,6 +7,7 @@ using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
+using OpenGLGameEngine.Graphics.LowLevel;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Math;
@@ -34,6 +35,7 @@ world.AddActor(new TestCameraController() {
 world.AddActor(new TestCameraController());
 var parent = world.AddActor(new TestObject(renderTexture));
 var cube = PrimitiveShape.CreateCube();
+cube.Mesh.SetTexture(Texture.FromFile("./CheckerboardMap.png", new TextureConfig()));
 cube.transform.position = new Vector3(0, 2, 0);
 world.AddActor(cube, parent.transform);
 

@@ -33,7 +33,7 @@ public class RenderTarget
         depthBuffer = RenderBuffer.CreateDepth(texture.width,texture.height);
         this.texture.Bind();
         Gl.FramebufferTexture2D(framebufferType, FramebufferAttachment.ColorAttachment0,
-            TextureTarget.Texture2d, texture.texId, 0);
+            TextureTarget.Texture2d, texture.id, 0);
         depthBuffer.Bind();
         Gl.FramebufferRenderbuffer(framebufferType, FramebufferAttachment.DepthAttachment,
             RenderbufferTarget.Renderbuffer, depthBuffer.id);

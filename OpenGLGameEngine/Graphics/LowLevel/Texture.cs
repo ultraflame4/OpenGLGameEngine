@@ -1,11 +1,11 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
-using NLog;
 using OpenGL;
+using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
+using StbImageSharp;
 
-namespace OpenGLGameEngine.Core.Drawing;
+namespace OpenGLGameEngine.Graphics.LowLevel;
 
 public struct TextureConfig
 {
@@ -18,7 +18,7 @@ public struct TextureConfig
     public TextureConfig() { }
 }
 
-public class Texture
+public class Texture : IGLObj
 {
     public static Texture defaultTexture = Texture.FromBytes(new byte[] {
             255, 50, 255, 50, 255, 50, 
@@ -29,7 +29,7 @@ public class Texture
             magFilter = TextureFilterType.NEAREST
     });
 
-    public readonly uint texId;
+    public uint id { get; }
     public readonly int width;
     public readonly int height;
     protected readonly TextureConfig config;
@@ -44,8 +44,8 @@ public class Texture
         this.config = config;
         this.height = height;
         this.width = width;
-        texId = Gl.GenTexture();
-        Gl.BindTexture(config.textureTarget, texId);
+        id = Gl.GenTexture();
+        Gl.BindTexture(config.textureTarget, id);
         Gl.TexParameteri(config.textureTarget, TextureParameterName.TextureMinFilter, this.config.minFilter);
         Gl.TexParameteri(config.textureTarget, TextureParameterName.TextureMagFilter, this.config.magFilter);
     }
@@ -68,23 +68,39 @@ public class Texture
         tex.GenerateMipmap();
         return tex;
     }
-    public static Texture FromBitmap(Bitmap bitmap, TextureConfig config)
+
+    public static Texture FromFile(string path, TextureConfig config)
     {
-        
-        var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly,
-            PixelFormat.Format32bppArgb);
-        Texture tex = new Texture(config,data.Width,data.Height);
+        using var fs = File.OpenRead(path);
+        var result = ImageResult.FromStream(fs);
+        Texture tex = new Texture(config,result.Height,result.Width);
         Gl.TexImage2D(
             config.textureTarget,
             0,
             config.internalFormat,
-            data.Width, data.Height, 0,
-            OpenGL.PixelFormat.Bgra, // using bgra here because somehow it is bgra in opengl when it is argb in C#
-            PixelType.UnsignedByte, data.Scan0);
-        tex.GenerateMipmap();
-        bitmap.UnlockBits(data);
+            result.Width, result.Height, 0,
+            PixelFormat.Rgba,
+            PixelType.UnsignedByte, result.Data);
         return tex;
     }
+
+    // public static Texture FromBitmap(Bitmap bitmap, TextureConfig config)
+    // {
+    //     
+    //     var data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly,
+    //         PixelFormat.Format32bppArgb);
+    //     Texture tex = new Texture(config,data.Width,data.Height);
+    //     Gl.TexImage2D(
+    //         config.textureTarget,
+    //         0,
+    //         config.internalFormat,
+    //         data.Width, data.Height, 0,
+    //         OpenGL.PixelFormat.Bgra, // using bgra here because somehow it is bgra in opengl when it is argb in C#
+    //         PixelType.UnsignedByte, data.Scan0);
+    //     tex.GenerateMipmap();
+    //     bitmap.UnlockBits(data);
+    //     return tex;
+    // }
 
     /// <summary>
     /// An empty texture with the specified width and height and config. Good for creating render targets.
@@ -124,6 +140,6 @@ public class Texture
     public void Bind(TextureUnit unit = TextureUnit.Texture0)
     {
         Gl.ActiveTexture(unit);
-        Gl.BindTexture(config.textureTarget, texId);
+        Gl.BindTexture(config.textureTarget, id);
     }
 }
