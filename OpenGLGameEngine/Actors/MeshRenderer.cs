@@ -1,5 +1,5 @@
 ﻿using NLog;
-using OpenGLGameEngine.Core.Drawing;
+using OpenGLGameEngine.Graphics.LowLevel;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Universe;

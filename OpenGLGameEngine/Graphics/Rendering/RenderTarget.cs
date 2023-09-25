@@ -1,6 +1,5 @@
 ﻿using OpenGL;
 using NLog;
-using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Graphics.LowLevel;
 
 namespace OpenGLGameEngine.Graphics.Rendering;

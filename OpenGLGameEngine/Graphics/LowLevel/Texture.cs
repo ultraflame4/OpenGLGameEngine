@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using OpenGL;
-using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using StbImageSharp;
 

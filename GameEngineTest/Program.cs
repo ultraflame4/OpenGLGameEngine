@@ -4,7 +4,6 @@ using GameEngineTest;
 using NLog;
 using OpenGLGameEngine;
 using OpenGLGameEngine.Actors;
-using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Core.Utils;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics.LowLevel;

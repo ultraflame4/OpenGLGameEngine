@@ -2,7 +2,6 @@
 using System.Numerics;
 using NLog;
 using OpenGLGameEngine.Actors;
-using OpenGLGameEngine.Core.Drawing;
 using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.LowLevel;
 using OpenGLGameEngine.Graphics.Mesh;

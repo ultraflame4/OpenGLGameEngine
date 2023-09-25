@@ -2,7 +2,7 @@
 using NLog;
 using OpenGL;
 
-namespace OpenGLGameEngine.Core.Drawing;
+namespace OpenGLGameEngine.Graphics.LowLevel;
 
 /// <summary>
 ///     A light wrapper around VBOs and VAOs to ease rendering of vertices and triangles.
