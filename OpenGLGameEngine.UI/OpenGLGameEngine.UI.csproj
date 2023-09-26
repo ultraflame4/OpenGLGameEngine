@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <Folder Include="Elements\" />
+      <Folder Include="Resources\" />
     </ItemGroup>
 
 </Project>
