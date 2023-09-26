@@ -10,6 +10,7 @@ namespace OpenGLGameEngine.Graphics.LowLevel;
 /// </summary>
 public class Shader
 {
+    private readonly SingleShader[] shaders;
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     public readonly uint shaderProgram;
     private Dictionary<string, int> uniformLocations = new();
@@ -17,9 +18,10 @@ public class Shader
     /// <summary>
     /// </summary>
     /// <param name="shaders">Array of shaders loaded into memory. Use ShaderUtils to load them initially.</param>
-    public Shader(uint[] shaders)
+    public Shader(SingleShader[] shaders)
     {
-        shaderProgram = ShaderUtils.CreateProgram(shaders);
+        this.shaders = shaders;
+        shaderProgram = ShaderUtils.CreateProgram(shaders.Select(x=>x.id).ToArray());
     }
 
     /// <summary>

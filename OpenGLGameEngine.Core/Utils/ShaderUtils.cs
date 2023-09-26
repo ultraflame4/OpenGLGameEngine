@@ -59,9 +59,9 @@ public static class ShaderUtils
         }
     }
 
-    public static uint LoadShaderFromResource(string resource_name, ShaderType type)
+    public static uint LoadShaderFromResource(string resource_name, ShaderType type, Assembly? _assembly = null)
     {
-        var assembly = Assembly.GetCallingAssembly();
+        var assembly = _assembly??Assembly.GetCallingAssembly();
         logger.Info($"Loading shader from embbed resource {resource_name}");
         using (var stream = assembly.GetManifestResourceStream(resource_name) ??
                             throw new InvalidOperationException($"Resource name not found! :{resource_name}"))

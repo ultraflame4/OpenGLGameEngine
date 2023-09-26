@@ -2,13 +2,11 @@
 
 namespace OpenGLGameEngine.UI;
 
-public class UIElement : TransformNode
+public class UIElement : ElementRectTransform
 {
     private UIElement? parent { get; set; } = null;
     private List<UIElement> children { get; } = new();
-
-    public int width = 100;
-    public int height = 100;
+    
     public ElementBackground Background { get; } = new();
 
 
@@ -39,7 +37,7 @@ public class UIElement : TransformNode
 
     public virtual void Render()
     {
-        Background.Render();
+        Background.Render(this);
         children.ForEach(child => child.Render());
     }
 }

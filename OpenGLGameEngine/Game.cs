@@ -19,7 +19,6 @@ public static class Game
 
     public static Window MainWindow => _mainWindow ?? throw new InvalidOperationException("Call Game.Init() first!");
 
-
     public static void Init(string windowTitle, Keys? fullscreenKey = Keys.F11,
         WindowModes windowMode = WindowModes.Windowed, (int width, int height) windowSize = default)
     {
@@ -28,7 +27,7 @@ public static class Game
         _mainWindow.CreateGLContext();
         _mainWindow.InitInput();
         RenderPipeline.Init(_mainWindow);
-
+        ShaderManager.Init();
     }
 
     private static void LoadDefaults()
@@ -36,11 +35,8 @@ public static class Game
         
         if (MeshRenderer.defaultShader == null)
         {
-            MeshRenderer.defaultShader = new Shader(new[] {
-                    ShaderUtils.LoadShaderFromResource("OpenGLGameEngine.Resources.Shaders.vertex.glsl", ShaderType.VertexShader),
-                    ShaderUtils.LoadShaderFromResource("OpenGLGameEngine.Resources.Shaders.fragment.glsl", ShaderType.FragmentShader)
-            });
-            logger.Info("Loaded default shaders as it was null!");
+            MeshRenderer.defaultShader = ShaderManager.instance.defaultShader;
+            logger.Info("MeshRenderer Loaded default shaders as it was null!");
         }
     }
 

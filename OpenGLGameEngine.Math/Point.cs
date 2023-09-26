@@ -31,5 +31,12 @@ public struct Point
     public static implicit operator (int x, int y) (Point p) { return p.toXY(); }
     public override string ToString() => $"({X}, {Y})";
     
+    public static Point operator +(Point a, Point b) => new Point(a.X + b.X, a.Y + b.Y);
+    public static Point operator -(Point a, Point b) => new Point(a.X - b.X, a.Y - b.Y);
+    public static Point operator *(Point a, Point b) => new Point(a.X * b.X, a.Y * b.Y);
+    public static Point operator /(Point a, Point b) => new Point(a.X / b.X, a.Y / b.Y);
+    public static Point operator *(Point a, float scalar) => new Point(a.X * scalar, a.Y * scalar);
+    public static Point operator /(Point a, float scalar) => new Point(a.X / scalar, a.Y / scalar);
+    
 
 }

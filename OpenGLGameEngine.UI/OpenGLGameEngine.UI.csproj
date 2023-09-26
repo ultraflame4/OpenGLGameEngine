@@ -12,7 +12,13 @@
 
     <ItemGroup>
       <Folder Include="Elements\" />
-      <Folder Include="Resources\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\Shaders\solid.fragment.glsl" />
+      <EmbeddedResource Include="Resources\Shaders\solid.fragment.glsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>
