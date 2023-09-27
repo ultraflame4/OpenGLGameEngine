@@ -1,43 +1,15 @@
-﻿using OpenGLGameEngine.Universe;
+﻿using System.Numerics;
+using OpenGLGameEngine.Actors;
 
 namespace OpenGLGameEngine.UI;
 
-public class UIElement : ElementRectTransform
+public class UIElement : MeshRenderer
 {
-    private UIElement? parent { get; set; } = null;
-    private List<UIElement> children { get; } = new();
     
-    public ElementBackground Background { get; } = new();
+    Vector2 size = Vector2.One * 100;
 
-
-    public virtual void Update() { }
-
-    /// <summary>
-    /// Removes a child from this node and destroys it.
-    /// </summary>
-    /// <param name="child"></param>
-    public void DestroyChild(TransformNode child)
+    public UIElement()
     {
-        RemoveChild(child);
-        child.Destroy();
-    }
-
-    /// <summary>
-    /// Destroys this element and all its children.
-    /// </summary>
-    public override void Destroy()
-    {
-        // Remove all children in list.
-        // We can modify the list while iterating over it because we're iterating backwards.
-        for (var i = children.Count - 1; i >= 0; i--)
-        {
-            DestroyChild(children[i]);
-        }
-    }
-
-    public virtual void Render()
-    {
-        Background.Render(this);
-        children.ForEach(child => child.Render());
+        layers = new HashSet<string> { "ui" };
     }
 }

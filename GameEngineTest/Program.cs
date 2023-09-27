@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Numerics;
-using GameEngineTest;
 using NLog;
 using OpenGLGameEngine;
 using OpenGLGameEngine.Actors;
@@ -24,7 +23,7 @@ Game.Init("Example Game", windowMode: WindowModes.Windowed, windowSize: (720, 72
 
 var world = new World();
 
-var testCanvas = world.AddActor(new CanvasActor(ProgramUi.GetUi()));
+var testCanvas = world.AddActor(new CanvasActor());
 
 var renderTexture = Texture.CreateEmpty(720, 720, new TextureConfig());
 var testRenderTarget = new RenderTarget(renderTexture);
