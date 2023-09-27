@@ -11,15 +11,15 @@ public class PrimitiveShape : MeshRenderer
         var actor = new PrimitiveShape();
         actor.Mesh = new Mesh();
         actor.Mesh.SetVertices(
-            new MeshVertex(new Vector3(-1f, 1f, 1f), Color.Red, new Vector2(0f, 1f)),
-            new MeshVertex(new Vector3(1f, 1f, 1f), Color.Lime, new Vector2(1f, 1f)),
-            new MeshVertex(new Vector3(-1f, -1f, 1f), Color.Blue, new Vector2(0f, 0f)),
-            new MeshVertex(new Vector3(1f, -1f, 1f), Color.Blue, new Vector2(1f, 0f)),
+            new MeshVertex(new Vector3(-1f, 1f, 1f), Color.White, new Vector2(0f, 1f)),
+            new MeshVertex(new Vector3(1f, 1f, 1f), Color.White, new Vector2(1f, 1f)),
+            new MeshVertex(new Vector3(-1f, -1f, 1f), Color.White, new Vector2(0f, 0f)),
+            new MeshVertex(new Vector3(1f, -1f, 1f), Color.White, new Vector2(1f, 0f)),
             
-            new MeshVertex(new Vector3(-1f, 1f, -1f), Color.Red, new Vector2(1f, 1f)),
-            new MeshVertex(new Vector3(1f, 1f, -1f), Color.Lime, new Vector2(0f, 1f)),
-            new MeshVertex(new Vector3(-1f, -1f, -1f), Color.Blue, new Vector2(1f, 0f)),
-            new MeshVertex(new Vector3(1f, -1f, -1f), Color.Blue, new Vector2(0f, 0f))
+            new MeshVertex(new Vector3(-1f, 1f, -1f), Color.White, new Vector2(1f, 1f)),
+            new MeshVertex(new Vector3(1f, 1f, -1f), Color.White, new Vector2(0f, 1f)),
+            new MeshVertex(new Vector3(-1f, -1f, -1f), Color.White, new Vector2(1f, 0f)),
+            new MeshVertex(new Vector3(1f, -1f, -1f), Color.White, new Vector2(0f, 0f))
         );
 
         actor.Mesh.SetTriangles(

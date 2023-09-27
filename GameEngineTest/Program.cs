@@ -51,10 +51,10 @@ public class TestObject : MeshRenderer
         transform.position.X = 2f;
         Mesh = new Mesh();
         Mesh.SetVertices(
-            new MeshVertex(new Vector3(-1f, 1f, 0f), Color.Red, new Vector2(0f, 1f)),
-            new MeshVertex(new Vector3(1f, 1f, 0f), Color.Lime, new Vector2(1f, 1f)),
-            new MeshVertex(new Vector3(1f, -1f, 0f), Color.Blue, new Vector2(1f, 0f)),
-            new MeshVertex(new Vector3(-1f, -1f, 0f), Color.Blue, new Vector2(0f, 0f))
+            new MeshVertex(new Vector3(-1f, 1f, 0f), Color.White, new Vector2(0f, 1f)),
+            new MeshVertex(new Vector3(1f, 1f, 0f), Color.White, new Vector2(1f, 1f)),
+            new MeshVertex(new Vector3(1f, -1f, 0f), Color.White, new Vector2(1f, 0f)),
+            new MeshVertex(new Vector3(-1f, -1f, 0f), Color.White, new Vector2(0f, 0f))
         );
 
         Mesh.SetTriangles(0, 2, 1, 0, 3, 2);
