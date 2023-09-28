@@ -6,8 +6,7 @@ using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Core.Windowing;
 using OpenGLGameEngine.Graphics.LowLevel;
 using OpenGLGameEngine.Graphics.Rendering;
-
-
+using OpenGLGameEngine.UI;
 using OpenGLGameEngine.Universe;
 
 var logger = LogManager.GetCurrentClassLogger();
@@ -38,8 +37,13 @@ var parent = world.AddActor(new TestObject(renderTexture));
 var cube = PrimitiveShape.CreateCube();
 cube.Mesh.SetTexture(Texture.FromFile("./CheckerboardMap.png", new TextureConfig()));
 cube.transform.position = new Vector3(0, 2, 0);
-
 world.AddActor(cube, parent.transform);
+
+
+var canvasUi = world.AddActor(new CanvasRenderer());
+
+
+
 
 WorldManager.LoadWorld(world);
 Game.Start();

@@ -8,6 +8,11 @@ namespace OpenGLGameEngine.Math;
 public static class VectorExt
 {
     public static Vector2 toVec2(this (float x, float y) xy) { return new Vector2(xy.x, xy.y); }
+    public static Vector3 toVec3(this (float x, float y) xy) { return new Vector3(xy.x, xy.y, 0); }
+    
+    public static Vector2 toVec2(this Vector3 xy) { return new Vector2(xy.X, xy.Y); }
+    public static Vector3 toVec3(this Vector2 xy, float z = 0) { return new Vector3(xy.X, xy.Y, z); }
+    
     public static Vector2 fromXY(int x, int y) { return new Vector2(x, y); }
     public static Vector3 normalized(this Vector3 vector) => Vector3.Normalize(vector);
     public static void Normalize(this ref Vector3 vector) { vector = Vector3.Normalize(vector); }
