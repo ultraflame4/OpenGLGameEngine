@@ -9,7 +9,7 @@ namespace OpenGLGameEngine.Actors;
 public class MeshRenderer : Actor, IRenderable
 {
     public static Shader? defaultShader;
-    protected Logger logger = LogManager.GetCurrentClassLogger();
+    private Logger logger = LogManager.GetCurrentClassLogger();
     public Mesh Mesh = new ();
     public HashSet<string> layers { get; set; } = RenderPipeline.GetDefaultLayers();
 
