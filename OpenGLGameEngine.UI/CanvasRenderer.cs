@@ -2,10 +2,12 @@
 using System.Numerics;
 using NLog;
 using OpenGLGameEngine.Actors;
+using OpenGLGameEngine.Graphics.Camera;
 using OpenGLGameEngine.Graphics.LowLevel;
 using OpenGLGameEngine.Graphics.Mesh;
 using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Universe;
+using Point = OpenGLGameEngine.Math.Point;
 
 namespace OpenGLGameEngine.UI;
 /// <summary>
@@ -16,6 +18,7 @@ public class CanvasRenderer : Actor, IRenderable
     private readonly Mesh Mesh;
     private readonly CanvasTarget canvasTarget;
     private readonly Logger logger = LogManager.GetCurrentClassLogger();
+    private CameraActor camera;
 
     public CanvasRenderer()
     {
@@ -23,11 +26,22 @@ public class CanvasRenderer : Actor, IRenderable
         Mesh = MeshUtils.CreateQuad(Vector2.One*2, color: Color.Green);
         Mesh.SetTexture(canvasTarget.renderTex);
         RenderPipeline.renderables.Add(this);
+        RenderPipeline.window!.WindowResizedEvent += (w)=>Resize(w.CurrentRect.size);
     }
 
-    public void Resize(Vector2 size)
+    public override void Load()
     {
-        Mesh.SetVertices(MeshUtils.GetQuadVertices(size));
+        base.Load();
+        camera = new CameraActor() {
+                layers = new HashSet<string>() { "ui" },
+                Projection = new OrthographicProjection()
+        };
+        World.AddActor(camera);
+    }
+
+    public void Resize(Point size)
+    {
+       canvasTarget.Resize(size);
     }
 
     public HashSet<string> layers { get; } = RenderPipeline.GetDefaultLayers();

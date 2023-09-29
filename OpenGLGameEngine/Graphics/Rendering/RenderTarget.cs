@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+﻿
+using System.Drawing;
 using OpenGL;
 using NLog;
 using OpenGLGameEngine.Graphics.LowLevel;
+using Point = OpenGLGameEngine.Math.Point;
 
 namespace OpenGLGameEngine.Graphics.Rendering;
 
@@ -43,6 +45,12 @@ public class RenderTarget
         Default.Bind();
     }
 
+    public void Resize(Point size)
+    {
+        if (texture == null) return;
+        texture.Resize(size);
+        depthBuffer.Resize(size);
+    }
     public void Bind()
     {
         currentlyBoundFramebuffer = fbo;

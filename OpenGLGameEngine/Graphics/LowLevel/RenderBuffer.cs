@@ -1,17 +1,22 @@
 ﻿using OpenGL;
+using OpenGLGameEngine.Math;
 
 namespace OpenGLGameEngine.Graphics.LowLevel;
 
 public class RenderBuffer : IGLObj
 {
     public uint id { get; }
+    public InternalFormat renderBufferType { get; private set; }
     public RenderBuffer(uint id) { this.id = id; }
+    
+    
     public static RenderBuffer CreateEmpty()=> new RenderBuffer(Gl.GenRenderbuffer());
 
     public static RenderBuffer Create(int width, int height, InternalFormat renderBufferType)
     {
         var buffer = CreateEmpty();
         buffer.Bind();
+        buffer.renderBufferType = renderBufferType;
         Gl.RenderbufferStorage(RenderbufferTarget.Renderbuffer, renderBufferType, width, height);
         return buffer;
     }
@@ -28,5 +33,10 @@ public class RenderBuffer : IGLObj
     {
         Gl.BindRenderbuffer(RenderbufferTarget.Renderbuffer, id);
     }
-    
+
+    public void Resize(Point size)
+    {
+        Bind();
+        Gl.RenderbufferStorage(RenderbufferTarget.Renderbuffer, renderBufferType, size.X, size.Y);
+    }
 }

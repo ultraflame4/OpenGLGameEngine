@@ -1,7 +1,6 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using OpenGL;
+﻿using OpenGL;
 using OpenGLGameEngine.Core.Utils;
+using OpenGLGameEngine.Math;
 using StbImageSharp;
 
 namespace OpenGLGameEngine.Graphics.LowLevel;
@@ -12,7 +11,7 @@ public struct TextureConfig
     public TextureFilterType minFilter = TextureFilterType.NEAREST;
     public TextureFilterType magFilter = TextureFilterType.LINEAR;
 
-    
+
     public TextureTarget textureTarget => TextureTarget.Texture2d;
     public TextureConfig() { }
 }
@@ -20,7 +19,7 @@ public struct TextureConfig
 public class Texture : IGLObj
 {
     public static Texture defaultTexture = Texture.FromBytes(new byte[] {
-            255, 50, 255, 50, 255, 50, 
+            255, 50, 255, 50, 255, 50,
             0, 0,
             50, 255, 50, 255, 50, 255
     }, 2, 2, OpenGL.PixelFormat.Rgb, new() {
@@ -29,8 +28,8 @@ public class Texture : IGLObj
     });
 
     public uint id { get; }
-    public readonly int width;
-    public readonly int height;
+    public int width { get; private set; }
+    public int height { get; private set; }
     protected readonly TextureConfig config;
 
     /// <summary>
@@ -48,15 +47,13 @@ public class Texture : IGLObj
         Gl.TexParameteri(config.textureTarget, TextureParameterName.TextureMinFilter, this.config.minFilter);
         Gl.TexParameteri(config.textureTarget, TextureParameterName.TextureMagFilter, this.config.magFilter);
     }
-    
-    protected void GenerateMipmap()
-    {
-        Gl.GenerateMipmap(config.textureTarget);
-    }
 
-    public static Texture FromBytes(byte[] bytes, int width, int height,OpenGL.PixelFormat pixelFormat, TextureConfig config)
+    protected void GenerateMipmap() { Gl.GenerateMipmap(config.textureTarget); }
+
+    public static Texture FromBytes(byte[] bytes, int width, int height, OpenGL.PixelFormat pixelFormat,
+        TextureConfig config)
     {
-        Texture tex = new Texture(config,width, height);
+        Texture tex = new Texture(config, width, height);
         Gl.TexImage2D(
             config.textureTarget,
             0,
@@ -72,7 +69,7 @@ public class Texture : IGLObj
     {
         using var fs = File.OpenRead(path);
         var result = ImageResult.FromStream(fs);
-        Texture tex = new Texture(config,result.Height,result.Width);
+        Texture tex = new Texture(config, result.Height, result.Width);
         Gl.TexImage2D(
             config.textureTarget,
             0,
@@ -110,15 +107,14 @@ public class Texture : IGLObj
     /// <returns></returns>
     public static Texture CreateEmpty(int width, int height, TextureConfig config)
     {
-
-        Texture tex = new Texture(config,width, height);
+        Texture tex = new Texture(config, width, height);
         WindowUtils.CheckError();
-        Gl.TexImage2D(config.textureTarget,0, config.internalFormat, width, height, 0, OpenGL.PixelFormat.Rgba,
+        Gl.TexImage2D(config.textureTarget, 0, config.internalFormat, width, height, 0, OpenGL.PixelFormat.Rgba,
             PixelType.UnsignedByte, IntPtr.Zero);
         tex.GenerateMipmap();
         return tex;
     }
-    
+
 
     /// <summary>
     ///     Binds this texture for use in OpenGL
@@ -140,5 +136,22 @@ public class Texture : IGLObj
     {
         Gl.ActiveTexture(unit);
         Gl.BindTexture(config.textureTarget, id);
+    }
+
+    /// <summary>
+    /// Resizes the texture to the specified size. This will clear the texture.
+    /// </summary>
+    /// <param name="sizeX"></param>
+    /// <param name="sizeY"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void Resize(Point size)
+    {
+        
+        width = size.X;
+        height = size.Y;
+        Bind();
+        Gl.TexImage2D(config.textureTarget, 0, config.internalFormat, width, height, 0, OpenGL.PixelFormat.Rgba,
+            PixelType.UnsignedByte, IntPtr.Zero);
+        GenerateMipmap();
     }
 }
