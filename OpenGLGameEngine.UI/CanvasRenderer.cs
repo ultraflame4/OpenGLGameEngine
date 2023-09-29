@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using NLog;
 using OpenGLGameEngine.Actors;
 using OpenGLGameEngine.Graphics.LowLevel;
@@ -14,7 +15,8 @@ public class CanvasRenderer : Actor, IRenderable
     private readonly Logger logger = LogManager.GetCurrentClassLogger();
     public CanvasRenderer()
     {
-        Mesh = MeshUtils.CreateQuad(Vector2.One*2);
+        
+        Mesh = MeshUtils.CreateQuad(Vector2.One*2, color: Color.Green);
         Mesh.SetTexture(Texture.CreateEmpty(100,100, new TextureConfig()));
         RenderPipeline.renderables.Add(this);
     }

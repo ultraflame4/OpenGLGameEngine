@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using GameEngineTest;
 using NLog;
 using OpenGLGameEngine;
@@ -22,12 +23,12 @@ Texture AddTestRenderTarget(World world)
         
     var renderTexture = Texture.CreateEmpty(720, 720, new TextureConfig());
     var testRenderTarget = new RenderTarget(renderTexture);
+    testRenderTarget.ClearColor = GlColor.FromColor(Color.Red);
     world.AddActor(new TestCameraController() {
             renderTarget = testRenderTarget
     });
     return renderTexture;
 }
-
 var world = new World();
 var renderTexture = AddTestRenderTarget(world);
 

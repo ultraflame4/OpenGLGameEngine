@@ -1,4 +1,5 @@
-﻿using OpenGL;
+﻿using System.Drawing;
+using OpenGL;
 using NLog;
 using OpenGLGameEngine.Graphics.LowLevel;
 
@@ -20,6 +21,7 @@ public class RenderTarget
     public uint fbo { get; }
     public readonly Texture? texture = null;
     public readonly RenderBuffer depthBuffer = null;
+    public GlColor ClearColor = GlColor.FromColor(Color.FromArgb(0x00));
     
     private FramebufferTarget framebufferType = FramebufferTarget.Framebuffer;
     public RenderTarget(uint fbo) { this.fbo = fbo; }
@@ -47,7 +49,11 @@ public class RenderTarget
         Gl.BindFramebuffer(framebufferType, fbo);
     }
 
-    public void Clear() { Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit); }
+    public void Clear()
+    {
+        Gl.ClearColor(ClearColor.r, ClearColor.g, ClearColor.b , ClearColor.a);
+        Gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+    }
     
 
     /// <summary>
