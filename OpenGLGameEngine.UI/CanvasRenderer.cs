@@ -23,7 +23,7 @@ public class CanvasRenderer : Actor, IRenderable
     public CanvasRenderer()
     {
         canvasTarget = new CanvasTarget(new UIElement());
-        Mesh = MeshUtils.CreateQuad(Vector2.One*2, color: Color.Green);
+        Mesh = MeshUtils.CreateQuad(Vector2.One);
         Mesh.SetTexture(canvasTarget.renderTex);
         RenderPipeline.renderables.Add(this);
         RenderPipeline.window!.WindowResizedEvent += (w)=>Resize(w.CurrentRect.size);
@@ -34,7 +34,8 @@ public class CanvasRenderer : Actor, IRenderable
         base.Load();
         camera = new CameraActor() {
                 layers = new HashSet<string>() { "ui" },
-                Projection = new OrthographicProjection()
+                Projection = new OrthographicProjection(),
+                renderTarget = canvasTarget.renderTarget
         };
         World.AddActor(camera);
     }

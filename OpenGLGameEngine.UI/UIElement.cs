@@ -10,7 +10,7 @@ namespace OpenGLGameEngine.UI;
 public class UIElement 
 {
     public readonly TransformNode transform = new();
-    public Vector2 size { get; private set; } = new Vector2(10,10);
+    public Vector2 size { get; private set; } = new Vector2(100,100);
     public readonly Mesh backgroundMesh;
 
     public UIElement()
