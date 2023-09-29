@@ -8,16 +8,20 @@ using OpenGLGameEngine.Graphics.Rendering;
 using OpenGLGameEngine.Universe;
 
 namespace OpenGLGameEngine.UI;
-
+/// <summary>
+/// Renders the canvas to the world.
+/// </summary>
 public class CanvasRenderer : Actor, IRenderable
 {
     private readonly Mesh Mesh;
+    private readonly CanvasTarget canvasTarget;
     private readonly Logger logger = LogManager.GetCurrentClassLogger();
+
     public CanvasRenderer()
     {
-        
+        canvasTarget = new CanvasTarget(new UIElement());
         Mesh = MeshUtils.CreateQuad(Vector2.One*2, color: Color.Green);
-        Mesh.SetTexture(Texture.CreateEmpty(100,100, new TextureConfig()));
+        Mesh.SetTexture(canvasTarget.renderTex);
         RenderPipeline.renderables.Add(this);
     }
 
